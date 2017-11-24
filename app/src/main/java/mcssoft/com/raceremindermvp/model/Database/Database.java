@@ -9,22 +9,21 @@ import android.util.Log;
 public class Database {
 
     public Database(Context context) {
-        this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
 
     public void destroy() {
         if(dbHelper != null) {
             dbHelper.close();
-        }
-        dbHelper = null;
-        if(context != null) {
-            context = null;
+            dbHelper = null;
         }
     }
 
     public Cursor getRecords(String tableName, @Nullable String[] projection, @Nullable String whereClause, @Nullable String[] selArgs) {
 
+        if(dbHelper == null) {
+            return null;
+        }
         // sanity checks.
         if(projection == null) {
             projection = dbHelper.getProjection(tableName);
@@ -42,7 +41,7 @@ public class Database {
             db.beginTransaction();
             cursor = db.query(tableName, projection, whereClause, selArgs, null, null, null);
         } catch(Exception ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            Log.d("class:Database", ex.getMessage());
         } finally {
             if(db != null) {
                 db.endTransaction();
@@ -51,7 +50,6 @@ public class Database {
         }
     }
 
-    private Context context;
     private static DatabaseHelper dbHelper;
     private static volatile Database instance = null;
 }

@@ -11,7 +11,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, Schema.DATABASE_NAME, null, Schema.DATABASE_VERSION);
         sqLiteDatabase = this.getWritableDatabase();
-        this.context = context;
+//        this.context = context;
     }
 
     @Override
@@ -44,9 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if((sqLiteDatabase != null) && (sqLiteDatabase.isOpen())) {
             sqLiteDatabase.close();
         }
-        if(context != null) {
-            context = null;
-        }
+//        if(context != null) {
+//            context = null;
+//        }
     }
 
     public enum Projection {
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
-    private Context context;
+//    private Context context;
     private SQLiteDatabase sqLiteDatabase;
 
     private String LOG_TAG = this.getClass().getCanonicalName();
