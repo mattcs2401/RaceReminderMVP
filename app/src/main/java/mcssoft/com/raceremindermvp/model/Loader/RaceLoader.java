@@ -45,8 +45,8 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
     private List<Race> loadDummyData() {
         lRace = new ArrayList<>();
-        Race r1 = new Race();
-        Race r2 = new Race();
+        Race r1 = new Race("1", "B", "R", "1", "10", "01/01/2017 12:00");
+        Race r2 = new Race("2", "B", "R", "2", "11", "01/01/2017 12:40");
         lRace.add(r1);
         lRace.add(r2);
         return lRace;

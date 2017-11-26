@@ -1,9 +1,19 @@
 package mcssoft.com.raceremindermvp.model.RaceModel;
 
-public class Race {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public Race() {}
+public class Race implements Parcelable {
 
+    /**
+     * Initialise the Race object.
+     * @param id       database row id
+     * @param cityCode city code
+     * @param raceCode race code
+     * @param raceNum  race number
+     * @param raceSel  race selection
+     * @param dateTime race date/time
+     */
     public Race(String id, String cityCode, String raceCode, String raceNum, String raceSel, String dateTime) {
         this.id = id;
         this.cityCode = cityCode;
@@ -15,6 +25,53 @@ public class Race {
         this.notified = "N";
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(cityCode);
+        dest.writeString(raceCode);
+        dest.writeString(raceNum);
+        dest.writeString(raceSel);
+        dest.writeString(dateTime);
+        dest.writeString(dChgReq);
+        dest.writeString(notified);
+    }
+
+    /**
+     * Retrieving Race data from Parcel object. This constructor is invoked by the method
+     * createFromParcel(Parcel source) of the object CREATOR.
+     **/
+    public Race(Parcel in) {
+        this.id = in.readString();
+        this.cityCode = in.readString();
+        this.raceCode = in.readString();
+        this.raceNum = in.readString();
+        this.raceSel = in.readString();
+        this.dateTime = in.readString();
+        this.dChgReq = in.readString();
+        this.notified = in.readString();
+    }
+
+    public static final Parcelable.Creator<Race> CREATOR = new Parcelable.Creator<Race>() {
+        @Override
+        public Race createFromParcel(Parcel source) {
+            return new Race(source);
+        }
+
+        @Override
+        public Race[] newArray(int size) {
+            return new Race[size];
+        }
+    };
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Getter/Setter">
     public String getId() {
         return id;
     }
@@ -78,7 +135,9 @@ public class Race {
     public void setNotified(String notified) {
         this.notified = notified;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Private">
     private String id;
     private String cityCode;
     private String raceCode;
@@ -87,6 +146,7 @@ public class Race {
     private String dateTime;
     private String dChgReq;
     private String notified;
+    //</editor-fold>
 }
 //    public static final String COLUMN_ROWID = "_id"; // Note: Has to be like this (upper case _ID ?).
 //    public static final String COLUMN_CITY_CODE = "CITY_CODE";
