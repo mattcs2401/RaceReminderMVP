@@ -3,7 +3,21 @@ package mcssoft.com.raceremindermvp.model.RaceModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Class to model the details for a single Race.
+ */
 public class Race implements Parcelable {
+
+    public Race() {
+        this.id = "";
+        this.cityCode = "";
+        this.raceCode = "";
+        this.raceNum = "";
+        this.raceSel = "";
+        this.dateTime = "";
+        this.dChgReq = "N";
+        this.notified = "N";
+    }
 
     /**
      * Initialise the Race object.
