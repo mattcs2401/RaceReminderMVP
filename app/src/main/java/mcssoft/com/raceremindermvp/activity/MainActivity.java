@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.interfaces.IMainActivtyPresenter;
+import mcssoft.com.raceremindermvp.presenter.MainActivityImpl;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        mainActivtyPresenter = new MainActivityImpl();
     }
 
     @Override
@@ -51,4 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private IMainActivtyPresenter mainActivtyPresenter;
 }
