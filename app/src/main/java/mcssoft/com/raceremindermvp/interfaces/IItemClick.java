@@ -4,5 +4,5 @@ import android.view.View;
 
 public interface IItemClick {
 
-    void onItemSelected(View view, int lPos);
+    void onItemClick(View view, int lPos);
 }
