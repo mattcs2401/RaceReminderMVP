@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.model.RaceModel;
+package mcssoft.com.raceremindermvp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

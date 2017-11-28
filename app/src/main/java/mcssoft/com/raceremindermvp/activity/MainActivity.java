@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.view;
+package mcssoft.com.raceremindermvp.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

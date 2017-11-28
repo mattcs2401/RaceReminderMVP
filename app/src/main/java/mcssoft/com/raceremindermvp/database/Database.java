@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.model.Database;
+package mcssoft.com.raceremindermvp.database;
 
 import android.content.Context;
 import android.database.Cursor;

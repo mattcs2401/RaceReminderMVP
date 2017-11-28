@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.model.Loader;
+package mcssoft.com.raceremindermvp.loader;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.model.Database.Database;
-import mcssoft.com.raceremindermvp.model.Database.Schema;
-import mcssoft.com.raceremindermvp.model.RaceModel.Race;
+import mcssoft.com.raceremindermvp.database.Database;
+import mcssoft.com.raceremindermvp.database.Schema;
+import mcssoft.com.raceremindermvp.model.Race;
 
 public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 

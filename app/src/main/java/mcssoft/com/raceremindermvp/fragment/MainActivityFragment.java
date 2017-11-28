@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.view;
+package mcssoft.com.raceremindermvp.fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
