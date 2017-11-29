@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RaceReminderMVP</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Keys. -->
+    <string name="layout_fragment_main_key">layout_fragment_main_key</string>
 </resources>

@@ -10,51 +10,71 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.interfaces.IMainActivtyPresenter;
+import mcssoft.com.raceremindermvp.fragment.MainFragment;
+import mcssoft.com.raceremindermvp.interfaces.IMainActivty;
 import mcssoft.com.raceremindermvp.presenter.MainActivityImpl;
 
 public class MainActivity extends AppCompatActivity {
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        mainActivtyPresenter = new MainActivityImpl();
+        initialise();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    //</editor-fold>
 
-    private IMainActivtyPresenter mainActivtyPresenter;
+    //<editor-fold defaultstate="collapsed" desc="Region: Initialise">
+    private void initialise() {
+        setContentView(R.layout.activity_main);
+        mainActivtyPresenter = new MainActivityImpl();
+
+        setToolBar();
+        setFAB();
+        setFragment();
+    }
+
+    private void setToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setFAB() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "TODO - add new race.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+
+    private void setFragment() {
+        MainFragment mainFragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(getString(R.string.layout_fragment_main_key), R.layout.fragment_main);
+        mainFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
+    }
+    //</editor-fold>
+
+    private IMainActivty mainActivtyPresenter;
 }
