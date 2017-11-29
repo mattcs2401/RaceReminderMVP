@@ -1,5 +1,5 @@
 package mcssoft.com.raceremindermvp.interfaces;
 
-public interface IMainActivty {
+public interface IMainFragment {
 
 }
