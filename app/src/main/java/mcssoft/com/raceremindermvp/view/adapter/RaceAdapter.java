@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mcssoft.com.raceremindermvp.interfaces.IItemClick;
+import mcssoft.com.raceremindermvp.interfaces.IClick;
 
 public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
 
@@ -35,7 +35,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     }
 
     private boolean isEmptyView;            // flag.
-    private IItemClick icListener;
+    private IClick.ItemClick icListener;
 
     private static final int EMPTY_VIEW = 0;
     private static final int GENERAL_VIEW = 1;

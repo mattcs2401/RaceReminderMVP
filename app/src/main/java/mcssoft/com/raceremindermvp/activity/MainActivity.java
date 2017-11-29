@@ -11,8 +11,6 @@ import android.view.MenuItem;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.fragment.MainFragment;
-import mcssoft.com.raceremindermvp.interfaces.IMainActivty;
-import mcssoft.com.raceremindermvp.presenter.MainActivityImpl;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     //<editor-fold defaultstate="collapsed" desc="Region: Initialise">
     private void initialise() {
         setContentView(R.layout.activity_main);
-        mainActivtyPresenter = new MainActivityImpl();
 
         setToolBar();
         setFAB();
@@ -76,5 +73,4 @@ public class MainActivity extends AppCompatActivity {
     }
     //</editor-fold>
 
-    private IMainActivty mainActivtyPresenter;
 }
