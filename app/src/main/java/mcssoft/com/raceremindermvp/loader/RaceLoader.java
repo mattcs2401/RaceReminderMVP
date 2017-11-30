@@ -29,10 +29,10 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
     @Override
     protected void onStartLoading() {
-        if(lRace != null) {
-            deliverResult(lRace);
+        if(lRaces != null) {
+            deliverResult(lRaces);
         }
-        if(takeContentChanged() || lRace == null) {
+        if(takeContentChanged() || lRaces == null) {
             forceLoad();
         }
     }
@@ -44,14 +44,14 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
 
     private List<Race> loadDummyData() {
-        lRace = new ArrayList<>();
+        lRaces = new ArrayList<>();
         Race r1 = new Race("1", "B", "R", "1", "10", "01/01/2017 12:00");
         Race r2 = new Race("2", "B", "R", "2", "11", "01/01/2017 12:40");
-        lRace.add(r1);
-        lRace.add(r2);
-        return lRace;
+        lRaces.add(r1);
+        lRaces.add(r2);
+        return lRaces;
     }
 
     private Context context;
-    private List<Race> lRace;
+    private List<Race> lRaces;
 }

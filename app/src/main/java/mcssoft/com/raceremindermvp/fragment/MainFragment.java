@@ -1,28 +1,29 @@
 package mcssoft.com.raceremindermvp.fragment;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
+import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements IViewPresenter {
 
     public MainFragment() { }
 
+    //<editor-fold defaultstate="collapsed" desc="Region: BaseFragment">
     @Override
     protected int getLayout() {
         return layoutId;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +36,25 @@ public class MainFragment extends BaseFragment {
 
         setupRecyclerView();
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: IViewPresenter">
+    @Override
+    public Context getContext() {
+        return getActivity().getApplicationContext();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setupRecyclerView() {
         rvRaceListing = getRootView().findViewById(R.id.id_rv_raceListing);
 
         String bp="";
     }
+    //</editor-fold>
 
     private int layoutId;
+    private IPresenterView presenterView;
     private RecyclerView rvRaceListing;
 
 }
