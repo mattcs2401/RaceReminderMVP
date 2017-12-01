@@ -8,9 +8,9 @@ import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
 
-public class RacePresenter implements IPresenterModel, IPresenterView {
+public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
-    public RacePresenter(IViewPresenter view) {
+    public RacePresenterImpl(IViewPresenter view) {
         presenterView = new WeakReference<IViewPresenter>(view);
         String bp="";
     }

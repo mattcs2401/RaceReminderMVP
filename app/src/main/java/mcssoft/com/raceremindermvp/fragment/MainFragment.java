@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
-import mcssoft.com.raceremindermvp.presenter.RacePresenter;
+import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,7 +27,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        racePresenter = new RacePresenter(this);
+        racePresenter = new RacePresenterImpl(this);
 
         layoutId = getArguments().getInt(getString(R.string.layout_fragment_main_key));
     }
@@ -57,7 +56,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     //</editor-fold>
 
     private int layoutId;
-    private RacePresenter racePresenter;
+    private RacePresenterImpl racePresenter;
 //    private IPresenterView presenterView;
     private RecyclerView rvRaceListing;
 

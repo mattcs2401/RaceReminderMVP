@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.view.adapter;
+package mcssoft.com.raceremindermvp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
