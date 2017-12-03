@@ -2,7 +2,9 @@ package mcssoft.com.raceremindermvp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.IClick;
 
 public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

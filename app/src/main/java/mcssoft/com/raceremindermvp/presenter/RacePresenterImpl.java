@@ -7,20 +7,27 @@ import java.lang.ref.WeakReference;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
+import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
 public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
     public RacePresenterImpl(IViewPresenter view) {
-        presenterView = new WeakReference<IViewPresenter>(view);
-        String bp="";
+        viewPresenter = new WeakReference<IViewPresenter>(view);
+        raceModel = new RaceModelImpl(model);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
+    /**
+     * Get the Context from the view.
+     * @return The view's context.
+     */
     @Override
     public Context getContext() {
-        return null;
+        return viewPresenter.get().getContext();
     }
     //</editor-fold>
 
-    private WeakReference<IViewPresenter> presenterView;
+    private WeakReference<IViewPresenter> viewPresenter;     // view reference
+    private IPresenterModel model;
+    private RaceModelImpl raceModel;
 }

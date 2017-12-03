@@ -7,6 +7,6 @@ import android.content.Context;
  */
 public interface IViewPresenter {
 
-    Context getContext();
+    public Context getContext();
 
 }
