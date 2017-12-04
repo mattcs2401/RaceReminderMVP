@@ -11,6 +11,9 @@ import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
 public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
+    public RacePresenterImpl() {
+    }
+
     public RacePresenterImpl(IViewPresenter view) {
         viewPresenter = new WeakReference<IViewPresenter>(view);
         raceModel = new RaceModelImpl(model);

@@ -71,7 +71,7 @@ public class RaceList implements Parcelable {
      * Add a Race to the current Race list.
      * @param race The Race to add (if not null).
      */
-    public void addRace(Race race) {
+    public void setRace(Race race) {
         if(race != null) {
             lRaces.add(race);
         }
