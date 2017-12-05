@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.lang.ref.WeakReference;
 
+import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
@@ -14,9 +15,9 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     public RacePresenterImpl() {
     }
 
-    public RacePresenterImpl(IViewPresenter view) {
-        viewPresenter = new WeakReference<IViewPresenter>(view);
-        raceModel = new RaceModelImpl(model);
+    public RacePresenterImpl(IViewPresenter view) { //, IModelPresenter model) {
+        setView(view);
+        raceModelImpl = new RaceModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
@@ -26,11 +27,37 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
      */
     @Override
     public Context getContext() {
-        return viewPresenter.get().getContext();
+        return getView().getContext();
     }
     //</editor-fold>
 
-    private WeakReference<IViewPresenter> viewPresenter;     // view reference
-    private IPresenterModel model;
-    private RaceModelImpl raceModel;
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
+    // TBA
+    //</editor-fold>
+
+    /**
+     * Get the View associated with this Presenter.
+     * @return The associated View.
+     * @throws NullPointerException
+     */
+    public IViewPresenter getView() throws NullPointerException {
+        // TODO - can we do better than throwing an exception ?
+        if(view != null) {
+            return view.get();
+        } else {
+            throw new NullPointerException("Unable to get View.");
+        }
+    }
+
+    /**
+     * Set the View associated with this Presenter.
+     * @param view The associated View.
+     */
+    public void setView(IViewPresenter view) {
+        this.view = new WeakReference<IViewPresenter>(view);
+    }
+
+    private WeakReference<IViewPresenter> view;     // view reference
+    private IPresenterModel presenter;
+    private RaceModelImpl raceModelImpl;
 }

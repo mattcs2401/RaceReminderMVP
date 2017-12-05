@@ -27,7 +27,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        racePresenter = new RacePresenterImpl(this);
+        racePresenterImpl = new RacePresenterImpl(this);
 
         layoutId = getArguments().getInt(getString(R.string.layout_fragment_main_key));
     }
@@ -56,7 +56,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     //</editor-fold>
 
     private int layoutId;
-    private RacePresenterImpl racePresenter;
+    private RacePresenterImpl racePresenterImpl;
 //    private IPresenterView presenterView;
     private RecyclerView rvRaceListing;
 
