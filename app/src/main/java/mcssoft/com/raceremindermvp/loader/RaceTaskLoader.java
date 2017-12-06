@@ -11,9 +11,9 @@ import mcssoft.com.raceremindermvp.database.Database;
 import mcssoft.com.raceremindermvp.database.Schema;
 import mcssoft.com.raceremindermvp.model.Race;
 
-public class RaceLoader extends AsyncTaskLoader<List<Race>> {
+public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
 
-    public RaceLoader(Context context) {
+    public RaceTaskLoader(Context context) {
         super(context);
         this.context = context;
     }
@@ -37,10 +37,11 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
         }
     }
 
-//    @Override
-//    public void deliverResult(List<Race> data) {
-//        super.deliverResult(data);
-//    }
+    @Override
+    public void deliverResult(List<Race> data) {
+        super.deliverResult(data);
+        String bp = "";
+    }
 
 
     private List<Race> loadDummyData() {

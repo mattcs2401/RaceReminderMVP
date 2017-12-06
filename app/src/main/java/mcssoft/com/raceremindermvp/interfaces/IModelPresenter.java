@@ -4,6 +4,10 @@ import java.util.List;
 
 import mcssoft.com.raceremindermvp.model.Race;
 
+/**
+ * Implementation of interface between Model and Presenter.
+ * Provides Model operations available to the Presenter.
+ */
 public interface IModelPresenter {
 
     /**
