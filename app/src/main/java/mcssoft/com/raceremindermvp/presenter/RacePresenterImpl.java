@@ -15,7 +15,7 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     public RacePresenterImpl() {
     }
 
-    public RacePresenterImpl(IViewPresenter view) { //, IModelPresenter model) {
+    public RacePresenterImpl(IViewPresenter view) {
         setView(view);
         raceModelImpl = new RaceModelImpl(this);
     }
@@ -29,9 +29,21 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     public Context getContext() {
         return getView().getContext();
     }
+
+    /**
+     * Provide a reference to IModelPresenter interface to access methods implemented by the Model.
+     * @param iModelPresenter The IModelPresenter interface.
+     * @return A reference to the IModelPresenter interface.
+     */
+    @Override
+    public IModelPresenter getModel(IModelPresenter iModelPresenter) {
+        // set the reference to the IModelPresenter interface.
+        this.iModelPresenter = iModelPresenter;
+        return iModelPresenter;
+    }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     // TBA
     //</editor-fold>
 
@@ -58,6 +70,7 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     private WeakReference<IViewPresenter> view;     // view reference
-    private IPresenterModel presenter;
+    private IPresenterModel iPresenterModel;
+    private IModelPresenter iModelPresenter;
     private RaceModelImpl raceModelImpl;
 }

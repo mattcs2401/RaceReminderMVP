@@ -1,8 +1,9 @@
 package mcssoft.com.raceremindermvp.interfaces;
 
 /**
- * Presenter operations available to the View
+ * Implementation of interface between Presenter and View.
+ * Provides Presenter operations available to the View.
  */
 public interface IPresenterView {
-
+    // TBA
 }
