@@ -10,6 +10,7 @@ import android.view.View;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
 import mcssoft.com.raceremindermvp.interfaces.IClick;
+import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
 import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 
@@ -57,6 +58,12 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
     public Context getContext() {
         return getActivity().getApplicationContext();
     }
+
+    @Override
+    public IPresenterView getPresenter(IPresenterView iPresenterView) {
+        this.iPresenterView = iPresenterView;
+        return iPresenterView;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -78,7 +85,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
 
     private int layoutId;
     private RacePresenterImpl racePresenterImpl;
-//    private IPresenterView presenterView;
+    private IPresenterView iPresenterView;
     private RaceAdapter raceAdapter;
     private RecyclerView recyclerView;
 
