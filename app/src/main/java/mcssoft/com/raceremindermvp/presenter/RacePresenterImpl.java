@@ -16,18 +16,18 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     public RacePresenterImpl(IViewPresenter view) {
-        setView(view);
+        setiPresenterView(view);
         raceModelImpl = new RaceModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
     /**
-     * Get the Context from the view.
-     * @return The view's context.
+     * Get the Context from the iPresenterView.
+     * @return The iPresenterView's context.
      */
     @Override
     public Context getContext() {
-        return getView().getContext();
+        return getiPresenterView().getContext();
     }
 
     /**
@@ -48,14 +48,24 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     /**
+     * Get the IPresenterView interface.
+     * @return The IPresenterView interface.
+     * Note: This is for the View's access to the Presenter's methods exposed with the
+     *       IPresenterView interface.
+     */
+    public IPresenterView getPresenter() {
+        return iPresenterView.get().getPresenter(this);
+    }
+
+    /**
      * Get the View associated with this Presenter.
      * @return The associated View.
      * @throws NullPointerException
      */
-    public IViewPresenter getView() throws NullPointerException {
+    public IViewPresenter getiPresenterView() throws NullPointerException {
         // TODO - can we do better than throwing an exception ?
-        if(view != null) {
-            return view.get();
+        if(iPresenterView != null) {
+            return iPresenterView.get();
         } else {
             throw new NullPointerException("Unable to get View.");
         }
@@ -63,13 +73,13 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
     /**
      * Set the View associated with this Presenter.
-     * @param view The associated View.
+     * @param iPresenterView The associated View.
      */
-    public void setView(IViewPresenter view) {
-        this.view = new WeakReference<IViewPresenter>(view);
+    public void setiPresenterView(IViewPresenter iPresenterView) {
+        this.iPresenterView = new WeakReference<IViewPresenter>(iPresenterView);
     }
 
-    private WeakReference<IViewPresenter> view;     // view reference
+    private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
     private IPresenterModel iPresenterModel;
     private IModelPresenter iModelPresenter;
     private RaceModelImpl raceModelImpl;

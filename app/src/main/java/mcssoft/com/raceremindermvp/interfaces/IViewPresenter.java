@@ -10,4 +10,6 @@ public interface IViewPresenter {
 
     public Context getContext();
 
+    public IPresenterView getPresenter(IPresenterView iPresenterView);
+
 }

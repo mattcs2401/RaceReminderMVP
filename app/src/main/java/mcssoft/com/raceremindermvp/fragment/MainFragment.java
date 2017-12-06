@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
 import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 
@@ -45,6 +46,13 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     public Context getContext() {
         return getActivity().getApplicationContext();
     }
+
+    @Override
+    public IPresenterView getPresenter(IPresenterView iPresenterView) {
+        // set the reference to the IPresenterView interface.
+        this.iPresenterView = iPresenterView;
+        return iPresenterView;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -57,7 +65,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
 
     private int layoutId;
     private RacePresenterImpl racePresenterImpl;
-//    private IPresenterView presenterView;
+    private IPresenterView iPresenterView;
     private RecyclerView rvRaceListing;
 
 }
