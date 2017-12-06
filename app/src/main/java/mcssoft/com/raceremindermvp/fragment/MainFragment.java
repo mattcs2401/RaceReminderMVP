@@ -3,16 +3,20 @@ package mcssoft.com.raceremindermvp.fragment;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
+import mcssoft.com.raceremindermvp.interfaces.IClick;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
 import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends BaseFragment implements IViewPresenter {
+public class MainFragment extends BaseFragment implements IViewPresenter, IClick.ItemClick {
 
     public MainFragment() { }
 
@@ -36,7 +40,15 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setupRecyclerView();
+        setRaceAdapter();
+        setRecyclerView();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
+    @Override
+    public void onItemClick(View view, @Nullable int lPos) {
+        // TBA
     }
     //</editor-fold>
 
@@ -48,16 +60,26 @@ public class MainFragment extends BaseFragment implements IViewPresenter {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    private void setupRecyclerView() {
-        rvRaceListing = getRootView().findViewById(R.id.id_rv_raceListing);
+    public void setRaceAdapter() {
+        raceAdapter = new RaceAdapter();
+        raceAdapter.setOnItemClickListener(this);
+    }
 
-        String bp="";
+    private void setRecyclerView() {
+        recyclerView = getRootView().findViewById(R.id.id_rv_raceListing);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.scrollToPosition(0);
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(raceAdapter);
     }
     //</editor-fold>
 
     private int layoutId;
     private RacePresenterImpl racePresenterImpl;
 //    private IPresenterView presenterView;
-    private RecyclerView rvRaceListing;
+    private RaceAdapter raceAdapter;
+    private RecyclerView recyclerView;
 
 }

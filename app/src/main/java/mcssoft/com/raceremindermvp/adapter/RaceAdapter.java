@@ -9,6 +9,10 @@ import mcssoft.com.raceremindermvp.interfaces.IClick;
 
 public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
 
+    public RaceAdapter() {
+        // TBA
+    }
+
     @Override
     public RaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
@@ -32,6 +36,10 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    public void setOnItemClickListener(IClick.ItemClick listener) {
+        this.icListener = listener;
     }
 
     private boolean isEmptyView;            // flag.
