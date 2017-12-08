@@ -3,11 +3,13 @@ package mcssoft.com.raceremindermvp.presenter;
 import android.content.Context;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
+import mcssoft.com.raceremindermvp.model.Race;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
 public class RacePresenterImpl implements IPresenterModel, IPresenterView {
@@ -16,18 +18,18 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     public RacePresenterImpl(IViewPresenter view) {
-        setiPresenterView(view);
+        setIPresenterView(view);
         raceModelImpl = new RaceModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
     /**
-     * Get the Context from the iPresenterView.
+     * Get the Context from the IPresenterView.
      * @return The iPresenterView's context.
      */
     @Override
     public Context getContext() {
-        return getiPresenterView().getContext();
+        return getIPresenterView().getContext();
     }
 
     /**
@@ -44,7 +46,19 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
-    // TBA
+    @Override
+    public Race getRace(int id) {
+        return iModelPresenter.getRace(id);
+    }
+
+    @Override
+    public List<Race> getRaces(String whereCondition) {
+        return iModelPresenter.getRaces(whereCondition);
+    }
+
+    public List<Race> getRaces() {
+        return iModelPresenter.getRaces();
+    }
     //</editor-fold>
 
     /**
@@ -62,7 +76,7 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
      * @return The associated View.
      * @throws NullPointerException
      */
-    public IViewPresenter getiPresenterView() throws NullPointerException {
+    public IViewPresenter getIPresenterView() throws NullPointerException {
         // TODO - can we do better than throwing an exception ?
         if(iPresenterView != null) {
             return iPresenterView.get();
@@ -75,7 +89,7 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
      * Set the View associated with this Presenter.
      * @param iPresenterView The associated View.
      */
-    public void setiPresenterView(IViewPresenter iPresenterView) {
+    public void setIPresenterView(IViewPresenter iPresenterView) {
         this.iPresenterView = new WeakReference<IViewPresenter>(iPresenterView);
     }
 

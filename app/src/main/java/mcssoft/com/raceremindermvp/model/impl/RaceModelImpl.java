@@ -30,6 +30,17 @@ public class RaceModelImpl implements IModelPresenter { //}, LoaderManager.Loade
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
+
+    @Override
+    public Race getRace(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Race> getRaces(String whereCondition) {
+        return null;
+    }
+
     @Override
     public List<Race> getRaces() {
         raceLoader = new RaceTaskLoader(iPresenterModel.getContext());
@@ -37,6 +48,7 @@ public class RaceModelImpl implements IModelPresenter { //}, LoaderManager.Loade
         return raceList.getRaces();
     }
     //</editor-fold>
+
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader callbacks">
 //    @Override

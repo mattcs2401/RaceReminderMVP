@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.fragment;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -49,7 +50,9 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        // TBA
+        // Actual TBA
+        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
     //</editor-fold>
 

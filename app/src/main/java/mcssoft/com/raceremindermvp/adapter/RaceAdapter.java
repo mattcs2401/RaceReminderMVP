@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.IClick;
 
 public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
@@ -19,7 +20,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch(viewType) {
             case EMPTY_VIEW:
-//                view = inflater.inflate(R.layout.row_empty, parent, false);
+                view = inflater.inflate(R.layout.row_empty, parent, false);
                 return new RaceViewHolder(view);
             case GENERAL_VIEW:
 //                view = inflater.inflate(R.layout.general_row, parent, false);
