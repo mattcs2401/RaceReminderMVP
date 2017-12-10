@@ -24,7 +24,8 @@ public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
         Cursor cursor = database.getRecords(Schema.RACE_DETAILS, null, null, null);
         database.destroy();
 
-        return loadDummyData();
+//        return loadDummyData();
+        return convertData(cursor);
     }
 
     @Override
@@ -43,6 +44,11 @@ public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
         String bp = "";
     }
 
+    private List<Race> convertData(Cursor cursor) {
+        cursor.moveToFirst();
+        String bp = "";
+        return null;
+    }
 
     private List<Race> loadDummyData() {
         lRaces = new ArrayList<>();

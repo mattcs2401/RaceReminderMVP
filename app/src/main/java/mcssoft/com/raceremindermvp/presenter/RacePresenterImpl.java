@@ -55,7 +55,8 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     public List<Race> getRaces(String whereCondition) {
         return iModelPresenter.getRaces(whereCondition);
     }
-
+    
+    @Override
     public List<Race> getRaces() {
         return iModelPresenter.getRaces();
     }
