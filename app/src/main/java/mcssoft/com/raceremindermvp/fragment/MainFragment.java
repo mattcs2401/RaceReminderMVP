@@ -41,6 +41,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter { //}, 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
         racePresenterImpl = new RacePresenterImpl(this);
     }
