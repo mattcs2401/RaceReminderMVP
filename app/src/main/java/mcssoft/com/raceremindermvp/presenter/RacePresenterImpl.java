@@ -1,6 +1,8 @@
 package mcssoft.com.raceremindermvp.presenter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -17,8 +19,8 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     public RacePresenterImpl() {
     }
 
-    public RacePresenterImpl(IViewPresenter view) {
-        setIPresenterView(view);
+    public RacePresenterImpl(IViewPresenter iViewPresenter) {
+        setIPresenterView(iViewPresenter);
         raceModelImpl = new RaceModelImpl(this);
     }
 
@@ -30,6 +32,12 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     @Override
     public Context getContext() {
         return getIPresenterView().getContext();
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return iPresenterView.get().getRecyclerView();
+//        return iPresenterModel.getRecyclerView();
     }
 
     /**

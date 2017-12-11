@@ -1,6 +1,7 @@
 package mcssoft.com.raceremindermvp.interfaces;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Implementation of interface between Presenter and Model.
@@ -8,8 +9,10 @@ import android.content.Context;
  */
 public interface IPresenterModel {
 
-    public Context getContext();
+    Context getContext();
 
-    public IModelPresenter getModel(IModelPresenter model);
+    RecyclerView getRecyclerView();
+
+    IModelPresenter getModel(IModelPresenter model);
 
 }

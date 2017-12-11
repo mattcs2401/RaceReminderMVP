@@ -1,7 +1,10 @@
 package mcssoft.com.raceremindermvp.interfaces;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.List;
 
+import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
 import mcssoft.com.raceremindermvp.model.Race;
 
 /**
@@ -9,6 +12,10 @@ import mcssoft.com.raceremindermvp.model.Race;
  * Provides Model operations available to the Presenter.
  */
 public interface IModelPresenter {
+
+//    RaceAdapter getRaceAdapter();
+
+    RecyclerView getRecyclerView();
 
     /**
      * Get a Race from the Model.
