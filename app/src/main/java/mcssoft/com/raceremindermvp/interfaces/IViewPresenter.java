@@ -29,6 +29,11 @@ public interface IViewPresenter {
     RecyclerView getRecyclerView();
 
     /**
+     *
+     * @return
+     */
+    IClick.ItemClick getClickListener();
+    /**
      * Provide access to the methods of the IPresenterView interface.
      * @param iPresenterView The IPresenterView reference.
      * @return 'this' from the PresenterImpl class.

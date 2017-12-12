@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.adapter;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,11 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         this.icListener = listener;
     }
 
+    public void swapCursor(Cursor cursor) {
+        this.cursor = cursor;
+    }
+
+    private Cursor cursor;
     private boolean isEmptyView;            // flag.
     private IClick.ItemClick icListener;
 

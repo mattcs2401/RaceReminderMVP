@@ -2,14 +2,11 @@ package mcssoft.com.raceremindermvp.loader;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.database.Cursor;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.model.Race;
 
-public class RaceLoader extends AsyncTaskLoader<List<Race>> {
+public class RaceLoader extends AsyncTaskLoader<Cursor> {
 
     public RaceLoader(Context context, RaceDatabase raceDatabase) {
         super(context);
@@ -18,14 +15,15 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
     }
 
     @Override
-    public List<Race> loadInBackground() {
+    public Cursor loadInBackground() {
         // TODO - something to differentiate operation type, e.g. update, insert, select etc.
         //        maybe some sort of loader manager?
-        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
-        if(lRaces == null || lRaces.size() == 0) {
-            lRaces = loadDummyData();
-        }
-        return lRaces;
+        return raceDatabase.getInstance(context).getRaceDAO().selectAll();
+//        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
+//        if(lRaces == null || lRaces.getCount() == 0) {
+//
+//        }
+//        return lRaces;
     }
 
     @Override
@@ -39,20 +37,11 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
     }
 
     @Override
-    public void deliverResult(List<Race> data) {
+    public void deliverResult(Cursor data) {
         super.deliverResult(data);
     }
 
-    private List<Race> loadDummyData() {
-        lRaces = new ArrayList<>();
-        Race r1 = new Race("1", "B", "R", "1", "10", "01/01/2017 12:00");
-        Race r2 = new Race("2", "B", "R", "2", "11", "01/01/2017 12:40");
-        lRaces.add(r1);
-        lRaces.add(r2);
-        return lRaces;
-    }
-
+    private Cursor lRaces;
     private Context context;
     private RaceDatabase raceDatabase;
-    private List<Race> lRaces;
 }

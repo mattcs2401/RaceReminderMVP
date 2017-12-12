@@ -43,7 +43,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
 
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
-        setRaceAdapter();
+//        setRaceAdapter();
         racePresenterImpl = new RacePresenterImpl(this);
     }
     //</editor-fold>
@@ -63,10 +63,14 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
         return getActivity().getApplicationContext();
     }
 
-
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public IClick.ItemClick getClickListener() {
+        return this;
     }
 
     @Override
@@ -85,18 +89,11 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
     }
-
-    private void setRaceAdapter() {
-        raceAdapter = new RaceAdapter();
-        raceAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(raceAdapter);
-    }
     //</editor-fold>
 
     private int layoutId;
     private RacePresenterImpl racePresenterImpl;
     private IPresenterView iPresenterView;
-    private RaceAdapter raceAdapter;
     private RecyclerView recyclerView;
 
 }

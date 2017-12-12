@@ -16,6 +16,8 @@ public interface IPresenterModel {
 
     RecyclerView getRecyclerView();
 
+    IClick.ItemClick getClickListener();
+
     IModelPresenter getModel(IModelPresenter model);
 
 }

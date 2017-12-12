@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import mcssoft.com.raceremindermvp.interfaces.IClick;
 import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
@@ -37,6 +38,11 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
         return iViewPresenter.getRecyclerView();
     }
 
+    @Override
+    public IClick.ItemClick getClickListener() {
+        return iViewPresenter.getClickListener();
+    }
+
     /**
      * Provide a reference to IModelPresenter interface to access methods implemented by the Model.
      * @param iModelPresenter The IModelPresenter interface.
@@ -51,20 +57,10 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
-    @Override
-    public Race getRace(int id) {
-        return iModelPresenter.getRace(id);
-    }
-
-    @Override
-    public List<Race> getRaces(String whereCondition) {
-        return iModelPresenter.getRaces(whereCondition);
-    }
-    
-    @Override
-    public List<Race> getRaces() {
-        return iModelPresenter.getRaces();
-    }
+//    @Override
+//    public Race getRace(int id) {
+//        return iModelPresenter.getRace(id);
+//    }
     //</editor-fold>
 
 
