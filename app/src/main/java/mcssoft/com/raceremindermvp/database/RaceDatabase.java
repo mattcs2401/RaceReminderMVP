@@ -5,6 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import mcssoft.com.raceremindermvp.interfaces.IRaceDAO;
+import mcssoft.com.raceremindermvp.model.Race;
+
 @Database(entities = {Race.class}, version = 1)
 public abstract class RaceDatabase extends RoomDatabase {
 
@@ -25,5 +28,5 @@ public abstract class RaceDatabase extends RoomDatabase {
                 DB_NAME).build();
     }
 
-    public abstract RaceDAO getRaceDAO();
+    public abstract IRaceDAO getRaceDAO();
 }

@@ -4,8 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
-import mcssoft.com.raceremindermvp.database.Race;
+import mcssoft.com.raceremindermvp.model.Race;
 
 /**
  * Implementation of interface between Model and Presenter.

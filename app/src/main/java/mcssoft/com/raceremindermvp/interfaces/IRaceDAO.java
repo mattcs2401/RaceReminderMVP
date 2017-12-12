@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.database;
+package mcssoft.com.raceremindermvp.interfaces;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -8,10 +8,10 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.database.Race;
+import mcssoft.com.raceremindermvp.model.Race;
 
 @Dao
-public interface RaceDAO {
+public interface IRaceDAO {
 
     @Insert
     void insert(Race race);

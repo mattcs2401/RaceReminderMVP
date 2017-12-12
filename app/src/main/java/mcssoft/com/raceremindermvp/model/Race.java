@@ -1,23 +1,26 @@
 package mcssoft.com.raceremindermvp.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-/**
- * Class to model the details for a single Race.
- */
+@Entity(tableName = "Race")
 public class Race implements Parcelable {
 
-    public Race() {
-        this.id = "";
-        this.cityCode = "";
-        this.raceCode = "";
-        this.raceNum = "";
-        this.raceSel = "";
-        this.dateTime = "";
-        this.dChgReq = "N";
-        this.notified = "N";
-    }
+    //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
+//    public Race() {
+//        this.id = "";
+//        this.cityCode = "";
+//        this.raceCode = "";
+//        this.raceNum = "";
+//        this.raceSel = "";
+//        this.dateTime = "";
+//        this.dChgReq = "N";
+//        this.notified = "N";
+//    }
 
     /**
      * Initialise the Race object.
@@ -38,51 +41,6 @@ public class Race implements Parcelable {
         this.dChgReq = "N";
         this.notified = "N";
     }
-
-    //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(cityCode);
-        dest.writeString(raceCode);
-        dest.writeString(raceNum);
-        dest.writeString(raceSel);
-        dest.writeString(dateTime);
-        dest.writeString(dChgReq);
-        dest.writeString(notified);
-    }
-
-    /**
-     * Retrieving Race data from Parcel object. This constructor is invoked by the method
-     * createFromParcel(Parcel source) of the object CREATOR.
-     **/
-    public Race(Parcel in) {
-        this.id = in.readString();
-        this.cityCode = in.readString();
-        this.raceCode = in.readString();
-        this.raceNum = in.readString();
-        this.raceSel = in.readString();
-        this.dateTime = in.readString();
-        this.dChgReq = in.readString();
-        this.notified = in.readString();
-    }
-
-    public static final Parcelable.Creator<Race> CREATOR = new Parcelable.Creator<Race>() {
-        @Override
-        public Race createFromParcel(Parcel source) {
-            return new Race(source);
-        }
-
-        @Override
-        public Race[] newArray(int size) {
-            return new Race[size];
-        }
-    };
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Getter/Setter">
@@ -134,11 +92,11 @@ public class Race implements Parcelable {
         this.dateTime = dateTime;
     }
 
-    public String getdChgReq() {
+    public String getDChgReq() {
         return dChgReq;
     }
 
-    public void setdChgReq(String dChgReq) {
+    public void setDChgReq(String dChgReq) {
         this.dChgReq = dChgReq;
     }
 
@@ -151,24 +109,62 @@ public class Race implements Parcelable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(cityCode);
+        dest.writeString(raceCode);
+        dest.writeString(raceNum);
+        dest.writeString(raceSel);
+        dest.writeString(dateTime);
+        dest.writeString(dChgReq);
+        dest.writeString(notified);
+    }
+
+    /**
+     * Retrieving Race data from Parcel object. This constructor is invoked by the method
+     * createFromParcel(Parcel source) of the object CREATOR.
+     **/
+    public Race(Parcel in) {
+        this.id = in.readString();
+        this.cityCode = in.readString();
+        this.raceCode = in.readString();
+        this.raceNum = in.readString();
+        this.raceSel = in.readString();
+        this.dateTime = in.readString();
+        this.dChgReq = in.readString();
+        this.notified = in.readString();
+    }
+
+    public static final Parcelable.Creator<mcssoft.com.raceremindermvp.model.Race> CREATOR = new Parcelable.Creator<mcssoft.com.raceremindermvp.model.Race>() {
+        @Override
+        public mcssoft.com.raceremindermvp.model.Race createFromParcel(Parcel source) {
+            return new mcssoft.com.raceremindermvp.model.Race(source);
+        }
+
+        @Override
+        public mcssoft.com.raceremindermvp.model.Race[] newArray(int size) {
+            return new mcssoft.com.raceremindermvp.model.Race[size];
+        }
+    };
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
-    private String id;
-    private String cityCode;
-    private String raceCode;
-    private String raceNum;
-    private String raceSel;
-    private String dateTime;
-    private String dChgReq;
-    private String notified;
+    @PrimaryKey @NonNull
+    @ColumnInfo(name = "_id") private String id;
+
+    @ColumnInfo(name = "CityCode") private String cityCode;
+    @ColumnInfo(name = "RaceCode") private String raceCode;
+    @ColumnInfo(name = "RaceNum") private String raceNum;
+    @ColumnInfo(name = "RaceSel") private String raceSel;
+    @ColumnInfo(name = "DateTime") private String dateTime;
+    @ColumnInfo(name = "DChgReq") private String dChgReq;
+    @ColumnInfo(name = "Notified") private String notified;
     //</editor-fold>
 }
-//    public static final String COLUMN_ROWID = "_id"; // Note: Has to be like this (upper case _ID ?).
-//    public static final String COLUMN_CITY_CODE = "CITY_CODE";
-//    public static final String COLUMN_RACE_CODE = "RACE_CODE";
-//    public static final String COLUMN_RACE_NUM = "RACE_NUM";
-//    public static final String COLUMN_RACE_SEL = "RACE_SEL";
-//    public static final String COLUMN_DATE_TIME = "DATE_TIME";
-//    // Generic field to indicate a display change is required.
-//    public static final String COLUMN_D_CHG_REQ = "D_CHG_REQ";
-//    // Generic field that indicates if a notification set for the record.
-//    public static final String COLUMN_NOTIFIED = "NOTIFIED";

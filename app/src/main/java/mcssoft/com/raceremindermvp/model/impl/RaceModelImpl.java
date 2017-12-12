@@ -12,18 +12,16 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
-import mcssoft.com.raceremindermvp.database.Race;
-import mcssoft.com.raceremindermvp.model.RaceList;
+import mcssoft.com.raceremindermvp.model.Race;
 
 public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks {
 
     public RaceModelImpl(IPresenterModel iPresenterModel) {
         this.iPresenterModel = iPresenterModel;
-//        raceList = new RaceList();
+
         recyclerView = iPresenterModel.getRecyclerView();
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RaceDatabase.db").build();
-//        raceLoader = new RaceLoader(iPresenterModel.getContext(), raceDatabase);
-//        raceLoader.loadInBackground();
+
         iPresenterModel.getActivity().getLoaderManager().initLoader(0, null, this);
     }
 
@@ -75,12 +73,10 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
 
     @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
+    public void onLoaderReset(Loader loader) { }
 
     //</editor-fold>
-    private RaceList raceList;
+
     private RecyclerView recyclerView;           // access to the RecyclerView.
     private RaceLoader raceLoader;           //
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.

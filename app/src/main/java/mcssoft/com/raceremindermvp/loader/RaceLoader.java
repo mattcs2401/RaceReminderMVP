@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.database.Race;
+import mcssoft.com.raceremindermvp.model.Race;
 
 public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
