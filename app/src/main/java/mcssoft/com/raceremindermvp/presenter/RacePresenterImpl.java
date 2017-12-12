@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,33 +12,30 @@ import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
-import mcssoft.com.raceremindermvp.model.Race;
+import mcssoft.com.raceremindermvp.database.Race;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
 public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
-    public RacePresenterImpl() {
-    }
-
     public RacePresenterImpl(IViewPresenter iViewPresenter) {
-        setIPresenterView(iViewPresenter);
+        this.iViewPresenter = iViewPresenter;
         raceModelImpl = new RaceModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
-    /**
-     * Get the Context from the IPresenterView.
-     * @return The iPresenterView's context.
-     */
     @Override
     public Context getContext() {
-        return getIPresenterView().getContext();
+        return iViewPresenter.getContext();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return iViewPresenter.getActivity();
     }
 
     @Override
     public RecyclerView getRecyclerView() {
-        return iPresenterView.get().getRecyclerView();
-//        return iPresenterModel.getRecyclerView();
+        return iViewPresenter.getRecyclerView();
     }
 
     /**
@@ -70,40 +68,10 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
     }
     //</editor-fold>
 
-    /**
-     * Get the IPresenterView interface.
-     * @return The IPresenterView interface.
-     * Note: This is for the View's access to the Presenter's methods exposed with the
-     *       IPresenterView interface.
-     */
-    public IPresenterView getPresenter() {
-        return iPresenterView.get().getPresenter(this);
-    }
-
-    /**
-     * Get the View associated with this Presenter.
-     * @return The associated View.
-     * @throws NullPointerException
-     */
-    public IViewPresenter getIPresenterView() throws NullPointerException {
-        // TODO - can we do better than throwing an exception ?
-        if(iPresenterView != null) {
-            return iPresenterView.get();
-        } else {
-            throw new NullPointerException("Unable to get View.");
-        }
-    }
-
-    /**
-     * Set the View associated with this Presenter.
-     * @param iPresenterView The associated View.
-     */
-    public void setIPresenterView(IViewPresenter iPresenterView) {
-        this.iPresenterView = new WeakReference<IViewPresenter>(iPresenterView);
-    }
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
     private IPresenterModel iPresenterModel;
     private IModelPresenter iModelPresenter;
     private RaceModelImpl raceModelImpl;
+    private IViewPresenter iViewPresenter;
 }

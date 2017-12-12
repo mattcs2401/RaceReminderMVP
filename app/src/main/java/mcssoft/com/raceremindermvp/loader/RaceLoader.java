@@ -2,30 +2,30 @@ package mcssoft.com.raceremindermvp.loader;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.database.Database;
-import mcssoft.com.raceremindermvp.database.Schema;
-import mcssoft.com.raceremindermvp.model.Race;
+import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.database.Race;
 
-public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
+public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
-    public RaceTaskLoader(Context context) {
+    public RaceLoader(Context context, RaceDatabase raceDatabase) {
         super(context);
         this.context = context;
+        this.raceDatabase = raceDatabase;
     }
 
     @Override
     public List<Race> loadInBackground() {
-        Database database = new Database(context);
-        Cursor cursor = database.getRecords(Schema.RACE_DETAILS, null, null, null);
-        database.destroy();
-
-//        return loadDummyData();
-        return convertData(cursor);
+        // TODO - something to differentiate operation type, e.g. update, insert, select etc.
+        //        maybe some sort of loader manager?
+        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
+        if(lRaces == null || lRaces.size() == 0) {
+            lRaces = loadDummyData();
+        }
+        return lRaces;
     }
 
     @Override
@@ -41,13 +41,6 @@ public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
     @Override
     public void deliverResult(List<Race> data) {
         super.deliverResult(data);
-        String bp = "";
-    }
-
-    private List<Race> convertData(Cursor cursor) {
-        cursor.moveToFirst();
-        String bp = "";
-        return null;
     }
 
     private List<Race> loadDummyData() {
@@ -60,5 +53,6 @@ public class RaceTaskLoader extends AsyncTaskLoader<List<Race>> {
     }
 
     private Context context;
+    private RaceDatabase raceDatabase;
     private List<Race> lRaces;
 }

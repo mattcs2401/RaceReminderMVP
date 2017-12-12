@@ -18,7 +18,7 @@ import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends BaseFragment implements IViewPresenter { //}, IClick.ItemClick {
+public class MainFragment extends BaseFragment implements IViewPresenter, IClick.ItemClick {
 
     public MainFragment() { }
 
@@ -43,7 +43,17 @@ public class MainFragment extends BaseFragment implements IViewPresenter { //}, 
 
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
+        setRaceAdapter();
         racePresenterImpl = new RacePresenterImpl(this);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
+    @Override
+    public void onItemClick(View view, @Nullable int lPos) {
+        // Actual TBA
+        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
     //</editor-fold>
 
@@ -52,6 +62,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter { //}, 
     public Context getContext() {
         return getActivity().getApplicationContext();
     }
+
 
     @Override
     public RecyclerView getRecyclerView() {
@@ -73,7 +84,12 @@ public class MainFragment extends BaseFragment implements IViewPresenter { //}, 
         llm.scrollToPosition(0);
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(raceAdapter);
+    }
+
+    private void setRaceAdapter() {
+        raceAdapter = new RaceAdapter();
+        raceAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(raceAdapter);
     }
     //</editor-fold>
 

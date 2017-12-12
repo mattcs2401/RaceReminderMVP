@@ -2,7 +2,7 @@ package mcssoft.com.raceremindermvp.interfaces;
 
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.model.Race;
+import mcssoft.com.raceremindermvp.database.Race;
 
 /**
  * Implementation of interface between Presenter and View.

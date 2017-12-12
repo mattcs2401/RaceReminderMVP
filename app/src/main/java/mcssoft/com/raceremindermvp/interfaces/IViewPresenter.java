@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.interfaces;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
@@ -14,6 +15,12 @@ public interface IViewPresenter {
      * @return The application context.
      */
     Context getContext();
+
+    /**
+     * Provide access to the Activity.
+     * @return The Activity reference.
+     */
+    Activity getActivity();
 
     /**
      * Provide a reference to the RecyclerView (within the View).
