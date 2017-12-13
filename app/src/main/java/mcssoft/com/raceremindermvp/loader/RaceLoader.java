@@ -4,9 +4,13 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
 
-import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RaceLoader extends AsyncTaskLoader<Cursor> {
+import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.model.Race;
+
+public class RaceLoader extends AsyncTaskLoader<List<Race>> {
 
     public RaceLoader(Context context, RaceDatabase raceDatabase) {
         super(context);
@@ -15,16 +19,14 @@ public class RaceLoader extends AsyncTaskLoader<Cursor> {
     }
 
     @Override
-    public Cursor loadInBackground() {
+    public List<Race> loadInBackground() {
         // TODO - something to differentiate operation type, e.g. update, insert, select etc.
         //        maybe some sort of loader manager?
-        return raceDatabase.getInstance(context).getRaceDAO().selectAll();
-//        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
-//        if(lRaces == null || lRaces.getCount() == 0) {
-//
-//        }
-//        return lRaces;
-    }
+        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
+        if(lRaces == null || lRaces.size() == 0) {
+            lRaces = loadDummyData();
+        }
+        return lRaces;    }
 
     @Override
     protected void onStartLoading() {
@@ -37,11 +39,20 @@ public class RaceLoader extends AsyncTaskLoader<Cursor> {
     }
 
     @Override
-    public void deliverResult(Cursor data) {
+    public void deliverResult(List<Race> data) {
         super.deliverResult(data);
     }
 
-    private Cursor lRaces;
+    private List<Race> loadDummyData() {
+        lRaces = new ArrayList<>();
+        Race r1 = new Race("1", "B", "R", "1", "10", "01/01/2017 12:00");
+        Race r2 = new Race("2", "B", "R", "2", "11", "01/01/2017 12:40");
+        lRaces.add(r1);
+        lRaces.add(r2);
+        return lRaces;
+    }
+
+    private List<Race> lRaces;
     private Context context;
     private RaceDatabase raceDatabase;
 }

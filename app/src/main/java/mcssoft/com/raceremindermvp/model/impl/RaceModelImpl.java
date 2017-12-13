@@ -14,16 +14,19 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
-import mcssoft.com.raceremindermvp.model.Race;
 
-public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<Cursor> {
+public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List> {
 
     public RaceModelImpl(IPresenterModel iPresenterModel) {
+        // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
-
+        // get reference to the recyclerview within the View .
         recyclerView = iPresenterModel.getRecyclerView();
+        // set adapter.
+        setRaceAdapter();
+        // create database instance.
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RaceDatabase.db").build();
-
+        // initialise the Loader.
         iPresenterModel.getActivity().getLoaderManager().initLoader(0, null, this);
     }
 
@@ -37,17 +40,8 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
         return iPresenterModel.getModel(this);
     }
 
-    private void setRaceAdapter() {
-        raceAdapter = new RaceAdapter();
-        raceAdapter.setOnItemClickListener(iPresenterModel.getClickListener());
-        recyclerView.setAdapter(raceAdapter);
-    }
-
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-    @Override
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
-    }
+    // TBA
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
@@ -57,15 +51,22 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<List> loader, List list) {
+        raceAdapter.swapData(list);
         String bp = "";
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        raceAdapter.swapCursor(null);
+    public void onLoaderReset(Loader<List> loader) {
+        raceAdapter.swapData(null);
     }
     //</editor-fold>
+
+    private void setRaceAdapter() {
+        raceAdapter = new RaceAdapter();
+        raceAdapter.setClickListener(iPresenterModel.getClickListener());
+        recyclerView.setAdapter(raceAdapter);
+    }
 
     private RecyclerView recyclerView;           // access to the RecyclerView.
     private RaceLoader raceLoader;           //

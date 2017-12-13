@@ -27,10 +27,8 @@ public interface IRaceDAO {
     int update(Race race);
 
     @Query("select * from Race")
-    Cursor selectAll();
-//    List<Race> selectAll();
+    List<Race> selectAll();
 
     @Query("select * from Race where _id = :id")
-    Cursor  selectRace(int id);
-//    Race selectRace(int id);
+    Race  selectRace(int id);
 }

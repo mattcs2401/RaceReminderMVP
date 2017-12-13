@@ -9,17 +9,23 @@ import mcssoft.com.raceremindermvp.interfaces.IClick;
 
 public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public RaceViewHolder(View itemView) {
-        super(itemView);
-//        tvEmpty = (TextView) view.findViewById(R.id.id_tv_empty);
-//        tvEmpty.setText(Resources.getInstance().getString(R.string.nothing_to_show));
+    public RaceViewHolder(View view) {
+        super(view);
+        tvEmptyView = (TextView) view.findViewById(R.id.id_tv_empty);
+        tvEmptyView.setText("Nothing to show.");
     }
 
     public RaceViewHolder(View view, IClick.ItemClick icListener) {
         super(view);
-//        tvEmpty = (TextView) view.findViewById(R.id.id_tv_empty);
-//        tvEmpty.setText(Resources.getInstance().getString(R.string.nothing_to_show));
+        // Set the ViewHolder components.
+        tvCityCode = (TextView) view.findViewById(R.id.tv_city_code);
+        tvRaceCode = (TextView) view.findViewById(R.id.tv_race_code);
+        tvRaceNo = (TextView) view.findViewById(R.id.tv_race_no);
+        tvRaceSel = (TextView) view.findViewById(R.id.tv_race_sel);
+        tvRaceTime = (TextView) view.findViewById(R.id.tv_race_time);
+//        tvRaceDay = (TextView) view.findViewById(R.id.tv_race_day);
 
+        // Set the listeners.
         this.icListener = icListener;
         view.setOnClickListener(this);
     }
@@ -30,5 +36,43 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         icListener.onItemClick(view, position);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Accessors">
+    public TextView getCityCode() {
+        return tvCityCode;
+    }
+
+    public TextView getRaceCode() {
+        return tvRaceCode;
+    }
+
+    public TextView getRaceNo() {
+        return tvRaceNo;
+    }
+
+    public TextView getRaceSel() {
+        return tvRaceSel;
+    }
+
+    public TextView getRaceTime() {
+        return tvRaceTime;
+    }
+
+    public TextView getRaceDay() {
+        return tvRaceDay;
+    }
+
+    public TextView getEmptyText() { return tvEmptyView; }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
+    private TextView tvCityCode;
+    private TextView tvRaceCode;
+    private TextView tvRaceNo;
+    private TextView tvRaceSel;
+    private TextView tvRaceTime;
+    private TextView tvRaceDay;
+    private TextView tvEmptyView;
+
     private IClick.ItemClick icListener;
+    //</editor-fold>
 }
