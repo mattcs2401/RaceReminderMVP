@@ -53,7 +53,11 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     @Override
     public void onLoadFinished(Loader<List> loader, List list) {
         raceAdapter.swapData(list);
-        String bp = "";
+        if(list != null && list.size() > 0) {
+            raceAdapter.setEmptyView(false);
+        } else {
+            raceAdapter.setEmptyView(true);
+        }
     }
 
     @Override
