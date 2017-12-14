@@ -2,17 +2,12 @@ package mcssoft.com.raceremindermvp.utility;
 
 import android.content.SharedPreferences;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-@Singleton
 public class SharedPrefsHelper {
 
     public static String PREF_KEY_ACCESS_TOKEN = "access-token";
 
     private SharedPreferences mSharedPreferences;
 
-    @Inject
     public SharedPrefsHelper(SharedPreferences sharedPreferences) {
         mSharedPreferences = sharedPreferences;
     }
