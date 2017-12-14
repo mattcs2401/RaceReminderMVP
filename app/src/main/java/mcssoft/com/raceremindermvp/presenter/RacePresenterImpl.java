@@ -5,14 +5,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
-import mcssoft.com.raceremindermvp.interfaces.IClick;
-import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
-import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
-import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
-import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
-import mcssoft.com.raceremindermvp.model.Race;
+import mcssoft.com.raceremindermvp.interfaces.click.IClick;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
 public class RacePresenterImpl implements IPresenterModel, IPresenterView {

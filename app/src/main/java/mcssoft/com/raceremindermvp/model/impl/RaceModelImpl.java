@@ -3,7 +3,6 @@ package mcssoft.com.raceremindermvp.model.impl;
 import android.app.LoaderManager;
 import android.arch.persistence.room.Room;
 import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,8 +10,8 @@ import java.util.List;
 
 import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.interfaces.IModelPresenter;
-import mcssoft.com.raceremindermvp.interfaces.IPresenterModel;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
 
 public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List> {

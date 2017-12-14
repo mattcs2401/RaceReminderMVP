@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.interfaces.IClick;
+import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.model.Race;
 
 public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {

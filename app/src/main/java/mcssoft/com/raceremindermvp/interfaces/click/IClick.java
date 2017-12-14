@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.interfaces;
+package mcssoft.com.raceremindermvp.interfaces.click;
 
 import android.support.annotation.Nullable;
 import android.view.View;

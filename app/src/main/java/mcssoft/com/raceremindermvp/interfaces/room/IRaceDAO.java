@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.interfaces;
+package mcssoft.com.raceremindermvp.interfaces.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

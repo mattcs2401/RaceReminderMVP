@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.interfaces;
+package mcssoft.com.raceremindermvp.interfaces.mvp;
 
 /**
  * Implementation of interface between Presenter and View.

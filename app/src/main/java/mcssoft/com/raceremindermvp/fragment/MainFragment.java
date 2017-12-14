@@ -10,10 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
-import mcssoft.com.raceremindermvp.interfaces.IClick;
-import mcssoft.com.raceremindermvp.interfaces.IPresenterView;
-import mcssoft.com.raceremindermvp.interfaces.IViewPresenter;
+import mcssoft.com.raceremindermvp.interfaces.click.IClick;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
+import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
 
 /**

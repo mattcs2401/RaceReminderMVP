@@ -2,7 +2,6 @@ package mcssoft.com.raceremindermvp.loader;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
