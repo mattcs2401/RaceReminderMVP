@@ -1,16 +1,20 @@
 package mcssoft.com.raceremindermvp.database;
 
-import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import mcssoft.com.raceremindermvp.interfaces.room.IRaceDAO;
-import mcssoft.com.raceremindermvp.model.Race;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import mcssoft.com.raceremindermvp.interfaces.di.ApplicationContext;
+import mcssoft.com.raceremindermvp.interfaces.room.IRaceDAO;
+
+@Singleton
 public abstract class RaceDatabase extends RoomDatabase {
 
-    static synchronized public RaceDatabase getInstance(Context context) {
+    @Inject
+    static synchronized public RaceDatabase getInstance(@ApplicationContext Context context) {
         if (instance == null) {
             instance = create(context);
         }
@@ -18,10 +22,7 @@ public abstract class RaceDatabase extends RoomDatabase {
     }
 
     private static RaceDatabase create(final Context context) {
-        return Room.databaseBuilder(
-                context,
-                RaceDatabase.class,
-                DB_NAME).build();
+        return Room.databaseBuilder(context, RaceDatabase.class, DB_NAME).build();
     }
 
     public abstract IRaceDAO getRaceDAO();
