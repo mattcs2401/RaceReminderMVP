@@ -4,6 +4,7 @@
 
     <!-- Keys. -->
     <string name="layout_fragment_main_key">layout_fragment_main_key</string>
+    <string name="layout_fragment_new_key">layout_fragment_new_key</string>
 
     <!-- General text. -->
     <string name="nothing_to_show">Nothing to show.</string>
