@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import mcssoft.com.raceremindermvp.utility.Resources;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.fragment.NewFragment;
 
@@ -37,7 +38,7 @@ public class NewActivity extends AppCompatActivity {
     private void initialise() {
         setContentView(R.layout.activity_new);
         // set Activity title.
-        getSupportActionBar().setTitle("New Race");
+        getSupportActionBar().setTitle(Resources.getInstance(this).getString(R.string.new_activity_title));
         // set Fragment.
         NewFragment newFragment = new NewFragment();
         Bundle bundle = new Bundle();

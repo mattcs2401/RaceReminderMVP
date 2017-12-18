@@ -26,8 +26,8 @@ public interface IRaceDAO {
     @Update
     int update(Race race);
 
-    @Query("select * from Race")
-    List<Race> selectAll();
+    @Query("select * from Race where archive = :archive")
+    List<Race> selectAll(String archive);
 
     @Query("select * from Race where _id = :id")
     Race  selectRace(int id);

@@ -21,7 +21,7 @@ public class RaceLoader extends AsyncTaskLoader<List<Race>> {
     public List<Race> loadInBackground() {
         // TODO - something to differentiate operation type, e.g. update, insert, select etc.
         //        maybe some sort of loader manager?
-        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll();
+        lRaces = raceDatabase.getInstance(context).getRaceDAO().selectAll("N");
         if(lRaces == null || lRaces.size() == 0) {
             lRaces = loadDummyData();
         }

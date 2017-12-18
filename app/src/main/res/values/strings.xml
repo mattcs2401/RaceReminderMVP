@@ -2,10 +2,16 @@
     <string name="app_name">RaceReminderMVP</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Labels. -->
+    <string name="new_activity_title">New Race</string>
+
     <!-- Keys. -->
     <string name="layout_fragment_main_key">layout_fragment_main_key</string>
     <string name="layout_fragment_new_key">layout_fragment_new_key</string>
 
     <!-- General text. -->
     <string name="nothing_to_show">Nothing to show.</string>
+
+    <!-- Database. -->
+    <string name="database_name">RaceDatabase.db</string>
 </resources>

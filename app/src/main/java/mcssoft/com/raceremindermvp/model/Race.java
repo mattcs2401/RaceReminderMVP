@@ -31,6 +31,7 @@ public class Race implements Parcelable {
         this.time = time;
         this.dChgReq = "N";
         this.notified = "N";
+        this.archive = "N";
     }
     //</editor-fold>
 
@@ -103,6 +104,13 @@ public class Race implements Parcelable {
 
     public void setTime(String time) { this.time = time; }
 
+    public String getdChgReq() { return dChgReq; }
+
+    public void setdChgReq(String dChgReq) {this.dChgReq = dChgReq; }
+
+    public String getArchive() { return archive; }
+
+    public void setArchive(String archive) { this.archive = archive; }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
@@ -122,6 +130,7 @@ public class Race implements Parcelable {
         dest.writeString(time);
         dest.writeString(dChgReq);
         dest.writeString(notified);
+        dest.writeString(archive);
     }
 
     /**
@@ -138,6 +147,7 @@ public class Race implements Parcelable {
         this.time = in.readString();
         this.dChgReq = in.readString();
         this.notified = in.readString();
+        this.archive = in.readString();
     }
 
     public static final Parcelable.Creator<mcssoft.com.raceremindermvp.model.Race> CREATOR = new Parcelable.Creator<mcssoft.com.raceremindermvp.model.Race>() {
@@ -165,5 +175,6 @@ public class Race implements Parcelable {
     @ColumnInfo(name = "Time") private String time;
     @ColumnInfo(name = "DChgReq") private String dChgReq;
     @ColumnInfo(name = "Notified") private String notified;
+    @ColumnInfo(name = "Archive") private String archive;
     //</editor-fold>
 }
