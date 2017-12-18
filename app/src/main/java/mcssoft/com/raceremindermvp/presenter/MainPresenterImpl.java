@@ -13,9 +13,9 @@ import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
-public class RacePresenterImpl implements IPresenterModel, IPresenterView {
+public class MainPresenterImpl implements IPresenterModel, IPresenterView {
 
-    public RacePresenterImpl(IViewPresenter iViewPresenter) {
+    public MainPresenterImpl(IViewPresenter iViewPresenter) {
         this.iViewPresenter = iViewPresenter;
         raceModelImpl = new RaceModelImpl(this);
     }

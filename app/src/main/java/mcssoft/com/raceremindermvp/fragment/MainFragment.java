@@ -13,7 +13,7 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
-import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
+import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -44,7 +44,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
 //        setRaceAdapter();
-        racePresenterImpl = new RacePresenterImpl(this);
+        racePresenterImpl = new MainPresenterImpl(this);
     }
     //</editor-fold>
 
@@ -93,7 +93,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
     //</editor-fold>
 
     private int layoutId;
-    private RacePresenterImpl racePresenterImpl;
+    private MainPresenterImpl racePresenterImpl;
     private IPresenterView iPresenterView;
     private RecyclerView recyclerView;
 

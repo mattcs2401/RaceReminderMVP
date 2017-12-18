@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
-import mcssoft.com.raceremindermvp.presenter.RacePresenterImpl;
+import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
  *
@@ -63,7 +63,7 @@ public class NewFragment extends BaseFragment {//} implements IViewPresenter, IC
     //</editor-fold>
 
     private int layoutId;
-    private RacePresenterImpl racePresenterImpl;
+    private MainPresenterImpl racePresenterImpl;
     private IPresenterView iPresenterView;
 
 }

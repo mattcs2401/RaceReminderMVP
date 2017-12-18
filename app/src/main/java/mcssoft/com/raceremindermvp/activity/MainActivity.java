@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -39,32 +40,33 @@ public class MainActivity extends AppCompatActivity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Initialise">
+    //<editor-fold defaultstate="collapsed" desc="Region: Listener">
+    @Override
+    public void onClick(View view) {
+        doNewActivity();
+//        Snackbar.make(view, "TODO - add new race.", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null)
+//                .show();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    private void doNewActivity() {
+        Intent intent = new Intent(MainActivity.this, NewActivity.class);
+        startActivity(intent, null);
+        // (Note: this isn't allowed)
+        // startActivityForResult(intent, 1, null);
+    }
+
     private void initialise() {
         setContentView(R.layout.activity_main);
-
-        setToolBar();
-        setFAB();
-        setFragment();
-    }
-
-    private void setToolBar() {
+        // set Toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
         setSupportActionBar(toolbar);
-    }
-
-    private void setFAB() {
+        // set FAB.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "TODO - add new race.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
-    private void setFragment() {
+        fab.setOnClickListener(this);
+        // set Fragment.
         MainFragment mainFragment = new MainFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.layout_fragment_main_key), R.layout.fragment_main);

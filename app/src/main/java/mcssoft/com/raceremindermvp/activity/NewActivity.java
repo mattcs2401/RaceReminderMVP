@@ -1,16 +1,9 @@
 package mcssoft.com.raceremindermvp.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.fragment.MainFragment;
 import mcssoft.com.raceremindermvp.fragment.NewFragment;
 
 public class NewActivity extends AppCompatActivity {
@@ -43,18 +36,9 @@ public class NewActivity extends AppCompatActivity {
     //<editor-fold defaultstate="collapsed" desc="Region: Initialise">
     private void initialise() {
         setContentView(R.layout.activity_new);
-
-        setToolBar();
-//        setFAB();
-        setFragment();
-    }
-
-    private void setToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_new);
-        setSupportActionBar(toolbar);
-    }
-
-    private void setFragment() {
+        // set Activity title.
+        getSupportActionBar().setTitle("New Race");
+        // set Fragment.
         NewFragment newFragment = new NewFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.layout_fragment_new_key), R.layout.fragment_new);
@@ -62,4 +46,5 @@ public class NewActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().add(R.id.id_fragment_container, newFragment).commit();
     }
     //</editor-fold>
+
 }
