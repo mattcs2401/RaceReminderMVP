@@ -22,9 +22,7 @@ public class RacePresenterImpl implements IPresenterModel, IPresenterView {
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
     @Override
-    public Context getContext() {
-        return iViewPresenter.getContext();
-    }
+    public Context getContext() { return iViewPresenter.getContext(); }
 
     @Override
     public Activity getActivity() {

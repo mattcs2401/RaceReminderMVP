@@ -22,7 +22,8 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         tvRaceCode = (TextView) view.findViewById(R.id.tv_race_code);
         tvRaceNo = (TextView) view.findViewById(R.id.tv_race_no);
         tvRaceSel = (TextView) view.findViewById(R.id.tv_race_sel);
-        tvRaceTime = (TextView) view.findViewById(R.id.tv_race_time);
+        tvRaceTime = (TextView) view.findViewById(R.id.id_tv_race_time);
+        tvRaceDate = (TextView) view.findViewById(R.id.id_tv_race_date);
 //        tvRaceDay = (TextView) view.findViewById(R.id.tv_race_day);
 
         // Set the listeners.
@@ -57,6 +58,10 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return tvRaceTime;
     }
 
+    public TextView getRaceDate() {
+        return tvRaceDate;
+    }
+
     public TextView getRaceDay() {
         return tvRaceDay;
     }
@@ -70,6 +75,7 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     private TextView tvRaceNo;
     private TextView tvRaceSel;
     private TextView tvRaceTime;
+    private TextView tvRaceDate;
     private TextView tvRaceDay;
     private TextView tvEmptyView;
 

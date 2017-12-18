@@ -8,7 +8,7 @@ import android.content.Context;
 import mcssoft.com.raceremindermvp.interfaces.room.IRaceDAO;
 import mcssoft.com.raceremindermvp.model.Race;
 
-@Database(entities = {Race.class}, version=1)
+@Database(entities = {Race.class}, version=2)
 public abstract class RaceDatabase extends RoomDatabase {
 
     static synchronized public RaceDatabase getInstance(Context context) {

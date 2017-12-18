@@ -11,17 +11,6 @@ import android.support.annotation.NonNull;
 public class Race implements Parcelable {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
-//    public Race() {
-//        this.id = "";
-//        this.cityCode = "";
-//        this.raceCode = "";
-//        this.raceNum = "";
-//        this.raceSel = "";
-//        this.dateTime = "";
-//        this.dChgReq = "N";
-//        this.notified = "N";
-//    }
-
     /**
      * Initialise the Race object.
      * @param id       database row id
@@ -29,15 +18,17 @@ public class Race implements Parcelable {
      * @param raceCode race code
      * @param raceNum  race number
      * @param raceSel  race selection
-     * @param dateTime race date/time
+     * @param date race date
+     * @param time race time
      */
-    public Race(String id, String cityCode, String raceCode, String raceNum, String raceSel, String dateTime) {
+    public Race(String id, String cityCode, String raceCode, String raceNum, String raceSel, String date, String time) {
         this.id = id;
         this.cityCode = cityCode;
         this.raceCode = raceCode;
         this.raceNum = raceNum;
         this.raceSel = raceSel;
-        this.dateTime = dateTime;
+        this.date = date;
+        this.time = time;
         this.dChgReq = "N";
         this.notified = "N";
     }
@@ -84,12 +75,12 @@ public class Race implements Parcelable {
         this.raceSel = raceSel;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDChgReq() {
@@ -107,6 +98,11 @@ public class Race implements Parcelable {
     public void setNotified(String notified) {
         this.notified = notified;
     }
+
+    public String getTime() { return time; }
+
+    public void setTime(String time) { this.time = time; }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
@@ -122,7 +118,8 @@ public class Race implements Parcelable {
         dest.writeString(raceCode);
         dest.writeString(raceNum);
         dest.writeString(raceSel);
-        dest.writeString(dateTime);
+        dest.writeString(date);
+        dest.writeString(time);
         dest.writeString(dChgReq);
         dest.writeString(notified);
     }
@@ -137,7 +134,8 @@ public class Race implements Parcelable {
         this.raceCode = in.readString();
         this.raceNum = in.readString();
         this.raceSel = in.readString();
-        this.dateTime = in.readString();
+        this.date = in.readString();
+        this.time = in.readString();
         this.dChgReq = in.readString();
         this.notified = in.readString();
     }
@@ -163,7 +161,8 @@ public class Race implements Parcelable {
     @ColumnInfo(name = "RaceCode") private String raceCode;
     @ColumnInfo(name = "RaceNum") private String raceNum;
     @ColumnInfo(name = "RaceSel") private String raceSel;
-    @ColumnInfo(name = "DateTime") private String dateTime;
+    @ColumnInfo(name = "Date") private String date;
+    @ColumnInfo(name = "Time") private String time;
     @ColumnInfo(name = "DChgReq") private String dChgReq;
     @ColumnInfo(name = "Notified") private String notified;
     //</editor-fold>

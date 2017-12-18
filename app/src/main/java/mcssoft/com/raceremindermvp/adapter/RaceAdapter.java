@@ -42,7 +42,8 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
             holder.getRaceCode().setText(race.getRaceCode());
             holder.getRaceNo().setText(race.getRaceNum());
             holder.getRaceSel().setText(race.getRaceSel());
-            holder.getRaceTime().setText(race.getDateTime());
+            holder.getRaceTime().setText(race.getTime());
+            holder.getRaceDate().setText(race.getDate());
         }
     }
 

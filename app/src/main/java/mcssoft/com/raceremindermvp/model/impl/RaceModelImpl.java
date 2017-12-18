@@ -72,7 +72,7 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
 
     private RecyclerView recyclerView;           // access to the RecyclerView.
-    private RaceLoader raceLoader;           //
+//    private RaceLoader raceLoader;           //
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private RaceDatabase raceDatabase;
     private RaceAdapter raceAdapter;

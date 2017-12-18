@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
