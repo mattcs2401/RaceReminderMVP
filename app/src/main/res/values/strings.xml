@@ -12,6 +12,9 @@
     <!-- General text. -->
     <string name="nothing_to_show">Nothing to show.</string>
 
+    <!-- Preferences. -->
+    <string name="preference_file">Meeting_Preferences</string>
+
     <!-- Database. -->
     <string name="database_name">RaceDatabase.db</string>
 </resources>
