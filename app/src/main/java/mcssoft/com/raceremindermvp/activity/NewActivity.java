@@ -38,13 +38,13 @@ public class NewActivity extends AppCompatActivity {
     private void initialise() {
         setContentView(R.layout.activity_new);
         // set Activity title.
-        getSupportActionBar().setTitle(Resources.getInstance(this).getString(R.string.new_activity_title));
+        getSupportActionBar().setTitle(Resources.getInstance(this).getString(R.string.label_new_activity_title));
         // set Fragment.
         NewFragment newFragment = new NewFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.layout_fragment_new_key), R.layout.fragment_new);
         newFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.id_fragment_container, newFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.id_new_fragment_container, newFragment).commit();
     }
     //</editor-fold>
 

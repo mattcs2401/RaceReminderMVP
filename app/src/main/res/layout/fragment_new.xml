@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mcssoft.com.raceremindermvp.fragment.MainFragment"
-    tools:showIn="@layout/activity_main">
+    android:layout_gravity="center_horizontal"
+    tools:context="mcssoft.com.raceremindermvp.fragment.NewFragment">
+    <!--tools:showIn="@layout/activity_new">-->
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/id_rv_raceListing"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <TextView
+        android:id="@+id/id_tv_new_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/new_meeting_details"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/fragment_new_body" />
 
 </android.support.constraint.ConstraintLayout>

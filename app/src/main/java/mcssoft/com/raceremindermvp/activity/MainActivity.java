@@ -3,7 +3,6 @@ package mcssoft.com.raceremindermvp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.layout_fragment_main_key), R.layout.fragment_main);
         mainFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, mainFragment).commit();
     }
     //</editor-fold>
 }
