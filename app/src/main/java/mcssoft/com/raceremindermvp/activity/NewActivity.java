@@ -44,7 +44,7 @@ public class NewActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.layout_fragment_new_key), R.layout.fragment_new);
         newFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.id_new_fragment_container, newFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.id_new_fragment_container, newFragment,"NewFragment").commit();
     }
     //</editor-fold>
 

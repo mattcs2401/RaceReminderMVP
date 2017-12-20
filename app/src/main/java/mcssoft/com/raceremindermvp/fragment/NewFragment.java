@@ -1,12 +1,14 @@
 package mcssoft.com.raceremindermvp.fragment;
 
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.TimePickDialog;
@@ -68,10 +70,6 @@ public class NewFragment extends BaseFragment implements View.OnClickListener {
             case R.id.id_btn_race_time:
                 DialogFragment df = new TimePickDialog();
                 df.show(getFragmentManager(), "TimePicker");
-
-//                Snackbar.make(view, "TODO - Race time clicked.", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null)
-//                        .show();
                 break;
 
         }
@@ -79,6 +77,9 @@ public class NewFragment extends BaseFragment implements View.OnClickListener {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    public long[] getTimeDetail(long[] timeDetail) {
+        return timeDetail;
+    }
     //</editor-fold>
 
     private int layoutId;

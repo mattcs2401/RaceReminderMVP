@@ -42,21 +42,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //<editor-fold defaultstate="collapsed" desc="Region: Listener">
     @Override
     public void onClick(View view) {
-        doNewActivity();
-//        Snackbar.make(view, "TODO - add new race.", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null)
-//                .show();
+        Intent intent = new Intent(MainActivity.this, NewActivity.class);
+        startActivity(intent, null);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    private void doNewActivity() {
-        Intent intent = new Intent(MainActivity.this, NewActivity.class);
-        startActivity(intent, null);
-        // (Note: this isn't allowed)
-        // startActivityForResult(intent, 1, null);
-    }
-
     private void initialise() {
         setContentView(R.layout.activity_main);
         // set Toolbar.
