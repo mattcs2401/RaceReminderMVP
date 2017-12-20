@@ -1,6 +1,5 @@
 package mcssoft.com.raceremindermvp.fragment;
 
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,15 +9,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.util.Calendar;
+
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.TimePickDialog;
 
 /**
  *
  */
-public class NewFragment extends BaseFragment implements View.OnClickListener {
+public class NewFragment extends BaseFragment
+        implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
-    public NewFragment() { }
+    public NewFragment() {
+        // TBA
+        // Bundle bundle = getArguments();
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Region: BaseFragment">
     @Override
@@ -56,6 +61,7 @@ public class NewFragment extends BaseFragment implements View.OnClickListener {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Listener">
+    // View interface OnClickListener returns here.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -68,20 +74,54 @@ public class NewFragment extends BaseFragment implements View.OnClickListener {
                         .show();
                 break;
             case R.id.id_btn_race_time:
-                DialogFragment df = new TimePickDialog();
-                df.show(getFragmentManager(), "TimePicker");
+                showTimePickerDialog();
                 break;
 
         }
     }
-    //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    public long[] getTimeDetail(long[] timeDetail) {
-        return timeDetail;
+    // TimePickerDialog interface OnTimeSetListener returns here.
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        btnRaceTime.setText(formatTime(hour, minute));
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    /**
+     * Show the TimePicker dialog with the current time.
+     */
+    private void showTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        TimePickerDialog tpd = new TimePickDialog(
+                getActivity(),
+                this,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true);
+        tpd.show();
+    }
+
+    /**
+     * Format time for display as HH:MM.
+     * @param hour The hour.
+     * @param minute The minute.
+     * @return Time as HH:MM
+     */
+    private String formatTime(int hour, int minute) {
+        String hr = Integer.toString(hour);
+        String min = Integer.toString(minute);
+        if(hour < 10) {
+            hr = "0" + hr;
+        }
+        if(minute < 10) {
+            min = "0" + min;
+        }
+        return hr + ":" + min;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
     private int layoutId;
     private EditText etCityCode;
     private EditText etRaceCode;
@@ -90,4 +130,5 @@ public class NewFragment extends BaseFragment implements View.OnClickListener {
     private Button btnRaceTime;
     private Button btnCancel;
     private Button btnSave;
+    //</editor-fold>
 }
