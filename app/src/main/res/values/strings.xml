@@ -28,4 +28,6 @@
     <string name="time_format_24hr">kk:mm</string>
     <string name="date_format">dd/MM/yyyy</string>
 
+    <!-- Error messages. -->
+    <string name="all_fields_req">All fields are required.</string>
 </resources>

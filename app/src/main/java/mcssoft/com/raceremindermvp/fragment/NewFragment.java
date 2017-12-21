@@ -1,18 +1,21 @@
 package mcssoft.com.raceremindermvp.fragment;
 
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.TimePickDialog;
+import mcssoft.com.raceremindermvp.utility.Resources;
 import mcssoft.com.raceremindermvp.utility.Time;
 
 /**
@@ -70,9 +73,7 @@ public class NewFragment extends BaseFragment
                 getActivity().finish();
                 break;
             case R.id.id_btn_save:
-                Snackbar.make(view, "TODO - Save button pressed.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
+                collateValues();
                 break;
             case R.id.id_btn_race_time:
                 showTimePickerDialog();
@@ -89,6 +90,28 @@ public class NewFragment extends BaseFragment
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    private void collateValues() {
+        if(checkFieldLengths()) {
+
+        } else {
+            doSnackError(Resources.getInstance(getActivity()).getString(R.string.all_fields_req));
+        }
+    }
+    /**
+     * Simple sanity check there is something in all the fields.
+     * @return True if values exist in all fields.
+     */
+    private boolean checkFieldLengths() {
+        if ((etCityCode.getText().length() > 0) &&
+                (etRaceCode.getText().length() > 0) &&
+                (etRaceNum.getText().length() > 0) &&
+                (etRaceSel.getText().length() > 0) &&
+                (btnRaceTime.getText().length() > 0)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Show the TimePicker dialog with the current time.
      */
@@ -113,6 +136,15 @@ public class NewFragment extends BaseFragment
         return Time.getInstance(getActivity())
                 .getFormattedTimeFromMillis(Time.getInstance(getActivity())
                         .getMillisFromTimeComponent(new int[] {hour, minute}));
+    }
+
+    private void doSnackError(String message) {
+        Snackbar snackbar = Snackbar.make(getRootView(), message, Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+        snackbar.getView().setBackgroundColor(Color.RED);
+        TextView textView = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
     }
     //</editor-fold>
 
