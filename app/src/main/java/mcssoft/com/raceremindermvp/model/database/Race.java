@@ -4,8 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -118,7 +116,7 @@ public class Race {
     @ColumnInfo(name = "RaceDist") private String raceDistance;  // e.g. "1905"
 
     // additional.
-    //@ForeignKey(Meeting.class, {id})
+    @ForeignKey(entity = Meeting.class, parentColumns = "id", childColumns = "MeetingId")
     @ColumnInfo(name = "MeetingId") private String meetingId;     // FK link to MEETINGS table.
 
     @NonNull
@@ -128,7 +126,6 @@ public class Race {
 /*
  Example
  -------
-
  Using: Using: https://tatts.com/pagedata/racing/2017/3/27/NR.xml
 
  <Race RaceNo="1"
