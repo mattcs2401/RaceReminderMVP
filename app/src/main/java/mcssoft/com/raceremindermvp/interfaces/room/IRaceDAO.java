@@ -5,11 +5,10 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import android.database.Cursor;
 
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.model.Race;
+import mcssoft.com.raceremindermvp.model.database.Race;
 
 /**
  * Race DAO for Room (database).
@@ -26,9 +25,9 @@ public interface IRaceDAO {
     @Update
     int update(Race race);
 
-    @Query("select * from Race where archive = :archive")
-    List<Race> selectAll(String archive);
+    @Query("select * from Races where ArchvFlag = :archvFlag")
+    List<Race> selectAll(String archvFlag);
 
-    @Query("select * from Race where _id = :id")
+    @Query("select * from Races where _id = :id")
     Race  selectRace(int id);
 }

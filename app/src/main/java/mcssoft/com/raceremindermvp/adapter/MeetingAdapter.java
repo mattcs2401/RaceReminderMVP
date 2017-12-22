@@ -11,30 +11,30 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.model.database.Race;
 
-public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
-    public RaceAdapter() {
+    public MeetingAdapter() {
         // TBA
     }
 
     @Override
-    public RaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MeetingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
 //        this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch(viewType) {
             case EMPTY_VIEW:
                 view = inflater.inflate(R.layout.row_empty, parent, false);
-                return new RaceViewHolder(view);
-            case RACE_VIEW:
+                return new MeetingViewHolder(view);
+            case MEETING_VIEW:
                 view = inflater.inflate(R.layout.row_race, parent, false);
-                return new RaceViewHolder(view, icListener);
+                return new MeetingViewHolder(view, icListener);
         }
         return null;
     }
 
     @Override
-    public void onBindViewHolder(RaceViewHolder holder, int position) {
+    public void onBindViewHolder(MeetingViewHolder holder, int position) {
         if(!isEmptyView) {
             Race race = (Race) list.get(position);
 
@@ -65,7 +65,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         if(isEmptyView) {
             return EMPTY_VIEW;
         }
-        return RACE_VIEW;
+        return MEETING_VIEW;
     }
 
     public void setClickListener(IClick.ItemClick icListener) {
@@ -89,6 +89,6 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     private IClick.ItemClick icListener;
 
     private static final int EMPTY_VIEW = 0;
-    private static final int RACE_VIEW = 1;
+    private static final int MEETING_VIEW = 1;
 }
 

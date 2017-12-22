@@ -2,7 +2,6 @@ package mcssoft.com.raceremindermvp.utility;
 
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,16 +13,16 @@ import mcssoft.com.raceremindermvp.R;
 /**
  * utility class for general manipulation of time values (primarily for display).
  */
-public class Time {
+public class DateTime {
 
     /**
      * Get (initialise) an instance of MeetingTime.
      * @param context The current context.
      * @return An instance of MeetingTime.
      */
-    public static synchronized Time getInstance(Context context) {
+    public static synchronized DateTime getInstance(Context context) {
         if(instance == null) {
-            instance = new Time(context);
+            instance = new DateTime(context);
         }
         return instance;
     }
@@ -88,6 +87,29 @@ public class Time {
         return getCalendar().getTimeInMillis();
     }
 
+    /**
+     * Generate the YYYY, MM, DD elements of a meeting date based on the current date.
+     * @return The date as: [0]-YYYY, [1]-M(M), [2]-D(D)
+     */
+    public String[] getCurrentDateComponents() {
+        String[] date = new String[3];
+        Calendar calendar = getCalendar();
+        calendar.setTime(new Date(getTimeInMillis()));
+        date[0] = Integer.toString(calendar.get(Calendar.YEAR));
+        date[1] = Integer.toString(calendar.get(Calendar.MONTH) + 1); // month starts at 0.
+        date[2] = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+        return date;
+    }
+
+    /**
+     * Extract the time from the Xml time value.
+     * @param time formatted as "YYYY-MM-DDTHH:MM:SS" (from Xml).
+     * @return time as HH:MM format.
+     */
+    public String getTimeComponent(String time) {
+        String[] array = (time.split("T")[1]).split(":");
+        return (array[0] + ":" + array[1]);
+    }
 //    /**
 //     * Get the HH (hour) and MM (minute) time components of the given time.
 //     * @param timeInMillis The time value in mSec.
@@ -169,7 +191,7 @@ public class Time {
 
 //    /**
 //     * Get a value that represents midnight (00:00 hours of the current day).
-//     * @return Time in mSec representing mignight.
+//     * @return DateTime in mSec representing mignight.
 //     */
 //    public long getMidnight() {
 //        Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -196,13 +218,13 @@ public class Time {
 //        return false;
 //    }
 
-    private Time(Context context) {
+    private DateTime(Context context) {
         this.context = context;
     }
 
     private String timeFormat;    // the current time format (12HR/24HR).
     private Context context;      // app context for shared preferences.
 
-    private static volatile Time instance = null;
+    private static volatile DateTime instance = null;
 }
 

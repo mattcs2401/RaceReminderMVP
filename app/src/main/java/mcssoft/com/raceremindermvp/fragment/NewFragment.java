@@ -16,7 +16,7 @@ import java.util.Calendar;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.TimePickDialog;
 import mcssoft.com.raceremindermvp.utility.Resources;
-import mcssoft.com.raceremindermvp.utility.Time;
+import mcssoft.com.raceremindermvp.utility.DateTime;
 
 /**
  *
@@ -116,7 +116,7 @@ public class NewFragment extends BaseFragment
      * Show the TimePicker dialog with the current time.
      */
     private void showTimePickerDialog() {
-        final Calendar calendar = Time.getInstance(getActivity()).getCalendar();
+        final Calendar calendar = DateTime.getInstance(getActivity()).getCalendar();
         TimePickerDialog tpd = new TimePickDialog(
                 getActivity(),
                 this,
@@ -130,11 +130,11 @@ public class NewFragment extends BaseFragment
      * Format time for display as HH:MM.
      * @param hour The hour.
      * @param minute The minute.
-     * @return Time as HH:MM
+     * @return DateTime as HH:MM
      */
     private String formatTime(int hour, int minute) {
-        return Time.getInstance(getActivity())
-                .getFormattedTimeFromMillis(Time.getInstance(getActivity())
+        return DateTime.getInstance(getActivity())
+                .getFormattedTimeFromMillis(DateTime.getInstance(getActivity())
                         .getMillisFromTimeComponent(new int[] {hour, minute}));
     }
 
