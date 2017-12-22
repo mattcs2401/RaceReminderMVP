@@ -8,21 +8,22 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
+import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
 
-public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List> {
+public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List> {
 
-    public RaceModelImpl(IPresenterModel iPresenterModel) {
+    public MainModelImpl(IPresenterModel iPresenterModel) {
         // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         // get reference to the recyclerview within the View .
         recyclerView = iPresenterModel.getRecyclerView();
         // set adapter.
-        setRaceAdapter();
+        setMeetingAdapter();
         // create database instance.
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RaceDatabase.db").build();
         // initialise the Loader.
@@ -40,7 +41,10 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-    // TBA
+    public boolean getNetworkCheck() {
+
+        return true;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
@@ -51,29 +55,29 @@ public class RaceModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<List> loader, List list) {
-        raceAdapter.swapData(list);
+        meetingAdapter.swapData(list);
         if(list != null && list.size() > 0) {
-            raceAdapter.setEmptyView(false);
+            meetingAdapter.setEmptyView(false);
         } else {
-            raceAdapter.setEmptyView(true);
+            meetingAdapter.setEmptyView(true);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List> loader) {
-        raceAdapter.swapData(null);
+        meetingAdapter.swapData(null);
     }
     //</editor-fold>
 
-    private void setRaceAdapter() {
-        raceAdapter = new RaceAdapter();
-        raceAdapter.setClickListener(iPresenterModel.getClickListener());
-        recyclerView.setAdapter(raceAdapter);
+    private void setMeetingAdapter() {
+        meetingAdapter = new MeetingAdapter();
+        meetingAdapter.setClickListener(iPresenterModel.getClickListener());
+        recyclerView.setAdapter(meetingAdapter);
     }
 
     private RecyclerView recyclerView;           // access to the RecyclerView.
 //    private RaceLoader raceLoader;           //
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private RaceDatabase raceDatabase;
-    private RaceAdapter raceAdapter;
+    private MeetingAdapter meetingAdapter;
 }

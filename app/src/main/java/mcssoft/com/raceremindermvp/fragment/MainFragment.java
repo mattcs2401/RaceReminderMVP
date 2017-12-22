@@ -33,18 +33,16 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         layoutId = getArguments().getInt(getString(R.string.layout_fragment_main_key));
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
-//        setRaceAdapter();
-        racePresenterImpl = new MainPresenterImpl(this);
+        meetingPresenterImpl = new MainPresenterImpl(this);
+        //meetingPresenterImpl.
     }
     //</editor-fold>
 
@@ -82,7 +80,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setRecyclerView() {
-        recyclerView = getActivity().findViewById(R.id.id_rv_raceListing);
+        recyclerView = getActivity().findViewById(R.id.id_rv_meetingListing);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         llm.scrollToPosition(0);
@@ -93,7 +91,7 @@ public class MainFragment extends BaseFragment implements IViewPresenter, IClick
     //</editor-fold>
 
     private int layoutId;
-    private MainPresenterImpl racePresenterImpl;
+    private MainPresenterImpl meetingPresenterImpl;
     private IPresenterView iPresenterView;
     private RecyclerView recyclerView;
 

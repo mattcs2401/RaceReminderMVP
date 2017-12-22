@@ -6,4 +6,5 @@ package mcssoft.com.raceremindermvp.interfaces.mvp;
  */
 public interface IPresenterView {
 
+    boolean getNetworkCheck();
 }

@@ -11,13 +11,13 @@ import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
-import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
+import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class MainPresenterImpl implements IPresenterModel, IPresenterView {
 
     public MainPresenterImpl(IViewPresenter iViewPresenter) {
         this.iViewPresenter = iViewPresenter;
-        raceModelImpl = new RaceModelImpl(this);
+        raceModelImpl = new MainModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
@@ -53,16 +53,17 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
-//    @Override
-//    public Race getRace(int id) {
-//        return iModelPresenter.getRace(id);
-//    }
+    @Override
+    public boolean getNetworkCheck() {
+        // TBA
+        return true;
+    }
     //</editor-fold>
 
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
     private IPresenterModel iPresenterModel;
     private IModelPresenter iModelPresenter;
-    private RaceModelImpl raceModelImpl;
+    private MainModelImpl raceModelImpl;
     private IViewPresenter iViewPresenter;
 }
