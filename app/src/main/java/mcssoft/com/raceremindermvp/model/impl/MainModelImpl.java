@@ -40,9 +40,11 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
         // create database instance.
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RaceDatabase.db").build();
 
+        //DownloadRequestQueue.getInstance(iPresenterModel.getContext());
+
         // initialise the Loader.
         //iPresenterModel.getActivity().getLoaderManager().initLoader(0, null, this);
-        //DownloadRequestQueue.getInstance(iPresenterModel.getContext());
+
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">

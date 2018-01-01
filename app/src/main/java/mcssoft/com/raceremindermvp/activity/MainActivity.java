@@ -17,7 +17,7 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.fragment.MainFragment;
 import mcssoft.com.raceremindermvp.interfaces.IActivityFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivityFragment {
+public class MainActivity extends AppCompatActivity implements IActivityFragment {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Region: Listener">
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(MainActivity.this, NewActivity.class);
-        startActivity(intent, null);
     }
     //</editor-fold>
 
@@ -95,9 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // set Toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
         setSupportActionBar(toolbar);
-        // set FAB.
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_fab);
-        fab.setOnClickListener(this);
         // set Fragment.
         getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MainFragment()).commit();
         // ButterKnife.

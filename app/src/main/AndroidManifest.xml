@@ -18,9 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".activity.MainActivity"/>
         <receiver android:name=".network.NetworkReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
