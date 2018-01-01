@@ -1,11 +1,14 @@
 package mcssoft.com.raceremindermvp.fragment;
 
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +16,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.TimePickDialog;
 import mcssoft.com.raceremindermvp.utility.Resources;
@@ -21,46 +26,39 @@ import mcssoft.com.raceremindermvp.utility.DateTime;
 /**
  *
  */
-public class NewFragment extends BaseFragment
+public class NewFragment extends Fragment
         implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
-
-    public NewFragment() {
-        // TBA
-        // Bundle bundle = getArguments();
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Region: BaseFragment">
-    @Override
-    protected int getLayout() {
-        return layoutId;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        layoutId = getArguments().getInt(getString(R.string.layout_fragment_new_key));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_new, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View view = getRootView();
+//        View view = getRootView();
         // edit text.
-        etCityCode = (EditText) view.findViewById(R.id.id_et_city_code);
-        etRaceCode = (EditText) view.findViewById(R.id.id_et_race_code);
-        etRaceNum = (EditText) view.findViewById(R.id.id_et_race_num);
-        etRaceSel = (EditText) view.findViewById(R.id.id_et_race_sel);
-        // buttons.
-        btnCancel = (Button) view.findViewById(R.id.id_btn_cancel);
-        btnSave = (Button) view.findViewById(R.id.id_btn_save);
-        btnRaceTime = (Button) view.findViewById(R.id.id_btn_race_time);
-        // set listeners
-        btnRaceTime.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
+//        etCityCode = (EditText) view.findViewById(R.id.id_et_city_code);
+//        etRaceCode = (EditText) view.findViewById(R.id.id_et_race_code);
+//        etRaceNum = (EditText) view.findViewById(R.id.id_et_race_num);
+//        etRaceSel = (EditText) view.findViewById(R.id.id_et_race_sel);
+//        // buttons.
+//        btnCancel = (Button) view.findViewById(R.id.id_btn_cancel);
+//        btnSave = (Button) view.findViewById(R.id.id_btn_save);
+//        btnRaceTime = (Button) view.findViewById(R.id.id_btn_race_time);
+//        // set listeners
+//        btnRaceTime.setOnClickListener(this);
+//        btnCancel.setOnClickListener(this);
+//        btnSave.setOnClickListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
     //</editor-fold>
 
@@ -139,17 +137,16 @@ public class NewFragment extends BaseFragment
     }
 
     private void doSnackError(String message) {
-        Snackbar snackbar = Snackbar.make(getRootView(), message, Snackbar.LENGTH_LONG)
-                .setAction("Action", null);
-        snackbar.getView().setBackgroundColor(Color.RED);
-        TextView textView = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        snackbar.show();
+//        Snackbar snackbar = Snackbar.make(getRootView(), message, Snackbar.LENGTH_LONG)
+//                .setAction("Action", null);
+//        snackbar.getView().setBackgroundColor(Color.RED);
+//        TextView textView = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
+//        textView.setTextColor(Color.WHITE);
+//        snackbar.show();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
-    private int layoutId;
     private EditText etCityCode;
     private EditText etRaceCode;
     private EditText etRaceNum;
@@ -157,5 +154,8 @@ public class NewFragment extends BaseFragment
     private Button btnRaceTime;
     private Button btnCancel;
     private Button btnSave;
+
+    // Butter Knife
+    private Unbinder unbinder;
     //</editor-fold>
 }

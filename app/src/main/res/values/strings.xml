@@ -2,6 +2,27 @@
     <string name="app_name">RaceReminderMVP</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Button texts. -->
+    <string name="button_cancel_text">Cancel</string>
+    <string name="button_ok_text">OK</string>
+
+    <!-- Dialog title. -->
+    <string name="title_dialog_delete">Delete Meetings</string>
+    <string name="title_dialog_network">Network Problem</string>
+
+    <!-- Dialog messages. -->
+    <string name="network_connection_error">No active network connection exists.\r\n\r\nCheck your device settings.</string>
+    <string name="get_meetings_info">Getting Meetings information.</string>
+
+    <!-- General text. -->
+    <string name="nothing_to_show">Nothing to show.</string>
+    <string name="new_meeting_details">Enter the details for a new race meeting.</string>
+
+    <!-- Keys. -->
+    <string name="layout_fragment_main_key">layout_fragment_main_key</string>
+    <string name="layout_fragment_new_key">layout_fragment_new_key</string>
+    <string name="network_dialog_text_key">network_dialog_text</string>
+
     <!-- Labels - Activity. -->
     <string name="label_new_activity_title">New Race</string>
 
@@ -9,14 +30,6 @@
     <string name="label_btn_save">Save</string>
     <string name="label_btn_cancel">Cancel</string>
     <string name="label_btn_time">[Time]</string>
-
-    <!-- Keys. -->
-    <string name="layout_fragment_main_key">layout_fragment_main_key</string>
-    <string name="layout_fragment_new_key">layout_fragment_new_key</string>
-
-    <!-- General text. -->
-    <string name="nothing_to_show">Nothing to show.</string>
-    <string name="new_meeting_details">Enter the details for a new race meeting.</string>
 
     <!-- Preferences. -->
     <string name="preference_file">Meeting_Preferences</string>

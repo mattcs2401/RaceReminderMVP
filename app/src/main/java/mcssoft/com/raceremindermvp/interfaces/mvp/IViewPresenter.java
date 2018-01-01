@@ -1,14 +1,15 @@
 package mcssoft.com.raceremindermvp.interfaces.mvp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 
 /**
  * Implementation of interface between View and Presenter.
- * Provides View operations available to the Presenter.
  */
 public interface IViewPresenter {
 
@@ -35,11 +36,16 @@ public interface IViewPresenter {
      * @return
      */
     IClick.ItemClick getClickListener();
-    /**
-     * Provide access to the methods of the IPresenterView interface.
-     * @param iPresenterView The IPresenterView reference.
-     * @return 'this' from the PresenterImpl class.
-     */
-    IPresenterView getPresenter(IPresenterView iPresenterView);
 
+    /**
+     *
+     * @return
+     */
+    ProgressDialog getProgressDialog();
+
+    /**
+     *
+     * @return
+     */
+    NetworkDialog getNetworkDialog();
 }

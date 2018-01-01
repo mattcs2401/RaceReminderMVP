@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,10 +10,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.fragment.MainFragment;
+import mcssoft.com.raceremindermvp.interfaces.IActivityFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivityFragment {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -47,6 +52,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Interface">
+    @Override
+    public void showNetworkDialog() {
+        networkDialog = new NetworkDialog();
+        networkDialog.setShowsDialog(true);
+        Bundle bundle = new Bundle();
+        bundle.putString(network_dialog_text_key, network_connection_error);
+        networkDialog.setArguments(bundle);
+        networkDialog.show(getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void showProgressDialog(boolean showProgress) {
+        if(showProgress) {
+            progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage(get_meetings_info);
+            progressDialog.show();
+        } else {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public ProgressDialog getProgressDialog() {
+        return this.progressDialog;
+    }
+
+    @Override
+    public NetworkDialog getNetworkDialog() {
+        return this.networkDialog;
+    }
+
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void initialise() {
         setContentView(R.layout.activity_main);
@@ -57,11 +99,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_fab);
         fab.setOnClickListener(this);
         // set Fragment.
-        MainFragment mainFragment = new MainFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(getString(R.string.layout_fragment_main_key), R.layout.fragment_main);
-        mainFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, mainFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MainFragment()).commit();
+        // ButterKnife.
+        ButterKnife.bind(this);
+
     }
     //</editor-fold>
+
+    private NetworkDialog networkDialog;
+    private ProgressDialog progressDialog;
+
+    // Butter Knife
+    @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
+    @BindString(R.string.network_connection_error) String network_connection_error;
+    @BindString(R.string.get_meetings_info) String get_meetings_info;
 }

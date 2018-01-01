@@ -1,11 +1,13 @@
 package mcssoft.com.raceremindermvp.presenter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 
+import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
@@ -17,7 +19,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
 
     public MainPresenterImpl(IViewPresenter iViewPresenter) {
         this.iViewPresenter = iViewPresenter;
-        raceModelImpl = new MainModelImpl(this);
+        iModelPresenter = new MainModelImpl(this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterModel">
@@ -39,31 +41,31 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
         return iViewPresenter.getClickListener();
     }
 
-    /**
-     * Provide a reference to IModelPresenter interface to access methods implemented by the Model.
-     * @param iModelPresenter The IModelPresenter interface.
-     * @return A reference to the IModelPresenter interface.
-     */
     @Override
-    public IModelPresenter getModel(IModelPresenter iModelPresenter) {
-        // set the reference to the IModelPresenter interface.
-        this.iModelPresenter = iModelPresenter;
-        return iModelPresenter;
+    public ProgressDialog getProgressDialog() {
+        return iViewPresenter.getProgressDialog();
+    }
+
+    @Override
+    public NetworkDialog getNetworkDialog() {
+        return iViewPresenter.getNetworkDialog();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     @Override
     public boolean getNetworkCheck() {
-        // TBA
-        return true;
+        return iModelPresenter.getNetworkCheck();
+    }
+
+    @Override
+    public int getMeetings() {
+        return iModelPresenter.getMeetings();
     }
     //</editor-fold>
 
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
-    private IPresenterModel iPresenterModel;
     private IModelPresenter iModelPresenter;
-    private MainModelImpl raceModelImpl;
     private IViewPresenter iViewPresenter;
 }
