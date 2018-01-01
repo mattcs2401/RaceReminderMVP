@@ -11,7 +11,8 @@
     <string name="title_dialog_network">Network Problem</string>
 
     <!-- Dialog messages. -->
-    <string name="network_connection_error">No active network connection exists.\r\n\r\nCheck your device settings.</string>
+    <string name="network_connection_error_p1">No active network connection exists.</string>
+    <string name="network_connection_error_p2">Check your device\'s mobile data or network connections.</string>
     <string name="get_meetings_info">Getting Meetings information.</string>
 
     <!-- General text. -->

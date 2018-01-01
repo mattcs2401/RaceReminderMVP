@@ -9,7 +9,7 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
  */
 public interface IActivityFragment {
 
-    void showNetworkDialog();
+    void showNoNetworkDialog();
 
     NetworkDialog getNetworkDialog();
 

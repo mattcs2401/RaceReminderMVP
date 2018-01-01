@@ -59,7 +59,7 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
 
             iActivityFragment.showProgressDialog(false);
         } else {
-            iActivityFragment.showNetworkDialog();
+            iActivityFragment.showNoNetworkDialog();
             // TODO - start a background service to periodically check for a connection.
             String bp = "";
         }
