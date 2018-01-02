@@ -62,6 +62,11 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     public int getMeetings() {
         return iModelPresenter.getMeetings();
     }
+
+    @Override
+    public int getRaces() {
+        return iModelPresenter.getRaces();
+    }
     //</editor-fold>
 
 

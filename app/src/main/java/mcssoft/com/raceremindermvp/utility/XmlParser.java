@@ -37,13 +37,13 @@ public class XmlParser {
     public List parse(String element) throws XmlPullParserException, IOException {
         List list = null;
         switch(element) {
-            case "Meetings":
+            case "MEETINGS":
                 list = parseForMeetings();
                 break;
-            case "Races":
+            case "RACES":
                 list = parseForRaces();
                 break;
-            case "Runners":
+            case "RUNNERS":
                 list = parseForRunners();
                 break;
         }
@@ -84,31 +84,38 @@ public class XmlParser {
 
     /**
      * Read Meeting infor from the Xml.
-     * @param date A derived value from the RaceDayDate attribute of the RaceDay element.
+     * @param date A derived value from the RaceDayDate attribute of the <RaceDay></RaceDay> element.
      * @return A Meeting object.
      */
     private Meeting readMeeting(String date) {
         Meeting meeting = new Meeting();
         if(date != null) {
-            meeting.setMeetingId(parser.getAttributeValue(nameSpace, "MtgId"));
             // // date format YYYY-MM-DDT00:00:00 (only want date part).
             meeting.setMeetingDate((date.split("T"))[0]);
             meeting.setAbandoned(parser.getAttributeValue(nameSpace, "Abandoned"));
             meeting.setVenueName(parser.getAttributeValue(nameSpace, "VenueName"));
             meeting.setHiRaceNo(parser.getAttributeValue(nameSpace, "HiRaceNo"));
             meeting.setMeetingCode(parser.getAttributeValue(nameSpace, "MeetingCode"));
+            meeting.setMeetingId(parser.getAttributeValue(nameSpace, "MtgId"));
         }
         return meeting;
     }
 
+    /**
+     * Add in the weather information for a Meeting.
+     * @param list A list of all the Meetings currently parsed.
+     * @return The list of Meetings with weather details appended to the last Meeting in the list.
+     */
     private List readMeetingWeather(List list) {
-        // list entry we want is the last one.
+        // Note: weather details are actually part of the <Race> element and same for each Race of
+        //       that Meeting..
+
+        // List entry we want is the last one (i.e. the most recently parsed).
         Meeting meeting = (Meeting) list.get(list.size() - 1);
 
         meeting.setWeatherDesc(parser.getAttributeValue(nameSpace, "WeatherDesc"));
         meeting.setTrackRating(parser.getAttributeValue(nameSpace, "TrackRating"));
         meeting.setTrackDesc(parser.getAttributeValue(nameSpace, "TrackDesc"));
-
         return list;
     }
     //</editor-fold>

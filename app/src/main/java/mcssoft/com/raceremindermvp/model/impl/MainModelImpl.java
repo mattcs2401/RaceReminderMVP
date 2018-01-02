@@ -70,19 +70,41 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     public int getMeetings() {
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createRaceDayUrl(null);
+        iPresenterModel.getProgressDialog().show();
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
         return 0;
     }
+
+    /**
+     * Get the Races for a Meeting.
+     * @return A count of the Races.
+     */
+    @Override
+    public int getRaces() {
+        // TBA
+        return 0;
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
+
+    /**
+     * Volley return point.
+     * @param response The Volley response object.
+     */
     @Override
     public void onResponse(Object response) {
+        // Note: the response object is actually a list of objects (Meeting, Race etc).
         iPresenterModel.getProgressDialog().dismiss();
         parseResponse(response);
     }
 
+    /**
+     * Volley error return point.
+     * @param error The Volley error object.
+     */
     @Override
     public void onErrorResponse(VolleyError error) {
         ProgressDialog progressDialog = iPresenterModel.getProgressDialog();
