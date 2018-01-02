@@ -47,7 +47,6 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-
     /**
      * Check that a connection exists.
      * @return True if a connection exists.
@@ -140,13 +139,8 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
      * @param volleyResponse The Volley response object.
      */
     private void parseResponse(Object volleyResponse) {
-        List<Meeting> meetings = new ArrayList<>();
-        meetings = (ArrayList) volleyResponse;
-
-        for(Meeting meeting : meetings) {
-            String bp = "";
-
-        }
+        List<Meeting> meetings = (ArrayList) volleyResponse; // new ArrayList<>();
+        //meetings = (ArrayList) volleyResponse;
         String bp = "";
     }
     //</editor-fold>
