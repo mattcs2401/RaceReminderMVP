@@ -37,7 +37,7 @@ public class XmlParser {
     public List parse(String element) throws XmlPullParserException, IOException {
         List list = null;
         switch(element) {
-            case "Meeting":
+            case "Meetings":
                 list = parseForMeetings();
                 break;
             case "Races":

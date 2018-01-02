@@ -11,7 +11,7 @@ import mcssoft.com.raceremindermvp.R;
  */
 public class Url {
 
-    public void Url(Context context) {
+    public Url(Context context) {
         this.context = context;
     }
 

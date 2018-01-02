@@ -121,6 +121,7 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     //</editor-fold>
 
     private IPresenterView iPresenterView;
+
     private IActivityFragment iActivityFragment;
 
     // Butter Knife.

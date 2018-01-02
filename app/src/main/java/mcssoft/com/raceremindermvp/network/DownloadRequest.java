@@ -45,7 +45,7 @@ public class DownloadRequest<T> extends Request<List> {
             // Parse the response into Meeting, Race or Runner objects.
             // TODO - remove hard coded table names.
             switch(tableName) {
-                case "MEETINGS":
+                case "Meetings":
                     theResult = parser.parse(Resources.getInstance(context)
                             .getString(R.string.meetings_xml_tag));
                     break;

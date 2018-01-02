@@ -13,7 +13,7 @@ public class DownloadRequestQueue {
 
     private DownloadRequestQueue(Context context) {
         this.context = context;
-        requestQueue = Volley.newRequestQueue(context); //.getApplicationContext());
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     public static synchronized DownloadRequestQueue getInstance(Context context) {
@@ -22,10 +22,6 @@ public class DownloadRequestQueue {
         }
         return instance;
     }
-
-//    public static DownloadRequestQueue getInstance() {
-//        return instance;
-//    }
 
     public <T> void addToRequestQueue(Request<T> request) {
         requestQueue.add(request);

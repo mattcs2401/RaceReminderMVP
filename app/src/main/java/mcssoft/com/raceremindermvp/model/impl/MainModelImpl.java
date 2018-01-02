@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -25,9 +26,9 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
+import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
-import mcssoft.com.raceremindermvp.network.NetworkReceiver;
-import mcssoft.com.raceremindermvp.utility.Resources;
+import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List>,Response.Listener,
         Response.ErrorListener {
@@ -39,15 +40,16 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
         setMeetingAdapter();
         // create database instance.
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RaceDatabase.db").build();
-
-        //DownloadRequestQueue.getInstance(iPresenterModel.getContext());
-
         // initialise the Loader.
-        //iPresenterModel.getActivity().getLoaderManager().initLoader(0, null, this);
-
+//        iPresenterModel.getActivity().getLoaderManager().initLoader(0, null, this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
+
+    /**
+     * Check that a connection exists.
+     * @return True if a connection exists.
+     */
     @Override
     public boolean getNetworkCheck() {
         boolean networkExists = true;
@@ -59,14 +61,29 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
         return networkExists;
     }
 
+    /**
+     * Get today's Meetings.
+     * @return A count of the Meetings.
+     */
     @Override
     public int getMeetings() {
+        Url url = new Url(iPresenterModel.getContext());
+        String uri = url.createRaceDayUrl(null);
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "Meetings");
+        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
         return 0;
     }
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
+
+    @Override
+    public void onResponse(Object response) {
+        // TBA
+        String bp = "";
+
+    }
+
     @Override
     public void onErrorResponse(VolleyError error) {
         ProgressDialog progressDialog = iPresenterModel.getProgressDialog();
@@ -86,11 +103,6 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
 //            loadMeetingsFragment(this.bundle);
             // TODO - some generic error dialog ?
         }
-    }
-
-    @Override
-    public void onResponse(Object response) {
-
     }
     //</editor-fold>
 
@@ -122,18 +134,10 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }
 
-    private Bundle setEmptyView() {
-        Bundle args = new Bundle();
-        args.putString("meetings_show_empty_key", null);
-        return args;
-    }
-
     private RaceLoader raceLoader;               //
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
-//    private NetworkReceiver receiver;       // for network availability check.
-//    private ProgressDialog progressDialog;  // used by Volley download to show something happening.
 
 
 }
