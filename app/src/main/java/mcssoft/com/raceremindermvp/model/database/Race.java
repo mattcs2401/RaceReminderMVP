@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 /**
- * Class to model a Race (within a Meetying).
+ * Class to model a Race (within a Meeting).
  *
  * Derived from: https://tatts.com/pagedata/racing/YYYY/M(M)/D(D)/<code>.xml
  * <RaceDay>
@@ -20,7 +20,7 @@ import java.util.List;
  *     . . .
  * </RaceDay>
  */
-@Entity(tableName = "Races")
+@Entity(tableName = "RACES")
 public class Race {
 
     public Race() { }

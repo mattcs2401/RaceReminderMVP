@@ -22,7 +22,7 @@ public interface IMeetingsDAO {
     @Update
     int update(Meeting meeting);
 
-    @Query("select * from Meetings where ArchvFlag = :archvFlag")
+    @Query("select * from MEETINGS where ArchvFlag = :archvFlag")
     List<Meeting> selectAll(String archvFlag);
 
     @Query("select * from Meetings where _id = :id")

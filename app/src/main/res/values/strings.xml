@@ -36,7 +36,7 @@
     <string name="preference_file">Meeting_Preferences</string>
 
     <!-- Database. -->
-    <string name="database_name">RaceDatabase.db</string>
+    <string name="database_name">RACEMEETINGS.DB</string>
 
     <!-- Date and Time formats. -->
     <string name="time_format_24hr">kk:mm</string>

@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.R;
@@ -26,6 +27,7 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.Url;
@@ -69,19 +71,17 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     public int getMeetings() {
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createRaceDayUrl(null);
-        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "Meetings");
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
         return 0;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
-
     @Override
     public void onResponse(Object response) {
-        // TBA
-        String bp = "";
-
+        iPresenterModel.getProgressDialog().dismiss();
+        parseResponse(response);
     }
 
     @Override
@@ -128,11 +128,28 @@ public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallb
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setMeetingAdapter() {
         meetingAdapter = new MeetingAdapter();
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }
+
+    /**
+     * Parse the response from Volley into Meeting objects to be written to the database.
+     * @param volleyResponse The Volley response object.
+     */
+    private void parseResponse(Object volleyResponse) {
+        List<Meeting> meetings = new ArrayList<>();
+        meetings = (ArrayList) volleyResponse;
+
+        for(Meeting meeting : meetings) {
+            String bp = "";
+
+        }
+        String bp = "";
+    }
+    //</editor-fold>
 
     private RaceLoader raceLoader;               //
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.

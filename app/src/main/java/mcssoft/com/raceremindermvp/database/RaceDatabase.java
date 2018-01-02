@@ -7,7 +7,7 @@ import android.content.Context;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.room.IMeetingsDAO;
-import mcssoft.com.raceremindermvp.interfaces.room.IRaceDAO;
+import mcssoft.com.raceremindermvp.interfaces.room.IRacesDAO;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.utility.Resources;
@@ -22,14 +22,13 @@ public abstract class RaceDatabase extends RoomDatabase {
         return instance;
     }
 
-    public abstract IRaceDAO getRaceDAO();
+    public abstract IRacesDAO getRaceDAO();
     public abstract IMeetingsDAO getMeetingDAO();
 
     private static RaceDatabase create(final Context context) {
         return Room.databaseBuilder(context, RaceDatabase.class, Resources.getInstance(context).getString(R.string.database_name)).build();
     }
 
-//    private static final String DB_NAME = "RaceDatabase.db";
     private static volatile RaceDatabase instance;
 
 }

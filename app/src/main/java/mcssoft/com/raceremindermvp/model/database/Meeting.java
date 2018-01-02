@@ -17,7 +17,7 @@ import java.util.List;
  *     . . .
  * </RaceDay>
  */
-@Entity(tableName = "Meetings")
+@Entity(tableName = "MEETINGS")
 public class Meeting {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">

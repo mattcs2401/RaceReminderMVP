@@ -14,7 +14,7 @@ import mcssoft.com.raceremindermvp.model.database.Race;
  * Race DAO for Room (database).
  */
 @Dao
-public interface IRaceDAO {
+public interface IRacesDAO {
 
     @Insert
     void insert(Race race);
@@ -25,7 +25,7 @@ public interface IRaceDAO {
     @Update
     int update(Race race);
 
-    @Query("select * from Races where ArchvFlag = :archvFlag")
+    @Query("select * from RACES where ArchvFlag = :archvFlag")
     List<Race> selectAll(String archvFlag);
 
     @Query("select * from Races where _id = :id")
