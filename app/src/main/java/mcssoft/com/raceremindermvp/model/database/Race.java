@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.model.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -23,8 +24,12 @@ import java.util.List;
 @Entity(tableName = "RACES")
 public class Race {
 
-    public Race() { }
+    public Race() {
+        id = "0";
+        archvFlag = "N";
+    }
 
+    @Ignore
     public Race(List<String> list) {
         this.id = list.get(0);
         this.meetingId = list.get(1);
@@ -35,6 +40,7 @@ public class Race {
         this.archvFlag = list.get(6);
     }
 
+    @Ignore
     public Race(@NonNull String id, String meetingId, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
         this.id = id;
         this.meetingId = meetingId;

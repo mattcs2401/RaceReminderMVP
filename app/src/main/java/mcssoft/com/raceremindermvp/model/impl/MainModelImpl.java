@@ -4,12 +4,10 @@ import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -19,11 +17,8 @@ import com.android.volley.VolleyError;
 import java.util.ArrayList;
 import java.util.List;
 
-import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
-import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
@@ -32,8 +27,11 @@ import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.Url;
 
-public class MainModelImpl implements IModelPresenter, LoaderManager.LoaderCallbacks<List>,Response.Listener,
-        Response.ErrorListener {
+public class MainModelImpl
+    implements IModelPresenter,
+               Response.Listener,
+               Response.ErrorListener,
+               LoaderManager.LoaderCallbacks<List> {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // Retain reference to the IPresenterModel interface.
