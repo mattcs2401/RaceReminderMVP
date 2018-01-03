@@ -14,13 +14,11 @@ public interface IPresenterView {
 
     /**
      * Get the Meetings for today.
-     * @return A count of the Meetings.
      */
-    int getMeetings();
+    void getMeetings();
 
     /**
      * Get the Races for a meeting.
-     * @return A count of the Races.
      */
-    int getRaces();
+    void getRaces();
 }

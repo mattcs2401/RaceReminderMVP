@@ -41,11 +41,11 @@ public interface IViewPresenter {
      *
      * @return
      */
-    ProgressDialog getProgressDialog();
+    void showProgressDialog(boolean show);
 
     /**
      *
      * @return
      */
-    NetworkDialog getNetworkDialog();
+    void showNoNetworkDialog();
 }

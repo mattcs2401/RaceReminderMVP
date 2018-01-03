@@ -9,11 +9,14 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
  */
 public interface IActivityFragment {
 
+    /**
+     * Call on the Activity to show a dialog that no network connection exists.
+     */
     void showNoNetworkDialog();
 
-    NetworkDialog getNetworkDialog();
-
+    /**
+     * Call on the Activity to show a progress dialog.
+     * @param show True - show dialog, else, False - dismiss dialog (if running)
+     */
     void showProgressDialog(boolean show);
-
-    ProgressDialog getProgressDialog();
 }

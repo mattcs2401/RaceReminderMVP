@@ -21,7 +21,7 @@ public interface IPresenterModel {
 
     IClick.ItemClick getClickListener();
 
-    ProgressDialog getProgressDialog();
+    void showProgressDialog(boolean show);
 
-    NetworkDialog getNetworkDialog();
+    void showNoNetworkDialog();
 }

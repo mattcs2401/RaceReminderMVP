@@ -53,11 +53,7 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
         iPresenterView = new MainPresenterImpl(this);
 
         if(iPresenterView.getNetworkCheck()) {
-            iActivityFragment.showProgressDialog(true);
-
-            int meetings = iPresenterView.getMeetings();
-
-            iActivityFragment.showProgressDialog(false);
+            iPresenterView.getMeetings();
         } else {
             iActivityFragment.showNoNetworkDialog();
             // TODO - start a background service to periodically check for a connection ?
@@ -98,15 +94,14 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     }
 
     @Override
-    public ProgressDialog getProgressDialog() {
-        return iActivityFragment.getProgressDialog();
+    public void showProgressDialog(boolean show) {
+        iActivityFragment.showProgressDialog(show);
     }
 
     @Override
-    public NetworkDialog getNetworkDialog() {
-        return iActivityFragment.getNetworkDialog();
+    public void showNoNetworkDialog() {
+        iActivityFragment.showNoNetworkDialog();
     }
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -121,7 +116,6 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     //</editor-fold>
 
     private IPresenterView iPresenterView;
-
     private IActivityFragment iActivityFragment;
 
     // Butter Knife.

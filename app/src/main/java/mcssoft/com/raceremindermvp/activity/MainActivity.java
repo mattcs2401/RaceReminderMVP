@@ -21,7 +21,14 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialise();
+        setContentView(R.layout.activity_main);
+        // set Toolbar.
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
+        setSupportActionBar(toolbar);
+        // set Fragment.
+        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MainFragment()).commit();
+        // ButterKnife.
+        unbinder = ButterKnife.bind(this);
     }
 
     @Override
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            // TBA
             return true;
         }
 
@@ -46,21 +54,23 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
         super.onDestroy();
         unbinder.unbind();
     }
+    //</editor-fold>
 
-//</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Region: Interface">
+    //<editor-fold defaultstate="collapsed" desc="Region: IActivityFragment">
     @Override
     public void showNoNetworkDialog() {
         networkDialog = new NetworkDialog();
         networkDialog.setShowsDialog(true);
-        StringBuilder sb = new StringBuilder();
-        sb.append(network_connection_error_p1);
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(network_connection_error_p2);
+
+        StringBuilder sb = new StringBuilder()
+        .append(network_connection_error_l1)
+        .append(System.getProperty("line.separator"))
+        .append(System.getProperty("line.separator"))
+        .append(network_connection_error_l2);
+
         Bundle bundle = new Bundle();
         bundle.putString(network_dialog_text_key, sb.toString());
+
         networkDialog.setArguments(bundle);
         networkDialog.show(getSupportFragmentManager(), null);
     }
@@ -68,37 +78,22 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
     @Override
     public void showProgressDialog(boolean showProgress) {
         if(showProgress) {
-            progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage(get_meetings_info);
+            if(progressDialog == null) {
+                progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage(get_meetings_info);
+            }
             progressDialog.show();
         } else {
-            if (progressDialog != null) {
+            if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
         }
     }
-
-    @Override
-    public ProgressDialog getProgressDialog() { return progressDialog; }
-
-    @Override
-    public NetworkDialog getNetworkDialog() { return networkDialog; }
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    private void initialise() {
-        setContentView(R.layout.activity_main);
-        // set Toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
-        setSupportActionBar(toolbar);
-        // set Fragment.
-        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MainFragment()).commit();
-        // ButterKnife.
-        unbinder = ButterKnife.bind(this);
-
-    }
+    // TBA
     //</editor-fold>
 
     private Unbinder unbinder;              // used to ButterKnife Unbind in the OnDestroy lifecycle method.
@@ -107,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
 
     // Butter Knife
     @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
-    @BindString(R.string.network_connection_error_p1) String network_connection_error_p1;
-    @BindString(R.string.network_connection_error_p2) String network_connection_error_p2;
+    @BindString(R.string.network_connection_error_p1) String network_connection_error_l1;
+    @BindString(R.string.network_connection_error_p2) String network_connection_error_l2;
     @BindString(R.string.get_meetings_info) String get_meetings_info;
 }

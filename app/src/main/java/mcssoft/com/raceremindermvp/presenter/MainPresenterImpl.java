@@ -1,7 +1,6 @@
 package mcssoft.com.raceremindermvp.presenter;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
@@ -42,13 +41,13 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public ProgressDialog getProgressDialog() {
-        return iViewPresenter.getProgressDialog();
+    public void showProgressDialog(boolean show) {
+        iViewPresenter.showProgressDialog(show);
     }
 
     @Override
-    public NetworkDialog getNetworkDialog() {
-        return iViewPresenter.getNetworkDialog();
+    public void showNoNetworkDialog() {
+        iViewPresenter.showNoNetworkDialog();
     }
     //</editor-fold>
 
@@ -59,14 +58,12 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public int getMeetings() {
-        return iModelPresenter.getMeetings();
+    public void getMeetings() {
+        iModelPresenter.getMeetings();
     }
 
     @Override
-    public int getRaces() {
-        return iModelPresenter.getRaces();
-    }
+    public void getRaces() { iModelPresenter.getRaces(); }
     //</editor-fold>
 
 

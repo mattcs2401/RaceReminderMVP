@@ -1,7 +1,6 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 import android.app.LoaderManager;
-import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Loader;
@@ -62,16 +61,14 @@ public class MainModelImpl
 
     /**
      * Get today's Meetings.
-     * @return A count of the Meetings.
      */
     @Override
-    public int getMeetings() {
+    public void getMeetings() {
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createRaceDayUrl(null);
-        iPresenterModel.getProgressDialog().show();
+        iPresenterModel.showProgressDialog(true);
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
-        return 0;
     }
 
     /**
@@ -79,9 +76,8 @@ public class MainModelImpl
      * @return A count of the Races.
      */
     @Override
-    public int getRaces() {
+    public void getRaces() {
         // TBA
-        return 0;
     }
 
     //</editor-fold>
@@ -95,8 +91,8 @@ public class MainModelImpl
     @Override
     public void onResponse(Object response) {
         // Note: the response object is actually a list of objects (Meeting, Race etc).
-        iPresenterModel.getProgressDialog().dismiss();
-        parseResponse(response);
+        iPresenterModel.showProgressDialog(false);
+        databaseCheckAndLoad(response);
     }
 
     /**
@@ -105,14 +101,11 @@ public class MainModelImpl
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ProgressDialog progressDialog = iPresenterModel.getProgressDialog();
-        if(progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
+        iPresenterModel.showProgressDialog(false);
         NetworkResponse networkResponse = error.networkResponse;
         if(networkResponse == null) {
             if(!getNetworkCheck()) {
-                iPresenterModel.getNetworkDialog();
+                iPresenterModel.showNoNetworkDialog();
             }
         } else {
             // Some sort of network error, e.g. 404 page not found etc.
@@ -156,11 +149,14 @@ public class MainModelImpl
 
     /**
      * Parse the response from Volley into Meeting objects to be written to the database.
-     * @param volleyResponse The Volley response object.
+     * @param response The Volley response object.
      */
-    private void parseResponse(Object volleyResponse) {
-        List<Meeting> meetings = (ArrayList) volleyResponse; // new ArrayList<>();
-        //meetings = (ArrayList) volleyResponse;
+    private void databaseCheckAndLoad(Object response) {
+        // cast into list so we can iterate.
+        List<Meeting> meetings = (ArrayList) response;
+        for(Meeting meeting : meetings) {
+            raceDatabase.getMeetingDAO().insert(meeting);
+        }
         String bp = "";
     }
     //</editor-fold>
