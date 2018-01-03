@@ -91,6 +91,7 @@ public class MainModelImpl
     @Override
     public void onResponse(Object response) {
         // Note: the response object is actually a list of objects (Meeting, Race etc).
+        // TODO - what if the response object is null for some reason, retry ?.
         iPresenterModel.showProgressDialog(false);
         databaseCheckAndLoad(response);
     }
