@@ -12,9 +12,9 @@ import com.android.volley.VolleyError;
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
-import mcssoft.com.raceremindermvp.loader.LoadersManager;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
+import mcssoft.com.raceremindermvp.task.TaskManager;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
@@ -24,7 +24,7 @@ public class MainModelImpl
         // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         // set loader management
-        loadersManager = new LoadersManager(iPresenterModel);
+        taskManager = new TaskManager(iPresenterModel);
         // set adapter.
         setMeetingAdapter();
     }
@@ -44,7 +44,6 @@ public class MainModelImpl
         }
         return networkExists;
     }
-
     /**
      * Get today's Meetings.
      */
@@ -77,7 +76,7 @@ public class MainModelImpl
         // Note: the response object is actually a list of objects (Meeting, Race etc).
         // TODO - what if the response object is null for some reason, retry ?.
         iPresenterModel.showProgressDialog(false);
-        loadersManager.insert(response, "MEETINGS");
+//        loadersManager.insert(response, "MEETINGS");
     }
 
     /**
@@ -111,7 +110,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    private LoadersManager loadersManager;
+    private TaskManager taskManager;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
 
