@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="insert_for_meetings">0x01</integer>
+    <integer name="insert_for_races">0x02</integer>
+</resources>

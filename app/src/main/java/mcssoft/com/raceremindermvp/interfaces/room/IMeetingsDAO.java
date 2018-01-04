@@ -16,6 +16,9 @@ public interface IMeetingsDAO {
     @Insert
     void insert(Meeting meeting);
 
+    @Insert
+    void insertAll(List<Meeting> meetings);
+
     @Delete
     int deleteAll(Meeting[] meetings);
 
@@ -26,5 +29,6 @@ public interface IMeetingsDAO {
     List<Meeting> selectAll(String archvFlag);
 
     @Query("select * from Meetings where _id = :id")
-    Meeting  selectMeeting(int id);
+    List<Meeting>  selectMeeting(int id);
+    // Note: result will be a list of size 1 (loader limitation).
 }
