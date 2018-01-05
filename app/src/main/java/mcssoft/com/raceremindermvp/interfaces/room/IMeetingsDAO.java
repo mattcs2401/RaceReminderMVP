@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.interfaces.room;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -13,22 +14,24 @@ import mcssoft.com.raceremindermvp.model.database.Meeting;
 @Dao
 public interface IMeetingsDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Meeting meeting);
 
-    @Insert
-    void insertAll(List<Meeting> meetings);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<Meeting> meetings);
 
     @Delete
-    int deleteAll(Meeting[] meetings);
+    int delete(List<Meeting> meetings);
 
-    @Update
+    @Delete
+    int delete(Meeting meeting);
+
+    @Update // onConflict defaults to ABORT
     int update(Meeting meeting);
 
     @Query("select * from MEETINGS where ArchvFlag = :archvFlag")
     List<Meeting> selectAll(String archvFlag);
 
     @Query("select * from Meetings where _id = :id")
-    List<Meeting>  selectMeeting(int id);
-    // Note: result will be a list of size 1 (loader limitation).
+    Meeting  selectMeeting(int id);
 }

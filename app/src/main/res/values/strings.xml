@@ -50,8 +50,8 @@
     <string name="race_day_listing">RaceDay.xml</string>
 
     <!-- Xml tags. -->
-    <string name="meetings_xml_tag">MEETINGS</string>
-    <string name="races_xml_tag">RACES</string>
-    <string name="runners_xml_tag">RUNNERS</string>
+    <string name="meetings_tag">MEETINGS</string>
+    <string name="races_tag">RACES</string>
+    <string name="runners_tag">RUNNERS</string>
 
 </resources>

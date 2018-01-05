@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
+import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
@@ -25,6 +26,8 @@ public class MainModelImpl
         this.iPresenterModel = iPresenterModel;
         // set loader management
         taskManager = new TaskManager(iPresenterModel);
+        // set database;
+        raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
         setMeetingAdapter();
     }
@@ -76,6 +79,8 @@ public class MainModelImpl
         // Note: the response object is actually a list of objects (Meeting, Race etc).
         // TODO - what if the response object is null for some reason, retry ?.
         iPresenterModel.showProgressDialog(false);
+
+        taskManager.insertMeeting(raceDatabase, response);
 //        loadersManager.insert(response, "MEETINGS");
     }
 
@@ -110,6 +115,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
+    private RaceDatabase raceDatabase;
     private TaskManager taskManager;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.

@@ -1,6 +1,5 @@
 package mcssoft.com.raceremindermvp.network;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -13,8 +12,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import butterknife.BindString;
-import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.utility.Resources;
 import mcssoft.com.raceremindermvp.utility.XmlParser;
@@ -48,13 +45,13 @@ public class DownloadRequest<T> extends Request<List> {
             // TODO - remove hard coded table names.
             switch(tableName) {
                 case "MEETINGS":
-                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.meetings_xml_tag));
+                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.meetings_tag));
                     break;
                 case "RACES":
-                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.races_xml_tag));
+                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.races_tag));
                     break;
                 case "RUNNERS":
-                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.runners_xml_tag));
+                    theResult = parser.parse(Resources.getInstance(context).getString(R.string.runners_tag));
                     break;
             }
             // Write the results to the database (if don't already exist).
