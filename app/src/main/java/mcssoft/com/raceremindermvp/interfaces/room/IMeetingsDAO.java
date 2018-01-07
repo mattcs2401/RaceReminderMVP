@@ -29,6 +29,9 @@ public interface IMeetingsDAO {
     @Update // onConflict defaults to ABORT
     int update(Meeting meeting);
 
+    @Query("select count(*) from MEETINGS where ArchvFlag = :archvFlag")
+    int getCount(String archvFlag);
+
     @Query("select * from MEETINGS where ArchvFlag = :archvFlag")
     List<Meeting> selectAll(String archvFlag);
 

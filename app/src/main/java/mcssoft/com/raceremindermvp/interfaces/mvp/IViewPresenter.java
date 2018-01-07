@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.interfaces.mvp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
@@ -41,7 +42,7 @@ public interface IViewPresenter {
      *
      * @return
      */
-    void showProgressDialog(boolean show);
+    void showProgressDialog(boolean show, @Nullable String message);
 
     /**
      *

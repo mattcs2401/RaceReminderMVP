@@ -2,6 +2,7 @@ package mcssoft.com.raceremindermvp.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -41,8 +42,8 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public void showProgressDialog(boolean show) {
-        iViewPresenter.showProgressDialog(show);
+    public void showProgressDialog(boolean show, String message) {
+        iViewPresenter.showProgressDialog(show, message);
     }
 
     @Override

@@ -94,8 +94,8 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     }
 
     @Override
-    public void showProgressDialog(boolean show) {
-        iActivityFragment.showProgressDialog(show);
+    public void showProgressDialog(boolean show, String message) {
+        iActivityFragment.showProgressDialog(show, message);
     }
 
     @Override

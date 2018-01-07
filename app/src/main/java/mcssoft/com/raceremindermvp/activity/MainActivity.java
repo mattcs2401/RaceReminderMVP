@@ -2,6 +2,7 @@ package mcssoft.com.raceremindermvp.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -76,12 +77,12 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
     }
 
     @Override
-    public void showProgressDialog(boolean showProgress) {
+    public void showProgressDialog(boolean showProgress, @Nullable String message) {
         if(showProgress) {
             if(progressDialog == null) {
                 progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCancelable(false);
-                progressDialog.setMessage(get_meetings_info);
+                progressDialog.setMessage(message); //get_meetings_info);
             }
             progressDialog.show();
         } else {

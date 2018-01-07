@@ -13,9 +13,9 @@ import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.loader.RaceLoaderManager;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
-import mcssoft.com.raceremindermvp.task.TaskManager;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
@@ -25,7 +25,7 @@ public class MainModelImpl
         // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         // set loader management
-        taskManager = new TaskManager(iPresenterModel);
+        raceLoaderManager = new RaceLoaderManager(iPresenterModel);
         // set database;
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
@@ -52,13 +52,16 @@ public class MainModelImpl
      */
     @Override
     public void getMeetings() {
-        Url url = new Url(iPresenterModel.getContext());
-        String uri = url.createRaceDayUrl(null);
-        iPresenterModel.showProgressDialog(true);
-        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
-        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
+        if(checkMeetingsExist()) {
+            // TODO - a query to select by today's date.
+        } else {
+            Url url = new Url(iPresenterModel.getContext());
+            String uri = url.createRaceDayUrl(null);
+            iPresenterModel.showProgressDialog(true, "Getting Meetings.");
+            DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
+            DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
+        }
     }
-
     /**
      * Get the Races for a Meeting.
      * @return A count of the Races.
@@ -78,10 +81,8 @@ public class MainModelImpl
     public void onResponse(Object response) {
         // Note: the response object is actually a list of objects (Meeting, Race etc).
         // TODO - what if the response object is null for some reason, retry ?.
-        iPresenterModel.showProgressDialog(false);
+        iPresenterModel.showProgressDialog(false, null);
 
-        taskManager.insertMeeting(raceDatabase, response);
-//        loadersManager.insert(response, "MEETINGS");
     }
 
     /**
@@ -90,7 +91,7 @@ public class MainModelImpl
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        iPresenterModel.showProgressDialog(false);
+        iPresenterModel.showProgressDialog(false, null);
         NetworkResponse networkResponse = error.networkResponse;
         if(networkResponse == null) {
             if(!getNetworkCheck()) {
@@ -113,10 +114,15 @@ public class MainModelImpl
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }
+
+    private boolean checkMeetingsExist() {
+
+        return false;
+    }
     //</editor-fold>
 
     private RaceDatabase raceDatabase;
-    private TaskManager taskManager;
+    private RaceLoaderManager raceLoaderManager;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
 
