@@ -128,10 +128,10 @@ public class MainModelImpl
      * The RaceLoaderManager LoaderCallbacks.onLoadFinished returns here.
      * @param loader The loader used.
      * @param data The data returned (as a result of processing).
-     * @param bundle Addition information to describe the data.
+     * @param args Addition information about ot to describe the data.
      */
     @Override
-    public void onFinished(Loader loader, Object data, Bundle bundle) {
+    public void onFinished(Loader loader, Object data, Bundle args) {
 
         String bp = "";
     }

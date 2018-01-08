@@ -22,7 +22,7 @@ public class RaceLoaderManager implements LoaderManager.LoaderCallbacks {
     //<editor-fold defaultstate="collapsed" desc="Region: LoaderCallbacks">
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new RaceLoader(iPresenterModel.getContext());
+        return new RaceLoader(iPresenterModel.getContext(), args);
     }
 
     @Override
