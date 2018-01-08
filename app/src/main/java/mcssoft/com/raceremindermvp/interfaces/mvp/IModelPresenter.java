@@ -13,12 +13,24 @@ public interface IModelPresenter {
     boolean getNetworkCheck();
 
     /**
-     * Get the Meetings for today.
+     * Download the Meetings for today.
      */
-    void getMeetings();
+    void downloadMeetings();
 
     /**
-     * Get the Races for a meeting.
+     * Get the Meetings  from the database.
+     * @return A list of the Meetings
      */
-    void getRaces();
+    Object getMeetings();
+
+    /**
+     * Download the Races for a meeting.
+     */
+    void downloadRaces();
+
+    /**
+     * Get the Races  from the database.
+     * @return A list of the Races
+     */
+    Object getRaces();
 }

@@ -4,19 +4,19 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 
-import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.interfaces.IModelLoader;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 
 public class RaceLoaderManager implements LoaderManager.LoaderCallbacks {
 
-    public RaceLoaderManager(IPresenterModel iPresenterModel) {
+    public RaceLoaderManager(IPresenterModel iPresenterModel, IModelLoader iModelLoader) {
         this.iPresenterModel = iPresenterModel;
+        this.iModelLoader = iModelLoader;
     }
 
-    public boolean checkMeetingsExistInDatabase(RaceDatabase raceDatabase) {
-        Bundle bundle = new Bundle();
-        iPresenterModel.getActivity().getLoaderManager().initLoader(0, bundle, this);
-        return false;
+    public void initLoader(Bundle args) {
+        this.args = args; // save local so we can (update)/pass back to Model.
+        iPresenterModel.getActivity().getLoaderManager().initLoader(0, args, this);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: LoaderCallbacks">
@@ -27,14 +27,19 @@ public class RaceLoaderManager implements LoaderManager.LoaderCallbacks {
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-
+        iModelLoader.onFinished(loader, data, args);
     }
 
     @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
+    public void onLoaderReset(Loader loader) { }
     //</editor-fold>
 
+    public enum LoaderTasks {
+        CHECK_FOR_MEETINGS, INSERT_MEETING, INSERT_MEETINGS, UPDATE_MEETING
+    }
+
+    private Bundle args;
+    private boolean meetingsExist;
     private IPresenterModel iPresenterModel;
+    private IModelLoader iModelLoader;
 }

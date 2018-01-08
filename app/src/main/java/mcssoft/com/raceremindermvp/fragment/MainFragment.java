@@ -2,7 +2,6 @@ package mcssoft.com.raceremindermvp.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -14,15 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.IActivityFragment;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
@@ -52,8 +53,12 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
         setRecyclerView();
         iPresenterView = new MainPresenterImpl(this);
 
-        if(iPresenterView.getNetworkCheck()) {
-            iPresenterView.getMeetings();
+        List<Meeting> lMeetings= (List) iPresenterView.getMeetings();
+        if(lMeetings.size() > 1) {
+
+        }
+        else if(iPresenterView.getNetworkCheck()) {
+            iPresenterView.downloadMeetings();
         } else {
             iActivityFragment.showNoNetworkDialog();
             // TODO - start a background service to periodically check for a connection ?

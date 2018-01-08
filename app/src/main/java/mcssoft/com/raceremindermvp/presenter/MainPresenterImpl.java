@@ -2,12 +2,10 @@ package mcssoft.com.raceremindermvp.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 
-import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
@@ -59,12 +57,23 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public void getMeetings() {
-        iModelPresenter.getMeetings();
+    public void downloadMeetings() {
+        iModelPresenter.downloadMeetings();
     }
 
     @Override
-    public void getRaces() { iModelPresenter.getRaces(); }
+    public Object getMeetings() {
+        return iModelPresenter.getMeetings();
+    }
+
+    @Override
+    public void downloadRaces() { iModelPresenter.downloadRaces(); }
+
+    @Override
+    public Object getRaces() {
+        return iModelPresenter.getRaces();
+    }
+
     //</editor-fold>
 
 

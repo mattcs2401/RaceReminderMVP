@@ -13,12 +13,25 @@ public interface IPresenterView {
     boolean getNetworkCheck();
 
     /**
-     * Get the Meetings for today.
+     * Downlaod the Meetings for today.
      */
-    void getMeetings();
+    void downloadMeetings();
 
     /**
-     * Get the Races for a meeting.
+     * Get the Meetings from the database.
+     * @return
      */
-    void getRaces();
+    Object getMeetings();
+
+    /**
+     * Download the Races for a meeting.
+     */
+    void downloadRaces();
+
+    /**
+     * Get the Races from the database.
+     * @return
+     */
+    Object getRaces();
+
 }

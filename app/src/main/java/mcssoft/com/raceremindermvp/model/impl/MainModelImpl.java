@@ -1,8 +1,10 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 import android.content.Context;
+import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -11,6 +13,7 @@ import com.android.volley.VolleyError;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.interfaces.IModelLoader;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoaderManager;
@@ -19,13 +22,13 @@ import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener {
+    implements IModelPresenter, Response.Listener, Response.ErrorListener, IModelLoader {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         // set loader management
-        raceLoaderManager = new RaceLoaderManager(iPresenterModel);
+        raceLoaderManager = new RaceLoaderManager(iPresenterModel, this);
         // set database;
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
@@ -47,27 +50,35 @@ public class MainModelImpl
         }
         return networkExists;
     }
+
+    @Override
+    public Object getMeetings() {
+        return null;
+    }
+
     /**
-     * Get today's Meetings.
+     * Download today's Meetings.
      */
     @Override
-    public void getMeetings() {
-        if(checkMeetingsExist()) {
-            // TODO - a query to select by today's date.
-        } else {
-            Url url = new Url(iPresenterModel.getContext());
-            String uri = url.createRaceDayUrl(null);
-            iPresenterModel.showProgressDialog(true, "Getting Meetings.");
-            DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
-            DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
-        }
+    public void downloadMeetings() {
+        Url url = new Url(iPresenterModel.getContext());
+        String uri = url.createRaceDayUrl(null);
+        iPresenterModel.showProgressDialog(true, "Getting Meetings.");
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
+        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
+
+    @Override
+    public Object getRaces() {
+        return null;
+    }
+
     /**
      * Get the Races for a Meeting.
      * @return A count of the Races.
      */
     @Override
-    public void getRaces() {
+    public void downloadRaces() {
         // TBA
     }
     //</editor-fold>
@@ -80,8 +91,12 @@ public class MainModelImpl
     @Override
     public void onResponse(Object response) {
         // Note: the response object is actually a list of objects (Meeting, Race etc).
-        // TODO - what if the response object is null for some reason, retry ?.
-        iPresenterModel.showProgressDialog(false, null);
+        if(response == null) {
+            // TODO - what if the response object is null for some reason, retry ?.
+        } else {
+            iPresenterModel.showProgressDialog(false, null);
+
+        }
 
     }
 
@@ -108,16 +123,25 @@ public class MainModelImpl
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: IModelLoader">
+    /**
+     * The RaceLoaderManager LoaderCallbacks.onLoadFinished returns here.
+     * @param loader The loader used.
+     * @param data The data returned (as a result of processing).
+     * @param bundle Addition information to describe the data.
+     */
+    @Override
+    public void onFinished(Loader loader, Object data, Bundle bundle) {
+
+        String bp = "";
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setMeetingAdapter() {
         meetingAdapter = new MeetingAdapter();
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
-    }
-
-    private boolean checkMeetingsExist() {
-
-        return false;
     }
     //</editor-fold>
 
@@ -125,5 +149,6 @@ public class MainModelImpl
     private RaceLoaderManager raceLoaderManager;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
+    private IModelLoader iModelLoader;
 
 }
