@@ -13,14 +13,16 @@ import com.android.volley.VolleyError;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
+import mcssoft.com.raceremindermvp.task.TaskManager;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener {
+    implements IModelPresenter, Response.Listener, Response.ErrorListener, IModelTask {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // Retain reference to the IPresenterModel interface.
@@ -29,6 +31,10 @@ public class MainModelImpl
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
         setMeetingAdapter();
+
+        // testing
+        TaskManager taskManager = new TaskManager(iPresenterModel.getContext(), raceDatabase, this, null);
+        taskManager.getMeetings();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -49,7 +55,8 @@ public class MainModelImpl
 
     @Override
     public Object getMeetings() {
-        raceLoaderManager.initLoader(raceDatabase, null);
+
+//        raceLoaderManager.initLoader(raceDatabase, null);
         return null;
     }
 
@@ -119,6 +126,14 @@ public class MainModelImpl
         }
     }
     //</editor-fold>
+
+
+    // IModelTask
+
+    @Override
+    public void onPostExecute(Object data) {
+        String bp = "";
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setMeetingAdapter() {
