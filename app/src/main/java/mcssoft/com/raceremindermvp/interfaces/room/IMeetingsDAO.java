@@ -33,7 +33,7 @@ public interface IMeetingsDAO {
     int getCount(String archvFlag);
 
     @Query("select * from MEETINGS where ArchvFlag = :archvFlag")
-    List<Meeting> selectAll(String archvFlag);
+    List<Meeting> selectMeetings(String archvFlag);
 
     @Query("select * from Meetings where _id = :id")
     Meeting  selectMeeting(int id);

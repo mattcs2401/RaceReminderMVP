@@ -33,8 +33,8 @@ public class MainModelImpl
         setMeetingAdapter();
 
         // testing
-        TaskManager taskManager = new TaskManager(iPresenterModel.getContext(), raceDatabase, this, null);
-        taskManager.getMeetings();
+        taskManager = new TaskManager(iPresenterModel.getContext(), raceDatabase, this, null);
+        taskManager.getMeetings(OpType.SELECT_MEETING_COUNT);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -127,12 +127,15 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-
-    // IModelTask
-
+    //<editor-fold defaultstate="collapsed" desc="Region: IModelTask"
     @Override
     public void onPostExecute(Object data) {
         String bp = "";
+    }
+    //</editor-fold>
+
+    public enum OpType {
+        SELECT_MEETING_COUNT, SELECT_MEETINGS, SELECT_MEETING
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -143,6 +146,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
+    private TaskManager taskManager;
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.

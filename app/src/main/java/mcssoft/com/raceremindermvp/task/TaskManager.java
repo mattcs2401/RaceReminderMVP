@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
+import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class TaskManager {
 
@@ -16,16 +17,15 @@ public class TaskManager {
         this.iModelTask = iModelTask;
     }
 
-    public Object getMeetings() {
-        SelectDbAsync selectDbAsync = new SelectDbAsync();
-        selectDbAsync.execute("");
-        // testing
-        return null;
+    public void getMeetings(MainModelImpl.OpType opType) {
+        SelectDbAsync selectDbAsync = new SelectDbAsync(opType);
+        selectDbAsync.execute();
     }
 
-    private class SelectDbAsync extends AsyncTask<String, Void, Object> {
-        public SelectDbAsync() {
-            super();
+    private class SelectDbAsync extends AsyncTask<Void, Void, Object> {
+        public SelectDbAsync(MainModelImpl.OpType opType) {
+//            super();
+            this.opType = opType;
         }
 
         @Override
@@ -34,8 +34,18 @@ public class TaskManager {
         }
 
         @Override
-        protected Object doInBackground(String... strings) {
-            return raceDatabase.getMeetingDAO().getCount("N");//selectAll("N");
+        protected Object doInBackground(Void... params) {
+            Object data = new Object();
+            switch(opType) {
+                case SELECT_MEETING_COUNT:
+                    data = raceDatabase.getMeetingDAO().getCount("N");
+                break;
+                case SELECT_MEETINGS:
+                    data = raceDatabase.getMeetingDAO().selectMeetings("N");
+                    break;
+            }
+            return data;
+
         }
 
         @Override
@@ -43,6 +53,8 @@ public class TaskManager {
             //super.onPostExecute(data);
             iModelTask.onPostExecute(data);
         }
+
+        private MainModelImpl.OpType opType;
     }
 
 
