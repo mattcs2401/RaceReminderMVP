@@ -49,6 +49,7 @@ public class MainModelImpl
 
     @Override
     public Object getMeetings() {
+        raceLoaderManager.initLoader(raceDatabase, null);
         return null;
     }
 

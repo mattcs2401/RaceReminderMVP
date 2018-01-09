@@ -54,8 +54,9 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
         iPresenterView = new MainPresenterImpl(this);
 
         List<Meeting> lMeetings= (List) iPresenterView.getMeetings();
-        if(lMeetings.size() > 1) {
+        if(lMeetings != null && lMeetings.size() > 1) {
 
+            String bp = "";
         }
         else if(iPresenterView.getNetworkCheck()) {
             iPresenterView.downloadMeetings();
