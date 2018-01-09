@@ -13,22 +13,18 @@ import com.android.volley.VolleyError;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.interfaces.IModelLoader;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
-import mcssoft.com.raceremindermvp.loader.RaceLoaderManager;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener, IModelLoader {
+    implements IModelPresenter, Response.Listener, Response.ErrorListener {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // Retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
-        // set loader management
-        raceLoaderManager = new RaceLoaderManager(iPresenterModel, this);
         // set database;
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
@@ -123,20 +119,6 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IModelLoader">
-    /**
-     * The RaceLoaderManager LoaderCallbacks.onLoadFinished returns here.
-     * @param loader The loader used.
-     * @param data The data returned (as a result of processing).
-     * @param args Addition information about ot to describe the data.
-     */
-    @Override
-    public void onFinished(Loader loader, Object data, Bundle args) {
-
-        String bp = "";
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void setMeetingAdapter() {
         meetingAdapter = new MeetingAdapter();
@@ -146,9 +128,7 @@ public class MainModelImpl
     //</editor-fold>
 
     private RaceDatabase raceDatabase;
-    private RaceLoaderManager raceLoaderManager;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
-    private IModelLoader iModelLoader;
 
 }
