@@ -11,6 +11,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.List;
+
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
@@ -95,14 +97,23 @@ public class MainModelImpl
      */
     @Override
     public void onResponse(Object response) {
-        // Note: the response object is actually a list of objects (Meeting, Race etc).
+        /* Note: the response object is actually a list of objects (either Meeting, Race etc). */
+        iPresenterModel.showProgressDialog(false, null);
         if(response == null) {
-            // TODO - what if the response object is null for some reason, retry ?.
+            // TODO - what if the response object is null for some reason.
+        } else if(response != null && ((List) response).size() < 1) {
+            // TODO - what if the response object is valid (not null) but contains no data.
         } else {
-            iPresenterModel.showProgressDialog(false, null);
+            // response object contains data.
+            switch(opType) {
+                case SELECT_MEETINGS:
+                    // Meetings have been downloaded so insert them into the database.
+                    String bp = "";
+                    break;
+            }
+            // TODO - what sort of response object data, Meeting, Race etc.
 
         }
-
     }
 
     /**
@@ -120,40 +131,41 @@ public class MainModelImpl
         } else {
             // Some sort of network error, e.g. 404 page not found etc.
 //            Map<String,String> headers = networkResponse.headers;
-//            this.bundle.clear();
-//            this.bundle.putString("meetings_show_empty_key", null);
-//            loadMeetingsFragment(this.bundle);
             // TODO - some generic error dialog ?
         }
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelTask"
-
     /**
-     * The processing of the asyntask for RaceDatabase returns here.
+     * The processing of the async task for RaceDatabase returns here.
      * @param result The data returned from a RaceDatabase query/insert/update.
      * @param opType The original operation type sent to the asynctask.
      */
     @Override
     public void onPostExecute(Object result, OpType opType) {
+        this.opType = opType;
         switch(opType) {
             case SELECT_MEETING_COUNT:
                 if((int) result == 0) {
                     // no Meetings exist in the database, so download.
-                    
+                    if(getNetworkCheck()) {
+                        downloadMeetings();
+                    } else {
+                        // network check failed.
+                        String bp = "";
+                    }
                 }
                 break;
             case SELECT_MEETINGS:
                 // TBA
                 break;
         }
-        String bp = "";
     }
     //</editor-fold>
 
     public enum OpType {
-        SELECT_MEETING_COUNT, SELECT_MEETINGS, SELECT_MEETING
+        SELECT_MEETING_COUNT, SELECT_MEETINGS, SELECT_MEETING, INSERT_MEETINGS
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -168,5 +180,6 @@ public class MainModelImpl
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
+    private MainModelImpl.OpType opType;
 
 }

@@ -31,7 +31,7 @@ public class TaskManager {
 
         private MainModelImpl.OpType opType;
 
-        public SelectDbAsync(MainModelImpl.OpType opType) {
+        protected SelectDbAsync(MainModelImpl.OpType opType) {
             this.opType = opType;
         }
 
@@ -46,6 +46,9 @@ public class TaskManager {
                     data = raceDatabase.getMeetingDAO().selectMeetings("N");
                     break;
                 case SELECT_MEETING:
+                    // TBA
+                    break;
+                case INSERT_MEETINGS:
                     // TBA
                     break;
             }
