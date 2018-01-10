@@ -10,27 +10,29 @@ import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class TaskManager {
 
-    public TaskManager(Context context, RaceDatabase raceDatabase, IModelTask iModelTask, Bundle args) {
-        this.context = context;
+    public TaskManager(RaceDatabase raceDatabase, IModelTask iModelTask) {
         this.raceDatabase = raceDatabase;
-        this.args = args;
         this.iModelTask = iModelTask;
     }
 
+    /**
+     * Get Meeting information.
+     * @param opType The operation type to be performed (which Meeting information to select).
+     */
     public void getMeetings(MainModelImpl.OpType opType) {
         SelectDbAsync selectDbAsync = new SelectDbAsync(opType);
         selectDbAsync.execute();
     }
 
+    /**
+     * Simple inner class that allows RaceDatabase to run on background thread.
+     */
     private class SelectDbAsync extends AsyncTask<Void, Void, Object> {
-        public SelectDbAsync(MainModelImpl.OpType opType) {
-//            super();
-            this.opType = opType;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private MainModelImpl.OpType opType;
+
+        public SelectDbAsync(MainModelImpl.OpType opType) {
+            this.opType = opType;
         }
 
         @Override
@@ -43,23 +45,19 @@ public class TaskManager {
                 case SELECT_MEETINGS:
                     data = raceDatabase.getMeetingDAO().selectMeetings("N");
                     break;
+                case SELECT_MEETING:
+                    // TBA
+                    break;
             }
             return data;
-
         }
 
         @Override
         protected void onPostExecute(Object data) {
-            //super.onPostExecute(data);
-            iModelTask.onPostExecute(data);
+            iModelTask.onPostExecute(data, opType);
         }
-
-        private MainModelImpl.OpType opType;
     }
 
-
-    private Context context;
     private RaceDatabase raceDatabase;
-    private Bundle args;
     private IModelTask iModelTask;
 }

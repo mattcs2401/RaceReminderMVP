@@ -51,20 +51,21 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
         super.onActivityCreated(savedInstanceState);
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
+        // set the MainPresenterImpl (in turn sets MainModelImpl).
         iPresenterView = new MainPresenterImpl(this);
 
-        List<Meeting> lMeetings= (List) iPresenterView.getMeetings();
-        if(lMeetings != null && lMeetings.size() > 1) {
-
-            String bp = "";
-        }
-        else if(iPresenterView.getNetworkCheck()) {
-            iPresenterView.downloadMeetings();
-        } else {
-            iActivityFragment.showNoNetworkDialog();
-            // TODO - start a background service to periodically check for a connection ?
-            String bp = "";
-        }
+//        List<Meeting> lMeetings= (List) iPresenterView.getMeetings();
+//        if(lMeetings != null && lMeetings.size() > 1) {
+//
+//            String bp = "";
+//        }
+//        else if(iPresenterView.getNetworkCheck()) {
+//            iPresenterView.downloadMeetings();
+//        } else {
+//            iActivityFragment.showNoNetworkDialog();
+//            // TODO - start a background service to periodically check for a connection ?
+//            String bp = "";
+//        }
     }
 
     @Override

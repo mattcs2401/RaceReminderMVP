@@ -31,9 +31,10 @@ public class MainModelImpl
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
         setMeetingAdapter();
+        // set TaskManaager
+        taskManager = new TaskManager(raceDatabase, this);
 
         // testing
-        taskManager = new TaskManager(iPresenterModel.getContext(), raceDatabase, this, null);
         taskManager.getMeetings(OpType.SELECT_MEETING_COUNT);
     }
 
@@ -128,8 +129,25 @@ public class MainModelImpl
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelTask"
+
+    /**
+     * The processing of the asyntask for RaceDatabase returns here.
+     * @param result The data returned from a RaceDatabase query/insert/update.
+     * @param opType The original operation type sent to the asynctask.
+     */
     @Override
-    public void onPostExecute(Object data) {
+    public void onPostExecute(Object result, OpType opType) {
+        switch(opType) {
+            case SELECT_MEETING_COUNT:
+                if((int) result == 0) {
+                    // no Meetings exist in the database, so download.
+                    
+                }
+                break;
+            case SELECT_MEETINGS:
+                // TBA
+                break;
+        }
         String bp = "";
     }
     //</editor-fold>
