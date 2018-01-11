@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
@@ -18,6 +19,7 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.task.TaskManager;
@@ -106,9 +108,9 @@ public class MainModelImpl
         } else {
             // response object contains data.
             switch(opType) {
-                case SELECT_MEETINGS:
+                case INSERT_MEETINGS:
                     // Meetings have been downloaded so insert them into the database.
-                    String bp = "";
+                    taskManager.setMeetings(opType, response);
                     break;
             }
             // TODO - what sort of response object data, Meeting, Race etc.
@@ -147,9 +149,10 @@ public class MainModelImpl
         this.opType = opType;
         switch(opType) {
             case SELECT_MEETING_COUNT:
-                if((int) result == 0) {
-                    // no Meetings exist in the database, so download.
+                if((int) result < 2) {
+                    // no Meetings exist in the database, so download with Volley.
                     if(getNetworkCheck()) {
+                        this.opType = OpType.INSERT_MEETINGS;
                         downloadMeetings();
                     } else {
                         // network check failed.

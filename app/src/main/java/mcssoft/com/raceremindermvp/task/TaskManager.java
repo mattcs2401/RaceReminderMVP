@@ -3,9 +3,13 @@ package mcssoft.com.raceremindermvp.task;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import java.util.List;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class TaskManager {
@@ -25,9 +29,19 @@ public class TaskManager {
     }
 
     /**
+     * Set Meeting information.
+     * @param opType The operation type to be performed (which Meeting information to select).
+     * @param data The data associated with the Heeting.
+     */
+    public void setMeetings(MainModelImpl.OpType opType, Object data) {
+        SelectDbAsync selectDbAsync = new SelectDbAsync(opType);
+        selectDbAsync.execute(data);
+    }
+
+    /**
      * Simple inner class that allows RaceDatabase to run on background thread.
      */
-    private class SelectDbAsync extends AsyncTask<Void, Void, Object> {
+    private class SelectDbAsync extends AsyncTask<Object, Void, Object> {
 
         private MainModelImpl.OpType opType;
 
@@ -36,7 +50,7 @@ public class TaskManager {
         }
 
         @Override
-        protected Object doInBackground(Void... params) {
+        protected Object doInBackground(Object... params) {
             Object data = new Object();
             switch(opType) {
                 case SELECT_MEETING_COUNT:
@@ -49,7 +63,9 @@ public class TaskManager {
                     // TBA
                     break;
                 case INSERT_MEETINGS:
-                    // TBA
+                    List<Meeting> lMeetings = (List<Meeting>) params[0];  // testing.
+                    raceDatabase.getMeetingDAO().insert(lMeetings);
+                    data = raceDatabase.getMeetingDAO().getCount("N");
                     break;
             }
             return data;
