@@ -19,7 +19,7 @@ public class DatabaseOperations {
 
     public DatabaseOperations(Context context) {
         this.context = context;
-        dbHelper = new DatabaseHelper(context);
+        dbHelper = DatabaseHelper.getInstance(context);
     }
 
     /**
@@ -129,13 +129,13 @@ public class DatabaseOperations {
         String[] col = new String[]{columnName};
         String[] id = new String[]{identifier};
         switch (tableName) {
-            case SchemaConstants.MEETINGS_TABLE:
-                cursor = getSelectionFromTable(tableName, col, SchemaConstants.WHERE_MEETING_ID, id);
+            case DatabaseConstants.MEETINGS_TABLE:
+                cursor = getSelectionFromTable(tableName, col, DatabaseConstants.WHERE_MEETING_ID, id);
                 break;
-            case SchemaConstants.RACES_TABLE:
-                cursor = getSelectionFromTable(tableName, col, SchemaConstants.WHERE_RACE_MEETING_ID, id);
+            case DatabaseConstants.RACES_TABLE:
+                cursor = getSelectionFromTable(tableName, col, DatabaseConstants.WHERE_RACE_MEETING_ID, id);
                 break;
-            case SchemaConstants.RUNNERS_TABLE:
+            case DatabaseConstants.RUNNERS_TABLE:
                 // TODO - where clause for select on RUNNERS table.
                 break;
         }
@@ -152,19 +152,19 @@ public class DatabaseOperations {
         ContentValues cv = new ContentValues();
 
         // Note: derived from RaceDay.xml.
-        cv.put(SchemaConstants.MEETING_DATE, meeting.getMeetingDate());
-        cv.put(SchemaConstants.MEETING_ABANDONED, meeting.getAbandoned());
-        cv.put(SchemaConstants.MEETING_VENUE, meeting.getVenueName());
-        cv.put(SchemaConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
-        cv.put(SchemaConstants.MEETING_CODE, meeting.getMeetingCode());
-        cv.put(SchemaConstants.MEETING_ID, meeting.getMeetingId());
-//        cv.put(SchemaConstants.MEETING_TRACK_DESC, meeting.getTrackDescription());
-        cv.put(SchemaConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
-//        cv.put(SchemaConstants.MEETING_WEATHER_DESC, meeting.getTrackWeather());
+        cv.put(DatabaseConstants.MEETING_DATE, meeting.getMeetingDate());
+        cv.put(DatabaseConstants.MEETING_ABANDONED, meeting.getAbandoned());
+        cv.put(DatabaseConstants.MEETING_VENUE, meeting.getVenueName());
+        cv.put(DatabaseConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
+        cv.put(DatabaseConstants.MEETING_CODE, meeting.getMeetingCode());
+        cv.put(DatabaseConstants.MEETING_ID, meeting.getMeetingId());
+//        cv.put(DatabaseConstants.MEETING_TRACK_DESC, meeting.getTrackDescription());
+        cv.put(DatabaseConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
+//        cv.put(DatabaseConstants.MEETING_WEATHER_DESC, meeting.getTrackWeather());
 
         try {
             db.beginTransaction();
-            db.insertOrThrow(SchemaConstants.MEETINGS_TABLE, null, cv);
+            db.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, cv);
             db.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -182,15 +182,15 @@ public class DatabaseOperations {
         SQLiteDatabase db = dbHelper.getDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(SchemaConstants.RACE_MEETING_ID, race.getMeetingId());
-        cv.put(SchemaConstants.RACE_NO, race.getRaceNumber());
-        cv.put(SchemaConstants.RACE_TIME, race.getRaceTime());
-        cv.put(SchemaConstants.RACE_NAME, race.getRaceName());
-        cv.put(SchemaConstants.RACE_DIST, race.getRaceDistance());
+        cv.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
+        cv.put(DatabaseConstants.RACE_NO, race.getRaceNumber());
+        cv.put(DatabaseConstants.RACE_TIME, race.getRaceTime());
+        cv.put(DatabaseConstants.RACE_NAME, race.getRaceName());
+        cv.put(DatabaseConstants.RACE_DIST, race.getRaceDistance());
 
         try {
             db.beginTransaction();
-            db.insertOrThrow(SchemaConstants.RACES_TABLE, null, cv);
+            db.insertOrThrow(DatabaseConstants.RACES_TABLE, null, cv);
             db.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -201,7 +201,6 @@ public class DatabaseOperations {
 
     /**
      * Utility method to see if rows exist in the given table.
-     *
      * @param tableName The table to check.
      * @param whereClause Optional where clause.
      * @param whereArgs Optional arguments for where clause.
@@ -209,18 +208,47 @@ public class DatabaseOperations {
      */
     public boolean checkTableRowCount(String tableName, @Nullable String whereClause, @Nullable String[] whereArgs) {
         Cursor cursor = null;
-        String rowId = getRowIdName(tableName);
+        String rowIdName = getRowIdName(tableName);
         SQLiteDatabase db = dbHelper.getDatabase();
         db.beginTransaction();
         if ((whereClause == null && whereArgs == null) ||
             (whereClause != null && whereArgs == null) ||
             (whereClause == null && whereArgs != null)) {
-            cursor = getSelectionFromTable(tableName, new String[]{rowId}, null, null);
+            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, null, null);
         } else {
-            cursor = getSelectionFromTable(tableName, new String[]{rowId}, whereClause, whereArgs);
+            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, whereClause, whereArgs);
         }
         db.endTransaction();
         return (cursor.getCount() > 0);
+    }
+
+    /**
+     * Utility method to see if rows exist in the given table.
+     * @param tableName The table to check.
+     * @param whereClause Optional where clause.
+     * @param whereArgs Optional arguments for where clause.
+     * @return True if the row count > 0.
+     */
+
+    public int getTableRowCount(String tableName, @Nullable String whereClause, @Nullable String[] whereArgs) {
+        Cursor cursor = null;
+        SQLiteDatabase db = dbHelper.getDatabase();
+        try {
+            String rowIdName = getRowIdName(tableName);
+            db.beginTransaction();
+            if ((whereClause == null && whereArgs == null) ||
+                (whereClause != null && whereArgs == null) ||
+                (whereClause == null && whereArgs != null)) {
+            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, null, null);
+            } else {
+                cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, whereClause, whereArgs);
+            }
+        } catch (Exception ex) {
+            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+        } finally {
+            db.endTransaction();
+            return cursor.getCount();
+        }
     }
 
     /**
@@ -233,16 +261,16 @@ public class DatabaseOperations {
         String whereClause;
         String[] whereArgs;
         if(code == null) {
-            whereClause = SchemaConstants.WHERE_MEETING_DATE;
+            whereClause = DatabaseConstants.WHERE_MEETING_DATE;
             whereArgs = new String[] {date};
         } else {
-            whereClause = SchemaConstants.WHERE_MEETING_DATE_CODE;
+            whereClause = DatabaseConstants.WHERE_MEETING_DATE_CODE;
             whereArgs = new String[] {date, code};
         }
         SQLiteDatabase db = dbHelper.getDatabase();
         db.beginTransaction();
-        Cursor cursor = getSelectionFromTable(SchemaConstants.MEETINGS_TABLE,
-                new String[] {SchemaConstants.MEETING_ROWID}, whereClause, whereArgs);
+        Cursor cursor = getSelectionFromTable(DatabaseConstants.MEETINGS_TABLE,
+                new String[] {DatabaseConstants.MEETING_ROWID}, whereClause, whereArgs);
         db.endTransaction();
         return (cursor.getCount() > 0);
     }
@@ -259,7 +287,7 @@ public class DatabaseOperations {
 
         try {
             db.beginTransaction();
-            db.insertOrThrow(SchemaConstants.RUNNERS_TABLE, null, cv);
+            db.insertOrThrow(DatabaseConstants.RUNNERS_TABLE, null, cv);
             db.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -279,11 +307,11 @@ public class DatabaseOperations {
     private String[] getProjection(String tableName) {
         String[] projection = {};
         switch (tableName) {
-            case SchemaConstants.MEETINGS_TABLE:
-                projection = dbHelper.getProjection(DatabaseHelper.Projection.MeetingSchema);
+            case DatabaseConstants.MEETINGS_TABLE:
+                projection = DatabaseProjection.getProjection(DatabaseHelper.Projection.MeetingSchema);
                 break;
-            case SchemaConstants.RACES_TABLE:
-                projection = dbHelper.getProjection(DatabaseHelper.Projection.RaceSchema);
+            case DatabaseConstants.RACES_TABLE:
+                projection = DatabaseProjection.getProjection(DatabaseHelper.Projection.RaceSchema);
                 break;
         }
         return  projection;
@@ -297,14 +325,14 @@ public class DatabaseOperations {
     private String getRowIdName(String tableName) {
         String rowId = "";
         switch(tableName) {
-            case SchemaConstants.MEETINGS_TABLE:
-                rowId = SchemaConstants.MEETING_ROWID;
+            case DatabaseConstants.MEETINGS_TABLE:
+                rowId = DatabaseConstants.MEETING_ROWID;
                 break;
-            case SchemaConstants.RACES_TABLE:
-                rowId = SchemaConstants.RACE_ROWID;
+            case DatabaseConstants.RACES_TABLE:
+                rowId = DatabaseConstants.RACE_ROWID;
                 break;
-            case SchemaConstants.RUNNERS_TABLE:
-                rowId = SchemaConstants.RUNNER_ROWID;
+            case DatabaseConstants.RUNNERS_TABLE:
+                rowId = DatabaseConstants.RUNNER_ROWID;
                 break;
         }
         return rowId;

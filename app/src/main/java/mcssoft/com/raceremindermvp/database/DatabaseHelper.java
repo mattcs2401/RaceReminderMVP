@@ -8,22 +8,27 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public DatabaseHelper(Context context) {
-        super(context, SchemaConstants.DATABASE_NAME, null, SchemaConstants.DATABASE_VERSION);
-        sqLiteDatabase = this.getWritableDatabase();
-        this.context = context;
+    public static DatabaseHelper getInstance(Context context) {
+        /* Note: According to the doco this method is expensive, but if we try something like
+           'private static DatabaseHelper instance = new DatabaseHelper(Context context)', we get
+           "illegal forward reference".
+        */
+        if(instance == null) {
+            instance = new DatabaseHelper(context);
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDb) {
         sqLiteDb.beginTransaction();
         try {
-            sqLiteDb.execSQL(SchemaConstants.DROP_MEETINGS_TABLE);
-            sqLiteDb.execSQL(SchemaConstants.DROP_RACES_TABLE);
-            sqLiteDb.execSQL(SchemaConstants.DROP_RUNNERS_TABLE);
-            sqLiteDb.execSQL(SchemaConstants.CREATE_MEETINGS_TABLE);
-            sqLiteDb.execSQL(SchemaConstants.CREATE_RACES_TABLE);
-            sqLiteDb.execSQL(SchemaConstants.CREATE_RUNNERS_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.DROP_MEETINGS_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.DROP_RACES_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.DROP_RUNNERS_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.CREATE_MEETINGS_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.CREATE_RACES_TABLE);
+            sqLiteDb.execSQL(DatabaseConstants.CREATE_RUNNERS_TABLE);
             sqLiteDb.setTransactionSuccessful();
         } catch(SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -34,9 +39,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SchemaConstants.DATABASE_NAME + "." + SchemaConstants.MEETINGS_TABLE + ";");
-        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SchemaConstants.DATABASE_NAME + "." + SchemaConstants.RACES_TABLE + ";");
-        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SchemaConstants.DATABASE_NAME + "." + SchemaConstants.RUNNERS_TABLE + ";");
+        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DatabaseConstants.DATABASE_NAME + "." + DatabaseConstants.MEETINGS_TABLE + ";");
+        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DatabaseConstants.DATABASE_NAME + "." + DatabaseConstants.RACES_TABLE + ";");
+        this.sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DatabaseConstants.DATABASE_NAME + "." + DatabaseConstants.RUNNERS_TABLE + ";");
     }
 
     public SQLiteDatabase getDatabase() {
@@ -45,23 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public enum Projection {
         MeetingSchema, RaceSchema, RunnerSchema
-    }
-
-    /**
-     * Return the projection (column lis) associated with the parameter.
-      * @param projection The table's schema name.
-     * @return The projection for the table.
-     */
-    public static String [] getProjection(Projection projection) {
-        switch (projection) {
-            case MeetingSchema:
-                return getMeetingsProjection();
-            case RaceSchema:
-                return getRacesProjection();
-            case RunnerSchema:
-                return getRunnersProjection();
-        }
-        return  null;
     }
 
     /**
@@ -76,48 +64,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private static String[] getMeetingsProjection() {
-        return new String[] {
-            SchemaConstants.MEETING_ROWID,
-            SchemaConstants.MEETING_ABANDONED,
-            SchemaConstants.MEETING_VENUE,
-            SchemaConstants.MEETING_HI_RACE,
-            SchemaConstants.MEETING_CODE,
-            SchemaConstants.MEETING_ID,
-            SchemaConstants.MEETING_DATE,
-            SchemaConstants.MEETING_TRACK_DESC,
-            SchemaConstants.MEETING_TRACK_RATING,
-            SchemaConstants.MEETING_WEATHER_DESC};
-    }
-
-    private static String[] getRacesProjection() {
-        return new String[] {
-            SchemaConstants.RACE_ROWID,
-            SchemaConstants.RACE_MEETING_ID,
-            SchemaConstants.RACE_NO,
-            SchemaConstants.RACE_TIME,
-            SchemaConstants.RACE_NAME,
-            SchemaConstants.RACE_DIST};
-    }
-
-    private static String[] getRunnersProjection() {
-        return new String[] {
-            SchemaConstants.RUNNER_ROWID,
-            SchemaConstants.RUNNER_MEETING_ID,
-            SchemaConstants.RUNNER_RACE_NO,
-            SchemaConstants.RUNNER_NO,
-            SchemaConstants.RUNNER_NAME,
-            SchemaConstants.RUNNER_SCR,
-            SchemaConstants.RUNNER_JOCKEY,
-            SchemaConstants.RUNNER_BARRIER,
-            SchemaConstants.RUNNER_HCAP,
-            SchemaConstants.RUNNER_WEIGHT,
-            SchemaConstants.RUNNER_FORM,
-            SchemaConstants.RUNNER_LRES,
-            SchemaConstants.RUNNER_RATING
-        };
+    private DatabaseHelper(Context context) {
+        super(context, DatabaseConstants.DATABASE_NAME, null, DatabaseConstants.DATABASE_VERSION);
+        sqLiteDatabase = this.getWritableDatabase();
+        this.context = context;
     }
 
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
+    private static DatabaseHelper instance = null;
 }

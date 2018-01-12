@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import mcssoft.com.raceremindermvp.database.DatabaseOperations;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
@@ -16,6 +17,11 @@ public class TaskManager {
 
     public TaskManager(RaceDatabase raceDatabase, IModelTask iModelTask) {
         this.raceDatabase = raceDatabase;
+        this.iModelTask = iModelTask;
+    }
+
+    public TaskManager(DatabaseOperations dbOper, IModelTask iModelTask) {
+        this.dbOper = dbOper;
         this.iModelTask = iModelTask;
     }
 
@@ -54,18 +60,20 @@ public class TaskManager {
             Object data = new Object();
             switch(opType) {
                 case SELECT_MEETING_COUNT:
-                    data = raceDatabase.getMeetingDAO().getCount("N");
+                    data = dbOper.getTableRowCount("MEETINGS", null, null);
+//                    data = raceDatabase.getMeetingDAO().getCount("N");
                 break;
                 case SELECT_MEETINGS:
-                    data = raceDatabase.getMeetingDAO().selectMeetings("N");
+//                    data = raceDatabase.getMeetingDAO().selectMeetings("N");
                     break;
                 case SELECT_MEETING:
                     // TBA
                     break;
                 case INSERT_MEETINGS:
                     List<Meeting> lMeetings = (List<Meeting>) params[0];  // testing.
-                    raceDatabase.getMeetingDAO().insert(lMeetings);
-                    data = raceDatabase.getMeetingDAO().getCount("N");
+//                    raceDatabase.getMeetingDAO().insert(lMeetings);
+//                    data = raceDatabase.getMeetingDAO().getCount("N");
+                    String bp = "";
                     break;
             }
             return data;
@@ -77,6 +85,7 @@ public class TaskManager {
         }
     }
 
+    private DatabaseOperations dbOper;
     private RaceDatabase raceDatabase;
     private IModelTask iModelTask;
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
+import mcssoft.com.raceremindermvp.database.DatabaseOperations;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
@@ -35,8 +36,12 @@ public class MainModelImpl
         raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
         // set adapter.
         setMeetingAdapter();
+
+        dbOper = new DatabaseOperations(iPresenterModel.getContext());
+
         // set TaskManaager
-        taskManager = new TaskManager(raceDatabase, this);
+//        taskManager = new TaskManager(raceDatabase, this);
+        taskManager = new TaskManager(dbOper, this);
 
         // testing
         taskManager.getMeetings(OpType.SELECT_MEETING_COUNT);
@@ -181,6 +186,7 @@ public class MainModelImpl
 
     private TaskManager taskManager;
     private RaceDatabase raceDatabase;
+    private DatabaseOperations dbOper;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private MainModelImpl.OpType opType;
