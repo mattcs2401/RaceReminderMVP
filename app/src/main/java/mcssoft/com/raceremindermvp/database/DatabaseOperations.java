@@ -223,19 +223,19 @@ public class DatabaseOperations {
     }
 
     /**
-     * Utility method to see if rows exist in the given table.
+     * Utility method to the cxount of rows in the given table.
      * @param tableName The table to check.
      * @param whereClause Optional where clause.
      * @param whereArgs Optional arguments for where clause.
-     * @return True if the row count > 0.
+     * @return The record count.
      */
-
     public int getTableRowCount(String tableName, @Nullable String whereClause, @Nullable String[] whereArgs) {
         Cursor cursor = null;
-        SQLiteDatabase db = dbHelper.getDatabase();
+        SQLiteDatabase sqLiteDatabase = null;
         try {
+            sqLiteDatabase = dbHelper.getDatabase();
             String rowIdName = getRowIdName(tableName);
-            db.beginTransaction();
+            sqLiteDatabase.beginTransaction();
             if ((whereClause == null && whereArgs == null) ||
                 (whereClause != null && whereArgs == null) ||
                 (whereClause == null && whereArgs != null)) {
@@ -246,7 +246,9 @@ public class DatabaseOperations {
         } catch (Exception ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
         } finally {
-            db.endTransaction();
+            if(sqLiteDatabase != null) {
+                sqLiteDatabase.endTransaction();
+            }
             return cursor.getCount();
         }
     }
@@ -318,7 +320,7 @@ public class DatabaseOperations {
     }
 
     /**
-     * get the name of the applicable row id column.
+     * Get the name of the applicable row id column.
      * @param tableName The table name.
      * @return The row id column name.
      */

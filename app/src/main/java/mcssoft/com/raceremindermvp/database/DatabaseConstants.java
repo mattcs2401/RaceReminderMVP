@@ -3,7 +3,7 @@ package mcssoft.com.raceremindermvp.database;
 public class DatabaseConstants {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "RACEDAY";
+    public static final String DATABASE_NAME = "RACEDAYREMINDER";
 
     public static final String MEETINGS_TABLE = "MEETINGS";
     public static final String RACES_TABLE = "RACES";
