@@ -10,7 +10,6 @@ import android.util.Log;
 
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.database.Race;
-import mcssoft.com.raceremindermvp.model.database.Runner;
 
 /**
  * Utility class to perform database activities / actions.
@@ -23,56 +22,82 @@ public class DatabaseOperations {
     }
 
     /**
-     * Get all the records in a table.
-     *
-     * @param tableName The table name.
-     * @return A cursor over the records.
-     * Note: No guarantee the cursor contains anything.
-     */
-    public Cursor getAllFromTable(String tableName) {
-        SQLiteDatabase db = dbHelper.getDatabase();
-        db.beginTransaction();
-        Cursor cursor = db.query(tableName, getProjection(tableName), null, null, null, null, null);
-        db.endTransaction();
-        return cursor;
-    }
-
-    /**
      * Delete all the records in a table.
      *
      * @param tableName The table name.
-     * @return The number of rows deleted.
+     * @return The number of rows deleted (a value of 0 means no rows deleted).
      */
-    public int deleteAllFromTable(String tableName) {
+    public int deleteFromTable(String tableName, @Nullable String whereClause, @Nullable String[] whereVals) {
         int rows = 0;
-        if (checkTableRowCount(tableName, null, null)) {
-            SQLiteDatabase db = dbHelper.getDatabase();
-            db.beginTransaction();
-            rows = db.delete(tableName, "1", null);
-            db.setTransactionSuccessful();
-            db.endTransaction();
+        boolean noWhere = false;
+        if(whereClause == null || whereVals == null) {
+            whereClause = null;
+            whereVals = null;
+            noWhere = true;
+        }
+        if (getTableRowCount(tableName, null, null) > 0) {
+            // Only if there's rows to delete in the first place.
+            SQLiteDatabase sqLiteDatabase = null;
+            try {
+                sqLiteDatabase = dbHelper.getDatabase();
+                sqLiteDatabase.beginTransaction();
+                if(noWhere) {
+                    // deelete all.
+                    rows = sqLiteDatabase.delete(tableName, "1", null);
+                } else {
+                    // delete selection.
+                    rows = sqLiteDatabase.delete(tableName, whereClause, whereVals);
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+            } catch (Exception ex) {
+                Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            } finally {
+                if (sqLiteDatabase != null) {
+                    sqLiteDatabase.endTransaction();
+                }
+            }
         }
         return rows;
     }
 
     /**
-     * Utility wrapper method to query the database.
-     *
+     * Get all the records from a table, dependent on the 'where' params..
      * @param tableName   The table name.
      * @param columnNames The table columns required (Null equals all columns).
-     * @param whereClause Where clause (without the "where").
-     * @param whereVals   Where clause values
-     * @return A cursor over the parseResult set.
+     * @param whereClause Where clause, or Null.
+     * @param whereVals   Where clause values, or Null;
+     * @return A cursor of the records for the table.
+     * Note: If either whereClaues of whereVals is null, then both are treated as null.
      */
-    public Cursor getSelectionFromTable(String tableName, @Nullable String[] columnNames, String whereClause, String[] whereVals) {
-        if (columnNames == null) {
-            columnNames = getProjection(tableName);
+    public Cursor getFromTable(String tableName, @Nullable String[] columnNames, @Nullable String whereClause, @Nullable String[] whereVals) {
+        Cursor cursor = null;
+        boolean noWhere = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            if (columnNames == null) {
+                columnNames = getProjection(tableName);
+            }
+            if(whereClause == null || whereVals == null) {
+                // if one is null, then both are null.
+                whereClause = null;
+                whereVals = null;
+                noWhere = true;
+            }
+            sqLiteDatabase = dbHelper.getDatabase();
+            sqLiteDatabase.beginTransaction();
+            if(noWhere) {
+                cursor = sqLiteDatabase.query(tableName, columnNames, null, null, null, null, null);
+            } else {
+                cursor = sqLiteDatabase.query(tableName, columnNames, whereClause, whereVals, null, null, null);
+            }
+        } catch(Exception ex) {
+            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+        } finally {
+            if(sqLiteDatabase != null) {
+                sqLiteDatabase.endTransaction();
+            }
+            return cursor;
         }
-        SQLiteDatabase db = dbHelper.getDatabase();
-        db.beginTransaction();
-        Cursor cursor = db.query(tableName, columnNames, whereClause, whereVals, null, null, null);
-        db.endTransaction();
-        return cursor;
     }
 
     /**
@@ -117,59 +142,35 @@ public class DatabaseOperations {
     }
 
     /**
-     * Check a record exists using the given record identifier.
-     *
-     * @param tableName  The record's associated table.
-     * @param columnName The record's column to check.
-     * @param identifier The identifier in the column.
-     * @return True if record exists.
-     */
-    public boolean checkRecordsExist(String tableName, String columnName, String identifier) {
-        Cursor cursor = null;
-        String[] col = new String[]{columnName};
-        String[] id = new String[]{identifier};
-        switch (tableName) {
-            case DatabaseConstants.MEETINGS_TABLE:
-                cursor = getSelectionFromTable(tableName, col, DatabaseConstants.WHERE_MEETING_ID, id);
-                break;
-            case DatabaseConstants.RACES_TABLE:
-                cursor = getSelectionFromTable(tableName, col, DatabaseConstants.WHERE_RACE_MEETING_ID, id);
-                break;
-            case DatabaseConstants.RUNNERS_TABLE:
-                // TODO - where clause for select on RUNNERS table.
-                break;
-        }
-        return ((cursor != null) && (cursor.getCount() > 0));
-    }
-
-    /**
      * Insert a record into the MEETINGS table.
      *
      * @param meeting Meeting object to derive values from.
      */
     public void insertMeetingRecord(Meeting meeting) {
-        SQLiteDatabase db = dbHelper.getDatabase();
-        ContentValues cv = new ContentValues();
-
-        // Note: derived from RaceDay.xml.
-        cv.put(DatabaseConstants.MEETING_DATE, meeting.getMeetingDate());
-        cv.put(DatabaseConstants.MEETING_ABANDONED, meeting.getAbandoned());
-        cv.put(DatabaseConstants.MEETING_VENUE, meeting.getVenueName());
-        cv.put(DatabaseConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
-        cv.put(DatabaseConstants.MEETING_CODE, meeting.getMeetingCode());
-        cv.put(DatabaseConstants.MEETING_ID, meeting.getMeetingId());
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            ContentValues contentValues = new ContentValues();
+            // Note: derived from RaceDay.xml.
+            contentValues.put(DatabaseConstants.MEETING_DATE, meeting.getMeetingDate());
+            contentValues.put(DatabaseConstants.MEETING_ABANDONED, meeting.getAbandoned());
+            contentValues.put(DatabaseConstants.MEETING_VENUE, meeting.getVenueName());
+            contentValues.put(DatabaseConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
+            contentValues.put(DatabaseConstants.MEETING_CODE, meeting.getMeetingCode());
+            contentValues.put(DatabaseConstants.MEETING_ID, meeting.getMeetingId());
 //        cv.put(DatabaseConstants.MEETING_TRACK_DESC, meeting.getTrackDescription());
-        cv.put(DatabaseConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
+            contentValues.put(DatabaseConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
 //        cv.put(DatabaseConstants.MEETING_WEATHER_DESC, meeting.getTrackWeather());
 
-        try {
-            db.beginTransaction();
-            db.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, cv);
-            db.setTransactionSuccessful();
+            sqLiteDatabase = dbHelper.getDatabase();
+            sqLiteDatabase.beginTransaction();
+            sqLiteDatabase.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, contentValues);
+            sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
         } finally {
-            db.endTransaction();
+            if(sqLiteDatabase != null) {
+                sqLiteDatabase.endTransaction();
+            }
         }
     }
 
@@ -179,47 +180,26 @@ public class DatabaseOperations {
      * @param race Race object to derive values from.
      */
     public void insertRaceRecord(Race race) {
-        SQLiteDatabase db = dbHelper.getDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
-        cv.put(DatabaseConstants.RACE_NO, race.getRaceNumber());
-        cv.put(DatabaseConstants.RACE_TIME, race.getRaceTime());
-        cv.put(DatabaseConstants.RACE_NAME, race.getRaceName());
-        cv.put(DatabaseConstants.RACE_DIST, race.getRaceDistance());
-
+        SQLiteDatabase sqLiteDatabase = null;
         try {
-            db.beginTransaction();
-            db.insertOrThrow(DatabaseConstants.RACES_TABLE, null, cv);
-            db.setTransactionSuccessful();
+            ContentValues cv = new ContentValues();
+            cv.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
+            cv.put(DatabaseConstants.RACE_NO, race.getRaceNumber());
+            cv.put(DatabaseConstants.RACE_TIME, race.getRaceTime());
+            cv.put(DatabaseConstants.RACE_NAME, race.getRaceName());
+            cv.put(DatabaseConstants.RACE_DIST, race.getRaceDistance());
+
+            sqLiteDatabase = dbHelper.getDatabase();
+            sqLiteDatabase.beginTransaction();
+            sqLiteDatabase.insertOrThrow(DatabaseConstants.RACES_TABLE, null, cv);
+            sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
         } finally {
-            db.endTransaction();
+            if(sqLiteDatabase != null) {
+                sqLiteDatabase.endTransaction();
+            }
         }
-    }
-
-    /**
-     * Utility method to see if rows exist in the given table.
-     * @param tableName The table to check.
-     * @param whereClause Optional where clause.
-     * @param whereArgs Optional arguments for where clause.
-     * @return True if the row count > 0.
-     */
-    public boolean checkTableRowCount(String tableName, @Nullable String whereClause, @Nullable String[] whereArgs) {
-        Cursor cursor = null;
-        String rowIdName = getRowIdName(tableName);
-        SQLiteDatabase db = dbHelper.getDatabase();
-        db.beginTransaction();
-        if ((whereClause == null && whereArgs == null) ||
-            (whereClause != null && whereArgs == null) ||
-            (whereClause == null && whereArgs != null)) {
-            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, null, null);
-        } else {
-            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, whereClause, whereArgs);
-        }
-        db.endTransaction();
-        return (cursor.getCount() > 0);
     }
 
     /**
@@ -227,21 +207,26 @@ public class DatabaseOperations {
      * @param tableName The table to check.
      * @param whereClause Optional where clause.
      * @param whereArgs Optional arguments for where clause.
-     * @return The record count.
+     * @return The record count. Can be either all records, or a sub-set based on the 'where' params.
+     * Note: If either of the 'where' params is Null, then both are treated as Null.
      */
     public int getTableRowCount(String tableName, @Nullable String whereClause, @Nullable String[] whereArgs) {
         Cursor cursor = null;
+        boolean noWhere = false;
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = dbHelper.getDatabase();
-            String rowIdName = getRowIdName(tableName);
             sqLiteDatabase.beginTransaction();
-            if ((whereClause == null && whereArgs == null) ||
-                (whereClause != null && whereArgs == null) ||
-                (whereClause == null && whereArgs != null)) {
-            cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, null, null);
+            if (whereClause == null || whereArgs == null) {
+                whereClause = null;
+                whereArgs = null;
+                noWhere = true;
+            }
+            if(noWhere) {
+                // If being used, both whereClause and whereArgs must contain someting.
+                cursor = getFromTable(tableName, new String[]{"_id"}, null, null);
             } else {
-                cursor = getSelectionFromTable(tableName, new String[]{rowIdName}, whereClause, whereArgs);
+                cursor = getFromTable(tableName, new String[]{"_id"}, whereClause, whereArgs);
             }
         } catch (Exception ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -251,59 +236,6 @@ public class DatabaseOperations {
             }
             return cursor.getCount();
         }
-    }
-
-    /**
-     * Utility method to check if rows exist in the Meetings table for the given date.
-     * @param date The date to check (formatted YYYY-M(M)-D(D)).
-     * @param code Optional race code value, else set as null.
-     * @return True if records exist.
-     */
-    public boolean checkMeetingDate(String date, @Nullable String code) {
-        String whereClause;
-        String[] whereArgs;
-        if(code == null) {
-            whereClause = DatabaseConstants.WHERE_MEETING_DATE;
-            whereArgs = new String[] {date};
-        } else {
-            whereClause = DatabaseConstants.WHERE_MEETING_DATE_CODE;
-            whereArgs = new String[] {date, code};
-        }
-        SQLiteDatabase db = dbHelper.getDatabase();
-        db.beginTransaction();
-        Cursor cursor = getSelectionFromTable(DatabaseConstants.MEETINGS_TABLE,
-                new String[] {DatabaseConstants.MEETING_ROWID}, whereClause, whereArgs);
-        db.endTransaction();
-        return (cursor.getCount() > 0);
-    }
-
-    /**
-     * Insert a record into the RUNNERS table.
-     * @param runner Runner object to derive values from.
-     */
-    public void insertRunnerRecord(Runner runner) {
-        SQLiteDatabase db = dbHelper.getDatabase();
-        ContentValues cv = new ContentValues();
-
-        // TODO - ContentValues for insert of RUNNER record.
-
-        try {
-            db.beginTransaction();
-            db.insertOrThrow(DatabaseConstants.RUNNERS_TABLE, null, cv);
-            db.setTransactionSuccessful();
-        } catch (SQLException ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    /**
-     * Get the associated DatabseHelper object.
-     * @return The DatabaseHelper.
-     */
-    public DatabaseHelper getDbHelper() {
-        return dbHelper;
     }
 
     private String[] getProjection(String tableName) {
@@ -317,27 +249,6 @@ public class DatabaseOperations {
                 break;
         }
         return  projection;
-    }
-
-    /**
-     * Get the name of the applicable row id column.
-     * @param tableName The table name.
-     * @return The row id column name.
-     */
-    private String getRowIdName(String tableName) {
-        String rowId = "";
-        switch(tableName) {
-            case DatabaseConstants.MEETINGS_TABLE:
-                rowId = DatabaseConstants.MEETING_ROWID;
-                break;
-            case DatabaseConstants.RACES_TABLE:
-                rowId = DatabaseConstants.RACE_ROWID;
-                break;
-            case DatabaseConstants.RUNNERS_TABLE:
-                rowId = DatabaseConstants.RUNNER_ROWID;
-                break;
-        }
-        return rowId;
     }
 
     private Context context;
