@@ -149,21 +149,9 @@ public class DatabaseOperations {
     public void insertMeetingRecord(Meeting meeting) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
-            ContentValues contentValues = new ContentValues();
-            // Note: derived from RaceDay.xml.
-            contentValues.put(DatabaseConstants.MEETING_DATE, meeting.getMeetingDate());
-            contentValues.put(DatabaseConstants.MEETING_ABANDONED, meeting.getAbandoned());
-            contentValues.put(DatabaseConstants.MEETING_VENUE, meeting.getVenueName());
-            contentValues.put(DatabaseConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
-            contentValues.put(DatabaseConstants.MEETING_CODE, meeting.getMeetingCode());
-            contentValues.put(DatabaseConstants.MEETING_ID, meeting.getMeetingId());
-//        cv.put(DatabaseConstants.MEETING_TRACK_DESC, meeting.getTrackDescription());
-            contentValues.put(DatabaseConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
-//        cv.put(DatabaseConstants.MEETING_WEATHER_DESC, meeting.getTrackWeather());
-
             sqLiteDatabase = dbHelper.getDatabase();
             sqLiteDatabase.beginTransaction();
-            sqLiteDatabase.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, contentValues);
+            sqLiteDatabase.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, setMeetingContentValues(meeting));
             sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -182,16 +170,9 @@ public class DatabaseOperations {
     public void insertRaceRecord(Race race) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
-            ContentValues cv = new ContentValues();
-            cv.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
-            cv.put(DatabaseConstants.RACE_NO, race.getRaceNumber());
-            cv.put(DatabaseConstants.RACE_TIME, race.getRaceTime());
-            cv.put(DatabaseConstants.RACE_NAME, race.getRaceName());
-            cv.put(DatabaseConstants.RACE_DIST, race.getRaceDistance());
-
             sqLiteDatabase = dbHelper.getDatabase();
             sqLiteDatabase.beginTransaction();
-            sqLiteDatabase.insertOrThrow(DatabaseConstants.RACES_TABLE, null, cv);
+            sqLiteDatabase.insertOrThrow(DatabaseConstants.RACES_TABLE, null, setRaceContentValues(race));
             sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
@@ -237,6 +218,32 @@ public class DatabaseOperations {
             return cursor.getCount();
         }
     }
+
+    private ContentValues setMeetingContentValues(Meeting meeting) {
+        ContentValues contentValues = new ContentValues();
+            // Note: derived from RaceDay.xml.
+            contentValues.put(DatabaseConstants.MEETING_DATE, meeting.getMeetingDate());
+            contentValues.put(DatabaseConstants.MEETING_ABANDONED, meeting.getAbandoned());
+            contentValues.put(DatabaseConstants.MEETING_VENUE, meeting.getVenueName());
+            contentValues.put(DatabaseConstants.MEETING_HI_RACE, meeting.getHiRaceNo());
+            contentValues.put(DatabaseConstants.MEETING_CODE, meeting.getMeetingCode());
+            contentValues.put(DatabaseConstants.MEETING_ID, meeting.getMeetingId());
+//        cv.put(DatabaseConstants.MEETING_TRACK_DESC, meeting.getTrackDescription());
+            contentValues.put(DatabaseConstants.MEETING_TRACK_RATING, meeting.getTrackRating());
+//        cv.put(DatabaseConstants.MEETING_WEATHER_DESC, meeting.getTrackWeather());
+
+        return contentValues;
+    }
+
+    private ContentValues setRaceContentValues(Race race) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
+        contentValues.put(DatabaseConstants.RACE_NO, race.getRaceNumber());
+        contentValues.put(DatabaseConstants.RACE_TIME, race.getRaceTime());
+        contentValues.put(DatabaseConstants.RACE_NAME, race.getRaceName());
+        contentValues.put(DatabaseConstants.RACE_DIST, race.getRaceDistance());
+        return contentValues;
+}
 
     private String[] getProjection(String tableName) {
         String[] projection = {};

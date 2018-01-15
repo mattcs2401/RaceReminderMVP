@@ -1,9 +1,6 @@
 package mcssoft.com.raceremindermvp.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -15,10 +12,10 @@ import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class TaskManager {
 
-    public TaskManager(RaceDatabase raceDatabase, IModelTask iModelTask) {
-        this.raceDatabase = raceDatabase;
-        this.iModelTask = iModelTask;
-    }
+//    public TaskManager(RaceDatabase raceDatabase, IModelTask iModelTask) {
+//        this.raceDatabase = raceDatabase;
+//        this.iModelTask = iModelTask;
+//    }
 
     public TaskManager(DatabaseOperations dbOper, IModelTask iModelTask) {
         this.dbOper = dbOper;
@@ -30,8 +27,8 @@ public class TaskManager {
      * @param opType The operation type to be performed (which Meeting information to select).
      */
     public void getMeetings(MainModelImpl.OpType opType) {
-        SelectDbAsync selectDbAsync = new SelectDbAsync(opType);
-        selectDbAsync.execute();
+        DatabaseAsyncTask databaseAsyncTask = new DatabaseAsyncTask(opType);
+        databaseAsyncTask.execute();
     }
 
     /**
@@ -40,18 +37,18 @@ public class TaskManager {
      * @param data The data associated with the Heeting.
      */
     public void setMeetings(MainModelImpl.OpType opType, Object data) {
-        SelectDbAsync selectDbAsync = new SelectDbAsync(opType);
-        selectDbAsync.execute(data);
+        DatabaseAsyncTask databaseAsyncTask = new DatabaseAsyncTask(opType);
+        databaseAsyncTask.execute(data);
     }
 
     /**
      * Simple inner class that allows RaceDatabase to run on background thread.
      */
-    private class SelectDbAsync extends AsyncTask<Object, Void, Object> {
+    private class DatabaseAsyncTask extends AsyncTask<Object, Void, Object> {
 
         private MainModelImpl.OpType opType;
 
-        protected SelectDbAsync(MainModelImpl.OpType opType) {
+        protected DatabaseAsyncTask(MainModelImpl.OpType opType) {
             this.opType = opType;
         }
 
@@ -73,6 +70,9 @@ public class TaskManager {
                     List<Meeting> lMeetings = (List<Meeting>) params[0];  // testing.
 //                    raceDatabase.getMeetingDAO().insert(lMeetings);
 //                    data = raceDatabase.getMeetingDAO().getCount("N");
+                    for (Meeting meeting : lMeetings) {
+                        dbOper.insertMeetingRecord(meeting);
+                    }
                     String bp = "";
                     break;
             }

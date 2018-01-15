@@ -115,6 +115,7 @@ public class MainModelImpl
             switch(opType) {
                 case INSERT_MEETINGS:
                     // Meetings have been downloaded so insert them into the database.
+                    iPresenterModel.showProgressDialog(true, "Writing Meeting information");
                     taskManager.setMeetings(opType, response);
                     break;
             }
@@ -154,19 +155,27 @@ public class MainModelImpl
         this.opType = opType;
         switch(opType) {
             case SELECT_MEETING_COUNT:
-                if((int) result < 2) {
+                // check Meetings exist.
+                if((int) result < 1) {
                     // no Meetings exist in the database, so download with Volley.
                     if(getNetworkCheck()) {
                         this.opType = OpType.INSERT_MEETINGS;
                         downloadMeetings();
                     } else {
-                        // network check failed.
+                        // TBA - network check failed.
                         String bp = "";
                     }
                 }
+                // TBA - Meetings exist in the database.
                 break;
             case SELECT_MEETINGS:
                 // TBA
+                break;
+            case INSERT_MEETINGS:
+                // Meetings have been downloaded and inserted into the database.
+                iPresenterModel.showProgressDialog(false, null);
+                // TBA - update adapter;
+                String bp = "";
                 break;
         }
     }
