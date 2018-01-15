@@ -167,15 +167,18 @@ public class MainModelImpl
                     }
                 }
                 // TBA - Meetings exist in the database.
+                this.opType = OpType.SELECT_MEETINGS;
+                taskManager.getMeetings(OpType.SELECT_MEETINGS);
                 break;
             case SELECT_MEETINGS:
+                String bp = "";
                 // TBA
                 break;
             case INSERT_MEETINGS:
                 // Meetings have been downloaded and inserted into the database.
                 iPresenterModel.showProgressDialog(false, null);
                 // TBA - update adapter;
-                String bp = "";
+                String bpp = "";
                 break;
         }
     }

@@ -90,6 +90,7 @@ public class DatabaseOperations {
             } else {
                 cursor = sqLiteDatabase.query(tableName, columnNames, whereClause, whereVals, null, null, null);
             }
+            cursor.moveToFirst();
         } catch(Exception ex) {
             Log.d(context.getClass().getCanonicalName(), ex.getMessage());
         } finally {

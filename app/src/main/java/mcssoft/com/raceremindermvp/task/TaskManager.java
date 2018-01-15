@@ -61,6 +61,7 @@ public class TaskManager {
 //                    data = raceDatabase.getMeetingDAO().getCount("N");
                 break;
                 case SELECT_MEETINGS:
+                    data = dbOper.getFromTable("MEETINGS", null, null, null);
 //                    data = raceDatabase.getMeetingDAO().selectMeetings("N");
                     break;
                 case SELECT_MEETING:
