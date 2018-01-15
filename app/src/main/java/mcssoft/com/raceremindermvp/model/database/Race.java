@@ -1,10 +1,5 @@
 package mcssoft.com.raceremindermvp.model.database;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -21,7 +16,6 @@ import java.util.List;
  *     . . .
  * </RaceDay>
  */
-@Entity(tableName = "RACES")
 public class Race {
 
     public Race() {
@@ -29,7 +23,6 @@ public class Race {
         archvFlag = "N";
     }
 
-    @Ignore
     public Race(List<String> list) {
         this.id = list.get(0);
         this.meetingId = list.get(1);
@@ -40,7 +33,6 @@ public class Race {
         this.archvFlag = list.get(6);
     }
 
-    @Ignore
     public Race(@NonNull String id, String meetingId, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
         this.id = id;
         this.meetingId = meetingId;
@@ -113,20 +105,17 @@ public class Race {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
     // Columns for RACES table.
-    @PrimaryKey @NonNull
-    @ColumnInfo(name = "_id") private String id;
+    private String id;
 
-    @ColumnInfo(name = "RaceNumber") private String raceNumber;    // e.g. "1"
-    @ColumnInfo(name = "RaceTime") private String raceTime;      // e.g. "12:55"
-    @ColumnInfo(name = "RaceName") private String raceName;      // e.g. "BM 60 HANDICAP"
-    @ColumnInfo(name = "RaceDist") private String raceDistance;  // e.g. "1905"
+    private String raceNumber;    // e.g. "1"
+    private String raceTime;      // e.g. "12:55"
+    private String raceName;      // e.g. "BM 60 HANDICAP"
+    private String raceDistance;  // e.g. "1905"
 
     // additional.
-    @ForeignKey(entity = Meeting.class, parentColumns = "id", childColumns = "MeetingId")
-    @ColumnInfo(name = "MeetingId") private String meetingId;     // FK link to MEETINGS table.
+    private String meetingId;     // FK link to MEETINGS table.
 
-    @NonNull
-    @ColumnInfo(name = "ArchvFlag") private String archvFlag;
+    private String archvFlag;
     //</editor-fold>
 }
 /*

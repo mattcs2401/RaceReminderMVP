@@ -1,9 +1,6 @@
 package mcssoft.com.raceremindermvp.model.database;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,7 +15,6 @@ import java.util.List;
  *     . . .
  * </RaceDay>
  */
-@Entity(tableName = "MEETINGS")
 public class Meeting {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
@@ -155,27 +151,25 @@ public class Meeting {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
     // Columns for MEETINGS table.
-    @PrimaryKey @NonNull
-    @ColumnInfo(name = "_id") private String id;
+    private String id;
 
     // From RaceDay.xml
-    @ColumnInfo(name = "MeetingId")   private String meetingId;      // e.g. "1224999936"
-    @ColumnInfo(name = "Abandoned")   private String abandoned;      // e.g. "N"
-    @ColumnInfo(name = "VenueName")   private String venueName;      // e.g. "Goulburn"
-    @ColumnInfo(name = "HiRaceNo")    private String hiRaceNo;         // e.g "7"
-    @ColumnInfo(name = "MeetingCode") private String meetingCode;    // e.g. "NR"
+    private String meetingId;      // e.g. "1224999936"
+    private String abandoned;      // e.g. "N"
+    private String venueName;      // e.g. "Goulburn"
+    private String hiRaceNo;         // e.g "7"
+    private String meetingCode;    // e.g. "NR"
 
     // Derived from <RaceDay RaceDayDate=.../>
-    @ColumnInfo(name = "MeetingDate") private String meetingDate;    // e.g. "YYYY-M(M)-D(D)"
+    private String meetingDate;    // e.g. "YYYY-M(M)-D(D)"
 
     // From <meeting_code>.xml
     // TBA - do we really need this ?
-    @ColumnInfo(name = "TrackDesc")   private String trackDesc;      // e.g. "Soft"
-    @ColumnInfo(name = "TrackRating") private String trackRating;    // e.g. "5"
-    @ColumnInfo(name = "weatherDesc") private String weatherDesc;    // e.g. "Overcast"
+    private String trackDesc;      // e.g. "Soft"
+    private String trackRating;    // e.g. "5"
+    private String weatherDesc;    // e.g. "Overcast"
 
-    @NonNull
-    @ColumnInfo(name = "ArchvFlag")   private String archvFlag;      // e.g. "N"
+    private String archvFlag;      // e.g. "N"
     //</editor-fold>
 }
 

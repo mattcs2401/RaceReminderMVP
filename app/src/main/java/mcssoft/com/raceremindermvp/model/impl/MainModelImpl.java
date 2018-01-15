@@ -1,26 +1,21 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 import android.content.Context;
-import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.DatabaseOperations;
-import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
-import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.task.TaskManager;
@@ -30,21 +25,15 @@ public class MainModelImpl
     implements IModelPresenter, Response.Listener, Response.ErrorListener, IModelTask {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
-        // Retain reference to the IPresenterModel interface.
+        // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
-        // set database;
-        raceDatabase = RaceDatabase.getInstance(iPresenterModel.getContext());
-        // set adapter.
+        // set the adapter.
         setMeetingAdapter();
-
         dbOper = new DatabaseOperations(iPresenterModel.getContext());
-
-        // set TaskManaager
-//        taskManager = new TaskManager(raceDatabase, this);
+        // set the database TaskManager
         taskManager = new TaskManager(dbOper, this);
-
-        // testing
-        taskManager.getMeetings(OpType.SELECT_MEETING_COUNT);
+        // get the Meeting records for display.
+        taskManager.getMeetings(OpType.MEETINGS_COUNT);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -113,10 +102,12 @@ public class MainModelImpl
         } else {
             // response object contains data.
             switch(opType) {
-                case INSERT_MEETINGS:
-                    // Meetings have been downloaded so insert them into the database.
-                    iPresenterModel.showProgressDialog(true, "Writing Meeting information");
-                    taskManager.setMeetings(opType, response);
+                case MEETINGS_DOWNLOADED:
+                    // cancel previous progress.
+                    iPresenterModel.showProgressDialog(false, null);
+                    // meetings have been downloaded so insert them into the database.
+                    iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
+                    taskManager.setMeetings(opType.MEETINGS_INSERTED, response);
                     break;
             }
             // TODO - what sort of response object data, Meeting, Race etc.
@@ -154,38 +145,45 @@ public class MainModelImpl
     public void onPostExecute(Object result, OpType opType) {
         this.opType = opType;
         switch(opType) {
-            case SELECT_MEETING_COUNT:
+            // Meetings have been (downloaded and) inserted into the database.
+            case MEETINGS_INSERTED:
+                iPresenterModel.showProgressDialog(false, null);
+                // select the Meetings to show.
+                iPresenterModel.showProgressDialog(true, "Getting Meeting information ...");
+                this.opType = OpType.MEETINGS_SELECTED;
+                taskManager.getMeetings(OpType.MEETINGS_SELECTED);
+                break;
+            // A count of the Meetings was requested.
+            case MEETINGS_COUNT:
                 // check Meetings exist.
                 if((int) result < 1) {
                     // no Meetings exist in the database, so download with Volley.
                     if(getNetworkCheck()) {
-                        this.opType = OpType.INSERT_MEETINGS;
+                        this.opType = OpType.MEETINGS_DOWNLOADED;
+                        // this will return in the Volley response.
                         downloadMeetings();
                     } else {
                         // TBA - network check failed.
                         String bp = "";
                     }
+                } else {
+                    // Meetings exist in the database.
+                    this.opType = OpType.MEETINGS_SELECTED;
+                    taskManager.getMeetings(OpType.MEETINGS_SELECTED);
                 }
-                // TBA - Meetings exist in the database.
-                this.opType = OpType.SELECT_MEETINGS;
-                taskManager.getMeetings(OpType.SELECT_MEETINGS);
                 break;
-            case SELECT_MEETINGS:
+            // Meetings have been selected from the database.
+            case MEETINGS_SELECTED:
+                iPresenterModel.showProgressDialog(false, null);
                 String bp = "";
                 // TBA
-                break;
-            case INSERT_MEETINGS:
-                // Meetings have been downloaded and inserted into the database.
-                iPresenterModel.showProgressDialog(false, null);
-                // TBA - update adapter;
-                String bpp = "";
                 break;
         }
     }
     //</editor-fold>
 
     public enum OpType {
-        SELECT_MEETING_COUNT, SELECT_MEETINGS, SELECT_MEETING, INSERT_MEETINGS
+        MEETINGS_DOWNLOADED, MEETINGS_COUNT, MEETINGS_SELECTED, MEETINGS_INSERTED
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -197,7 +195,6 @@ public class MainModelImpl
     //</editor-fold>
 
     private TaskManager taskManager;
-    private RaceDatabase raceDatabase;
     private DatabaseOperations dbOper;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.

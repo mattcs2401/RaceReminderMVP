@@ -5,17 +5,11 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.database.DatabaseOperations;
-import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.IModelTask;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 public class TaskManager {
-
-//    public TaskManager(RaceDatabase raceDatabase, IModelTask iModelTask) {
-//        this.raceDatabase = raceDatabase;
-//        this.iModelTask = iModelTask;
-//    }
 
     public TaskManager(DatabaseOperations dbOper, IModelTask iModelTask) {
         this.dbOper = dbOper;
@@ -48,6 +42,10 @@ public class TaskManager {
 
         private MainModelImpl.OpType opType;
 
+        /**
+         * Perform action on the database in the background.
+         * @param opType The type of operation to perform.
+         */
         protected DatabaseAsyncTask(MainModelImpl.OpType opType) {
             this.opType = opType;
         }
@@ -56,25 +54,20 @@ public class TaskManager {
         protected Object doInBackground(Object... params) {
             Object data = new Object();
             switch(opType) {
-                case SELECT_MEETING_COUNT:
+                //  Request a count of Meeting records.
+                case MEETINGS_COUNT:
                     data = dbOper.getTableRowCount("MEETINGS", null, null);
-//                    data = raceDatabase.getMeetingDAO().getCount("N");
                 break;
-                case SELECT_MEETINGS:
+                // Request to select all Meetings.
+                case MEETINGS_SELECTED:
                     data = dbOper.getFromTable("MEETINGS", null, null, null);
-//                    data = raceDatabase.getMeetingDAO().selectMeetings("N");
                     break;
-                case SELECT_MEETING:
-                    // TBA
-                    break;
-                case INSERT_MEETINGS:
+                // Request to insert Meetings.
+                case MEETINGS_INSERTED:
                     List<Meeting> lMeetings = (List<Meeting>) params[0];  // testing.
-//                    raceDatabase.getMeetingDAO().insert(lMeetings);
-//                    data = raceDatabase.getMeetingDAO().getCount("N");
                     for (Meeting meeting : lMeetings) {
                         dbOper.insertMeetingRecord(meeting);
                     }
-                    String bp = "";
                     break;
             }
             return data;
@@ -87,6 +80,5 @@ public class TaskManager {
     }
 
     private DatabaseOperations dbOper;
-    private RaceDatabase raceDatabase;
     private IModelTask iModelTask;
 }
