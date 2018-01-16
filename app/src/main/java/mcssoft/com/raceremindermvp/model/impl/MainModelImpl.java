@@ -1,6 +1,7 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -100,18 +101,16 @@ public class MainModelImpl
         } else if(response != null && ((List) response).size() < 1) {
             // TODO - what if the response object is valid (not null) but contains no data.
         } else {
-            // response object contains data.
+            // the response object contains data.
             switch(opType) {
                 case MEETINGS_DOWNLOADED:
                     // cancel previous progress.
                     iPresenterModel.showProgressDialog(false, null);
-                    // meetings have been downloaded so insert them into the database.
+                    // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
                     taskManager.setMeetings(opType.MEETINGS_INSERTED, response);
                     break;
             }
-            // TODO - what sort of response object data, Meeting, Race etc.
-
         }
     }
 
@@ -145,7 +144,7 @@ public class MainModelImpl
     public void onPostExecute(Object result, OpType opType) {
         this.opType = opType;
         switch(opType) {
-            // Meetings have been (downloaded and) inserted into the database.
+            // Meetings have been inserted into the database.
             case MEETINGS_INSERTED:
                 iPresenterModel.showProgressDialog(false, null);
                 // select the Meetings to show.
@@ -175,8 +174,7 @@ public class MainModelImpl
             // Meetings have been selected from the database.
             case MEETINGS_SELECTED:
                 iPresenterModel.showProgressDialog(false, null);
-                String bp = "";
-                // TBA
+                meetingAdapter.swapCursor((Cursor) result);
                 break;
         }
     }

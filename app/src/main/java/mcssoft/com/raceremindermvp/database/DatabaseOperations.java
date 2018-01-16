@@ -17,13 +17,11 @@ import mcssoft.com.raceremindermvp.model.database.Race;
 public class DatabaseOperations {
 
     public DatabaseOperations(Context context) {
-        this.context = context;
         dbHelper = DatabaseHelper.getInstance(context);
     }
 
     /**
      * Delete all the records in a table.
-     *
      * @param tableName The table name.
      * @return The number of rows deleted (a value of 0 means no rows deleted).
      */
@@ -50,7 +48,7 @@ public class DatabaseOperations {
                 }
                 sqLiteDatabase.setTransactionSuccessful();
             } catch (Exception ex) {
-                Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+                Log.d("DatabaseOperations", ex.getMessage());
             } finally {
                 if (sqLiteDatabase != null) {
                     sqLiteDatabase.endTransaction();
@@ -75,7 +73,7 @@ public class DatabaseOperations {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             if (columnNames == null) {
-                columnNames = getProjection(tableName);
+                columnNames = getTableProjection(tableName);
             }
             if(whereClause == null || whereVals == null) {
                 // if one is null, then both are null.
@@ -92,7 +90,7 @@ public class DatabaseOperations {
             }
             cursor.moveToFirst();
         } catch(Exception ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            Log.d("DatabaseOperations", ex.getMessage());
         } finally {
             if(sqLiteDatabase != null) {
                 sqLiteDatabase.endTransaction();
@@ -103,7 +101,6 @@ public class DatabaseOperations {
 
     /**
      * Utility method to update a single value in a single row.
-     *
      * @param tableName The table name.
      * @param where     The where clause (without the "where").
      * @param rowId     The table row id.
@@ -127,7 +124,6 @@ public class DatabaseOperations {
 
     /**
      * Utility to create the '?' parameter part of an IN statement.
-     *
      * @param iterations The number of '?' characters to insert.
      * @return The formatted string e.g. " IN (?,?)".
      */
@@ -144,7 +140,6 @@ public class DatabaseOperations {
 
     /**
      * Insert a record into the MEETINGS table.
-     *
      * @param meeting Meeting object to derive values from.
      */
     public void insertMeetingRecord(Meeting meeting) {
@@ -155,7 +150,7 @@ public class DatabaseOperations {
             sqLiteDatabase.insertOrThrow(DatabaseConstants.MEETINGS_TABLE, null, setMeetingContentValues(meeting));
             sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            Log.d("DatabaseOperations", ex.getMessage());
         } finally {
             if(sqLiteDatabase != null) {
                 sqLiteDatabase.endTransaction();
@@ -165,7 +160,6 @@ public class DatabaseOperations {
 
     /**
      * Insert a record into the RACES table.
-     *
      * @param race Race object to derive values from.
      */
     public void insertRaceRecord(Race race) {
@@ -176,7 +170,7 @@ public class DatabaseOperations {
             sqLiteDatabase.insertOrThrow(DatabaseConstants.RACES_TABLE, null, setRaceContentValues(race));
             sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            Log.d("DatabaseOperations", ex.getMessage());
         } finally {
             if(sqLiteDatabase != null) {
                 sqLiteDatabase.endTransaction();
@@ -211,7 +205,7 @@ public class DatabaseOperations {
                 cursor = getFromTable(tableName, new String[]{"_id"}, whereClause, whereArgs);
             }
         } catch (Exception ex) {
-            Log.d(context.getClass().getCanonicalName(), ex.getMessage());
+            Log.d("DatabaseOperations", ex.getMessage());
         } finally {
             if(sqLiteDatabase != null) {
                 sqLiteDatabase.endTransaction();
@@ -220,6 +214,11 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Utility method to create the ContentValues for a Meeting.
+     * @param meeting The Meeting object.
+     * @return A ContentValues for the Meeting.
+     */
     private ContentValues setMeetingContentValues(Meeting meeting) {
         ContentValues contentValues = new ContentValues();
             // Note: derived from RaceDay.xml.
@@ -236,6 +235,11 @@ public class DatabaseOperations {
         return contentValues;
     }
 
+    /**
+     * Utility method to create the ContentValues for a Race.
+     * @param race The Race object.
+     * @return A ContentValues for the Race.
+     */
     private ContentValues setRaceContentValues(Race race) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseConstants.RACE_MEETING_ID, race.getMeetingId());
@@ -246,7 +250,7 @@ public class DatabaseOperations {
         return contentValues;
 }
 
-    private String[] getProjection(String tableName) {
+    private String[] getTableProjection(String tableName) {
         String[] projection = {};
         switch (tableName) {
             case DatabaseConstants.MEETINGS_TABLE:
@@ -259,6 +263,5 @@ public class DatabaseOperations {
         return  projection;
     }
 
-    private Context context;
     private DatabaseHelper dbHelper;
 }

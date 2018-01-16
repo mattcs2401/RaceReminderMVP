@@ -18,14 +18,9 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder implements View.O
     public MeetingViewHolder(View view, IClick.ItemClick icListener) {
         super(view);
         // Set the ViewHolder components.
-        tvCityCode = (TextView) view.findViewById(R.id.tv_city_code);
-        tvRaceCode = (TextView) view.findViewById(R.id.tv_race_code);
-        tvRaceNo = (TextView) view.findViewById(R.id.tv_race_no);
-        tvRaceSel = (TextView) view.findViewById(R.id.tv_race_sel);
-        tvRaceTime = (TextView) view.findViewById(R.id.id_tv_race_time);
-        tvRaceDate = (TextView) view.findViewById(R.id.id_tv_race_date);
-//        tvRaceDay = (TextView) view.findViewById(R.id.tv_race_day);
-
+        tvMeetingCode = (TextView) view.findViewById(R.id.id_tv_meeting_code);
+        tvMeetingDate = (TextView) view.findViewById(R.id.id_tv_meeting_date);
+        tvVenueName = (TextView) view.findViewById(R.id.id_tv_venue_name);
         // Set the listeners.
         this.icListener = icListener;
         view.setOnClickListener(this);
@@ -38,45 +33,35 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Accessors">
-    public TextView getCityCode() {
-        return tvCityCode;
+    public TextView getTvMeetingCode() {
+        return tvMeetingCode;
     }
 
-    public TextView getRaceCode() {
-        return tvRaceCode;
+    public TextView getTvVenueName() {
+        return tvVenueName;
     }
 
-    public TextView getRaceNo() {
-        return tvRaceNo;
+    public TextView getTvMeetingDate() {
+        return tvMeetingDate;
     }
 
-    public TextView getRaceSel() {
-        return tvRaceSel;
+    public TextView getTvEmptyView() {
+        return tvEmptyView;
     }
 
-    public TextView getRaceTime() {
-        return tvRaceTime;
+    public IClick.ItemClick getIcListener() {
+        return icListener;
     }
-
-    public TextView getRaceDate() {
-        return tvRaceDate;
-    }
-
-    public TextView getRaceDay() {
-        return tvRaceDay;
-    }
-
-    public TextView getEmptyText() { return tvEmptyView; }
     //</editor-fold>
 
+    public void setIcListener(IClick.ItemClick icListener) {
+        this.icListener = icListener;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
-    private TextView tvCityCode;
-    private TextView tvRaceCode;
-    private TextView tvRaceNo;
-    private TextView tvRaceSel;
-    private TextView tvRaceTime;
-    private TextView tvRaceDate;
-    private TextView tvRaceDay;
+    private TextView tvMeetingCode;
+    private TextView tvVenueName;
+    private TextView tvMeetingDate;
     private TextView tvEmptyView;
 
     private IClick.ItemClick icListener;
