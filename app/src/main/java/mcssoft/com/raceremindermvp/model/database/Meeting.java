@@ -1,5 +1,9 @@
 package mcssoft.com.raceremindermvp.model.database;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -14,6 +18,7 @@ import java.util.List;
  *     . . .
  * </RaceDay>
  */
+@Entity(tableName = "MEETINGS")
 public class Meeting {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
@@ -22,6 +27,7 @@ public class Meeting {
         archvFlag = "N";
     }
 
+    @Ignore
     public Meeting(@NonNull String id, String meetingId, String abandoned, String venueName, String hiRaceNo, String meetingCode, String meetingDate,
                    @Nullable String trackDesc, @Nullable String trackRating, @Nullable String weatherDesc, String archvFlag) {
         this.id = id;
@@ -39,6 +45,7 @@ public class Meeting {
         // Note: 'id' and 'archvFlag' are not part of the XML.
     }
 
+    @Ignore
     public Meeting(List<String> list) {
         this.id = list.get(0);
         this.meetingId = list.get(0);
@@ -148,25 +155,28 @@ public class Meeting {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
     // Columns for MEETINGS table.
-    private String id;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "_id") private String id;
 
     // From RaceDay.xml
-    private String meetingId;      // e.g. "1224999936"
-    private String abandoned;      // e.g. "N"
-    private String venueName;      // e.g. "Goulburn"
-    private String hiRaceNo;         // e.g "7"
-    private String meetingCode;    // e.g. "NR"
+    @ColumnInfo(name = "MeetingId")   private String meetingId;      // e.g. "1224999936"
+    @ColumnInfo(name = "Abandoned")   private String abandoned;      // e.g. "N"
+    @ColumnInfo(name = "VenueName")   private String venueName;      // e.g. "Goulburn"
+    @ColumnInfo(name = "HiRaceNo")    private String hiRaceNo;         // e.g "7"
+    @ColumnInfo(name = "MeetingCode") private String meetingCode;    // e.g. "NR"
 
     // Derived from <RaceDay RaceDayDate=.../>
-    private String meetingDate;    // e.g. "YYYY-M(M)-D(D)"
+    @ColumnInfo(name = "MeetingDate") private String meetingDate;    // e.g. "YYYY-M(M)-D(D)"
 
     // From <meeting_code>.xml
     // TBA - do we really need this ?
-    private String trackDesc;      // e.g. "Soft"
-    private String trackRating;    // e.g. "5"
-    private String weatherDesc;    // e.g. "Overcast"
+    @ColumnInfo(name = "TrackDesc")   private String trackDesc;      // e.g. "Soft"
+    @ColumnInfo(name = "TrackRating") private String trackRating;    // e.g. "5"
+    @ColumnInfo(name = "weatherDesc") private String weatherDesc;    // e.g. "Overcast"
 
-    private String archvFlag;      // e.g. "N"
+    @NonNull
+    @ColumnInfo(name = "ArchvFlag")   private String archvFlag;      // e.g. "N"
     //</editor-fold>
 }
 

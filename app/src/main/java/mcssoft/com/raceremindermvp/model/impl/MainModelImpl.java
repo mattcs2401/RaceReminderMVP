@@ -1,9 +1,12 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
+import android.app.LoaderManager;
+import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -13,28 +16,30 @@ import com.android.volley.VolleyError;
 import java.util.List;
 
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
-import mcssoft.com.raceremindermvp.database.DatabaseOperations;
-import mcssoft.com.raceremindermvp.interfaces.IModelTask;
+import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.loader.RaceLoader;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
-import mcssoft.com.raceremindermvp.task.TaskManager;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener, IModelTask {
+    implements IModelPresenter, Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<List> {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         // set the adapter.
         setMeetingAdapter();
-        dbOper = new DatabaseOperations(iPresenterModel.getContext());
-        // set the database TaskManager
-        taskManager = new TaskManager(dbOper, this);
-        // get the Meeting records for display.
-        taskManager.getMeetings(OpType.MEETINGS_COUNT);
+
+        raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RACEREMINDER").build();
+
+//        dbOper = new DatabaseOperations(iPresenterModel.getContext());
+//        // set the database TaskManager
+//        taskManager = new TaskManager(dbOper, this);
+//        // get the Meeting records for display.
+//        taskManager.getMeetings(OpType.MEETINGS_COUNT);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -108,7 +113,7 @@ public class MainModelImpl
                     iPresenterModel.showProgressDialog(false, null);
                     // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
-                    taskManager.setMeetings(opType.MEETINGS_INSERTED, response);
+                    //taskManager.setMeetings(opType.MEETINGS_INSERTED, response);
                     break;
             }
         }
@@ -134,49 +139,25 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IModelTask"
-    /**
-     * The processing of the async task for RaceDatabase returns here.
-     * @param result The data returned from a RaceDatabase query/insert/update.
-     * @param opType The original operation type sent to the asynctask.
-     */
+    //<editor-fold defaultstate="collapsed" desc="Region: Loader">
     @Override
-    public void onPostExecute(Object result, OpType opType) {
-        this.opType = opType;
-        switch(opType) {
-            // Meetings have been inserted into the database.
-            case MEETINGS_INSERTED:
-                iPresenterModel.showProgressDialog(false, null);
-                // select the Meetings to show.
-                iPresenterModel.showProgressDialog(true, "Getting Meeting information ...");
-                this.opType = OpType.MEETINGS_SELECTED;
-                taskManager.getMeetings(OpType.MEETINGS_SELECTED);
-                break;
-            // A count of the Meetings was requested.
-            case MEETINGS_COUNT:
-                // check Meetings exist.
-                if((int) result < 1) {
-                    // no Meetings exist in the database, so download with Volley.
-                    if(getNetworkCheck()) {
-                        this.opType = OpType.MEETINGS_DOWNLOADED;
-                        // this will return in the Volley response.
-                        downloadMeetings();
-                    } else {
-                        // TBA - network check failed.
-                        String bp = "";
-                    }
-                } else {
-                    // Meetings exist in the database.
-                    this.opType = OpType.MEETINGS_SELECTED;
-                    taskManager.getMeetings(OpType.MEETINGS_SELECTED);
-                }
-                break;
-            // Meetings have been selected from the database.
-            case MEETINGS_SELECTED:
-                iPresenterModel.showProgressDialog(false, null);
-                meetingAdapter.swapCursor((Cursor) result);
-                break;
+    public Loader onCreateLoader(int i, Bundle bundle) {
+        return new RaceLoader(iPresenterModel.getContext(), raceDatabase);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List> loader, List list) {
+        meetingAdapter.swapData(list);
+        if(list != null && list.size() > 0) {
+            meetingAdapter.setEmptyView(false);
+        } else {
+            meetingAdapter.setEmptyView(true);
         }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List> loader) {
+        meetingAdapter.swapData(null);
     }
     //</editor-fold>
 
@@ -203,8 +184,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    private TaskManager taskManager;
-    private DatabaseOperations dbOper;
+    private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private MainModelImpl.OpType opType;
