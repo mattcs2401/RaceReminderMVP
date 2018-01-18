@@ -32,9 +32,13 @@ public class MainModelImpl
         this.iPresenterModel = iPresenterModel;
         // set the adapter.
         setMeetingAdapter();
-
+        // set the database.
         raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RACEREMINDER").build();
+        // set the loader manager.
+        loaderManager = iPresenterModel.getActivity().getLoaderManager();
 
+        // testing
+        doMeetingCheck(OpType.MEETINGS_COUNT);
 //        dbOper = new DatabaseOperations(iPresenterModel.getContext());
 //        // set the database TaskManager
 //        taskManager = new TaskManager(dbOper, this);
@@ -142,17 +146,18 @@ public class MainModelImpl
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
-        return new RaceLoader(iPresenterModel.getContext(), raceDatabase);
+        return new RaceLoader(iPresenterModel.getContext(), raceDatabase, bundle);
     }
 
     @Override
     public void onLoadFinished(Loader<List> loader, List list) {
-        meetingAdapter.swapData(list);
-        if(list != null && list.size() > 0) {
-            meetingAdapter.setEmptyView(false);
-        } else {
-            meetingAdapter.setEmptyView(true);
-        }
+        String bp = "";
+//        meetingAdapter.swapData(list);
+//        if(list != null && list.size() > 0) {
+//            meetingAdapter.setEmptyView(false);
+//        } else {
+//            meetingAdapter.setEmptyView(true);
+//        }
     }
 
     @Override
@@ -162,19 +167,27 @@ public class MainModelImpl
     //</editor-fold>
 
     public enum OpType {
+
         MEETINGS_DOWNLOADED, MEETINGS_COUNT, MEETINGS_SELECTED, MEETINGS_INSERTED, MEETINGS_DATE_SELECTED
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-
     /**
      * Utility method to check the date of the currently inserted meetings, against the the current
      * (today's) date.
      * @return True - inserted meetings are today's date, else false.
      */
-    private boolean checkMeetingsAgainstDate() {
+    private void doMeetingCheck(OpType opType) {
+        Bundle bundle = null;
+        switch(opType) {
+            case MEETINGS_COUNT:
+                bundle = new Bundle();
+                bundle.putString("key", OpType.MEETINGS_COUNT.toString());
+                loaderManager.initLoader(1,bundle, this);
+                break;
+        }
 
-        return false;
+        //return false;
     }
 
     private void setMeetingAdapter() {
@@ -184,6 +197,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
+    private LoaderManager loaderManager;
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
