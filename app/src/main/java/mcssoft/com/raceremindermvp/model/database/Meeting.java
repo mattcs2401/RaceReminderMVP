@@ -1,6 +1,5 @@
 package mcssoft.com.raceremindermvp.model.database;
 
-import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,7 +22,6 @@ public class Meeting {
         archvFlag = "N";
     }
 
-    @Ignore
     public Meeting(@NonNull String id, String meetingId, String abandoned, String venueName, String hiRaceNo, String meetingCode, String meetingDate,
                    @Nullable String trackDesc, @Nullable String trackRating, @Nullable String weatherDesc, String archvFlag) {
         this.id = id;
@@ -41,7 +39,6 @@ public class Meeting {
         // Note: 'id' and 'archvFlag' are not part of the XML.
     }
 
-    @Ignore
     public Meeting(List<String> list) {
         this.id = list.get(0);
         this.meetingId = list.get(0);

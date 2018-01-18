@@ -181,10 +181,21 @@ public class MainModelImpl
     //</editor-fold>
 
     public enum OpType {
-        MEETINGS_DOWNLOADED, MEETINGS_COUNT, MEETINGS_SELECTED, MEETINGS_INSERTED
+        MEETINGS_DOWNLOADED, MEETINGS_COUNT, MEETINGS_SELECTED, MEETINGS_INSERTED, MEETINGS_DATE_SELECTED
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+
+    /**
+     * Utility method to check the date of the currently inserted meetings, against the the current
+     * (today's) date.
+     * @return True - inserted meetings are today's date, else false.
+     */
+    private boolean checkMeetingsAgainstDate() {
+
+        return false;
+    }
+
     private void setMeetingAdapter() {
         meetingAdapter = new MeetingAdapter();
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());

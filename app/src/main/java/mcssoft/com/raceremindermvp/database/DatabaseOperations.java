@@ -99,6 +99,24 @@ public class DatabaseOperations {
         }
     }
 
+    public Cursor getFromTableRaw(String sql, String[] selectionArgs) {
+        Cursor cursor = null;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = dbHelper.getDatabase();
+            sqLiteDatabase.beginTransaction();
+            cursor = sqLiteDatabase.rawQuery(sql, selectionArgs, null);
+            cursor.moveToFirst();
+        } catch (Exception ex) {
+            Log.d("DatabaseOperations", ex.getMessage());
+        } finally {
+            if(sqLiteDatabase != null) {
+                sqLiteDatabase.endTransaction();
+            }
+            return cursor;
+        }
+    }
+
     /**
      * Utility method to update a single value in a single row.
      * @param tableName The table name.
@@ -191,13 +209,13 @@ public class DatabaseOperations {
         boolean noWhere = false;
         SQLiteDatabase sqLiteDatabase = null;
         try {
-            sqLiteDatabase = dbHelper.getDatabase();
-            sqLiteDatabase.beginTransaction();
             if (whereClause == null || whereArgs == null) {
                 whereClause = null;
                 whereArgs = null;
                 noWhere = true;
             }
+            sqLiteDatabase = dbHelper.getDatabase();
+            sqLiteDatabase.beginTransaction();
             if(noWhere) {
                 // If being used, both whereClause and whereArgs must contain someting.
                 cursor = getFromTable(tableName, new String[]{"_id"}, null, null);
