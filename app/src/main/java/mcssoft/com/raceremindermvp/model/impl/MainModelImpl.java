@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -25,7 +26,7 @@ import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<List> {
+    implements IModelPresenter, Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object> {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
@@ -38,12 +39,13 @@ public class MainModelImpl
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
 
         // testing
-        doMeetingCheck(OpType.MEETINGS_COUNT);
+        opType = OpType.COUNT_MEETINGS;
+        doMeetingOps(opType, null);
 //        dbOper = new DatabaseOperations(iPresenterModel.getContext());
 //        // set the database TaskManager
 //        taskManager = new TaskManager(dbOper, this);
 //        // get the Meeting records for display.
-//        taskManager.getMeetings(OpType.MEETINGS_COUNT);
+//        taskManager.getMeetings(OpType.COUNT_MEETINGS);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -76,7 +78,7 @@ public class MainModelImpl
     public void downloadMeetings() {
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createRaceDayUrl(null);
-        iPresenterModel.showProgressDialog(true, "Getting Meetings.");
+        iPresenterModel.showProgressDialog(true, "Getting Meetings ...");
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
@@ -112,12 +114,13 @@ public class MainModelImpl
         } else {
             // the response object contains data.
             switch(opType) {
-                case MEETINGS_DOWNLOADED:
+                case DOWNLOAD_MEETINGS:
                     // cancel previous progress.
                     iPresenterModel.showProgressDialog(false, null);
                     // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
-                    //taskManager.setMeetings(opType.MEETINGS_INSERTED, response);
+                    //
+                    doMeetingOps(OpType.INSERT_MEETINGS, response);
                     break;
             }
         }
@@ -150,7 +153,22 @@ public class MainModelImpl
     }
 
     @Override
-    public void onLoadFinished(Loader<List> loader, List list) {
+    public void onLoadFinished(Loader<Object> loader, Object object) {
+        switch(opType) {
+            // a count of Meeting records was requested. Param 'object' will be an int.
+            case COUNT_MEETINGS:
+                if((int) object == 0) {
+                    // no Meeting records exist, so download them.
+                    if(getNetworkCheck()) {
+                        opType = OpType.DOWNLOAD_MEETINGS; // set current operation type.
+                        downloadMeetings();                // get Meeting info.
+                    }
+                } else {
+                    // TBA
+                }
+                break;
+
+        }
         String bp = "";
 //        meetingAdapter.swapData(list);
 //        if(list != null && list.size() > 0) {
@@ -161,33 +179,42 @@ public class MainModelImpl
     }
 
     @Override
-    public void onLoaderReset(Loader<List> loader) {
+    public void onLoaderReset(Loader<Object> loader) {
         meetingAdapter.swapData(null);
     }
     //</editor-fold>
 
     public enum OpType {
 
-        MEETINGS_DOWNLOADED, MEETINGS_COUNT, MEETINGS_SELECTED, MEETINGS_INSERTED, MEETINGS_DATE_SELECTED
+        DOWNLOAD_MEETINGS, COUNT_MEETINGS, MEETINGS_SELECT, INSERT_MEETINGS, MEETINGS_DATE_SELECT
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    /**
-     * Utility method to check the date of the currently inserted meetings, against the the current
-     * (today's) date.
-     * @return True - inserted meetings are today's date, else false.
-     */
-    private void doMeetingCheck(OpType opType) {
+    private void doMeetingOps(OpType opType, @Nullable Object response) {
         Bundle bundle = null;
         switch(opType) {
-            case MEETINGS_COUNT:
+            case COUNT_MEETINGS:
                 bundle = new Bundle();
-                bundle.putString("key", OpType.MEETINGS_COUNT.toString());
-                loaderManager.initLoader(1,bundle, this);
+                // set the current operation type.
+                opType = OpType.COUNT_MEETINGS;
+                // set the current operation type in the bundle.
+                bundle.putString("key", opType.toString());
+                loaderManager.initLoader(1, bundle, this);
+                break;
+            case DOWNLOAD_MEETINGS:
+                // set the current operation type.
+                opType = OpType.DOWNLOAD_MEETINGS;
+                String bp = "";
+                break;
+            case INSERT_MEETINGS:
+                bundle = new Bundle();
+                // set the current operation type.
+                opType = OpType.INSERT_MEETINGS;
+                // set the current operation type in the bundle.
+                bundle.putString("key", opType.toString());
+                loaderManager.initLoader(1, bundle, this);
                 break;
         }
-
-        //return false;
     }
 
     private void setMeetingAdapter() {
@@ -201,6 +228,6 @@ public class MainModelImpl
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
-    private MainModelImpl.OpType opType;
+    private MainModelImpl.OpType opType;         // the current operation type;
 
 }

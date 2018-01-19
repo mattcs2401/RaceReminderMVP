@@ -122,3 +122,4 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     private String LOG_TAG = this.getClass().getCanonicalName();
 }
 
+

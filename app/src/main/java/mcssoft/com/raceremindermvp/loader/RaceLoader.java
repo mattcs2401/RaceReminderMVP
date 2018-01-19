@@ -4,13 +4,11 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
 
-import java.util.List;
-
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 /**
- * Utility class that provides the background thread for the Room database object.
+ * Utility class that provides the background thread for the Room database object 'raceDatabase'.
  */
 public class RaceLoader extends AsyncTaskLoader<Object> {
 
@@ -22,24 +20,25 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
 
     @Override
     public Object loadInBackground() {
-        //String opType = bundle.getString("key");
         Object object = null;
         MainModelImpl.OpType opType = MainModelImpl.OpType.valueOf(bundle.getString("key"));
         switch(opType) {
-            case MEETINGS_COUNT:
-                int count = raceDatabase.getMeetingDAO().getMeetingsCount("N");
-                object = count;
+            case COUNT_MEETINGS:
+                return raceDatabase.getMeetingDAO().getMeetingsCount("N");
+            case INSERT_MEETINGS:
                 break;
         }
-        // TBA - Room database stuff.
         return object;
     }
 
 
     @Override
     public void deliverResult(Object newResult) {
-//        List oldList = theResult;
         theResult = newResult;
+        if (isStarted()) {
+            // If the Loader is currently started, we can immediately deliver its results.
+            super.deliverResult(newResult);
+        }
     }
 
     @Override
