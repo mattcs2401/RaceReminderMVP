@@ -152,6 +152,11 @@ public class MainModelImpl
         return new RaceLoader(iPresenterModel.getContext(), raceDatabase, bundle);
     }
 
+    /**
+     * AsyncTaskLoader.deliverResult returns here.
+     * @param loader The Loader used.
+     * @param object The result object.
+     */
     @Override
     public void onLoadFinished(Loader<Object> loader, Object object) {
         switch(opType) {
@@ -212,6 +217,7 @@ public class MainModelImpl
                 opType = OpType.INSERT_MEETINGS;
                 // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
+                //bundle.put("key-data", response);
                 loaderManager.initLoader(1, bundle, this);
                 break;
         }

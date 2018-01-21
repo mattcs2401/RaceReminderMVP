@@ -26,6 +26,7 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
             case COUNT_MEETINGS:
                 return raceDatabase.getMeetingDAO().getMeetingsCount("N");
             case INSERT_MEETINGS:
+                object = bundle.get("key_data");
                 break;
         }
         return object;
