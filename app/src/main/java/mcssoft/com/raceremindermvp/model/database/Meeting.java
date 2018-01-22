@@ -8,8 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -160,30 +158,30 @@ public class Meeting implements Parcelable {
     // Columns for MEETINGS table.
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "_id") private String id;
+    @ColumnInfo(name = "_id") String id;
 
     // From RaceDay.xml
-    @ColumnInfo(name = "MeetingId")   private String meetingId;      // e.g. "1224999936"
-    @ColumnInfo(name = "Abandoned")   private String abandoned;      // e.g. "N"
-    @ColumnInfo(name = "VenueName")   private String venueName;      // e.g. "Goulburn"
-    @ColumnInfo(name = "HiRaceNo")    private String hiRaceNo;         // e.g "7"
-    @ColumnInfo(name = "MeetingCode") private String meetingCode;    // e.g. "NR"
+    @ColumnInfo(name = "MeetingId")   String meetingId;    // e.g. "1224999936"
+    @ColumnInfo(name = "Abandoned")   String abandoned;    // e.g. "N"
+    @ColumnInfo(name = "VenueName")   String venueName;    // e.g. "Goulburn"
+    @ColumnInfo(name = "HiRaceNo")    String hiRaceNo;     // e.g "7"
+    @ColumnInfo(name = "MeetingCode") String meetingCode;  // e.g. "NR"
 
     // Derived from <RaceDay RaceDayDate=.../>
-    @ColumnInfo(name = "MeetingDate") private String meetingDate;    // e.g. "YYYY-M(M)-D(D)"
+    @ColumnInfo(name = "MeetingDate") String meetingDate;  // e.g. "YYYY-M(M)-D(D)"
 
     // From <meeting_code>.xml
     // TBA - do we really need this ?
-    @ColumnInfo(name = "TrackDesc")   private String trackDesc;      // e.g. "Soft"
-    @ColumnInfo(name = "TrackRating") private String trackRating;    // e.g. "5"
-    @ColumnInfo(name = "weatherDesc") private String weatherDesc;    // e.g. "Overcast"
+    @ColumnInfo(name = "TrackDesc")   String trackDesc;      // e.g. "Soft"
+    @ColumnInfo(name = "TrackRating") String trackRating;    // e.g. "5"
+    @ColumnInfo(name = "weatherDesc") String weatherDesc;    // e.g. "Overcast"
 
     @NonNull
-    @ColumnInfo(name = "ArchvFlag")   private String archvFlag;      // e.g. "N"
+    @ColumnInfo(name = "ArchvFlag")   String archvFlag;      // e.g. "N"
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
-    // TBA ...
+    // Note: Generated code - http://www.parcelabler.com/
     // Note: This done mainly so we can put a List<Meeting> into a Bundle.
     protected Meeting(Parcel in) {
         id = in.readString();
@@ -214,12 +212,14 @@ public class Meeting implements Parcelable {
         dest.writeString(archvFlag);
     }
 
-    public static final Parcelable.Creator<Meeting> CREATOR
-            = new Parcelable.Creator<Meeting>() {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Meeting> CREATOR = new Parcelable.Creator<Meeting>() {
+        @Override
         public Meeting createFromParcel(Parcel in) {
             return new Meeting(in);
         }
 
+        @Override
         public Meeting[] newArray(int size) {
             return new Meeting[size];
         }

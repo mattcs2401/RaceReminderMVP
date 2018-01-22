@@ -3,10 +3,13 @@ package mcssoft.com.raceremindermvp.loader;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
 /**
@@ -28,9 +31,7 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
             case COUNT_MEETINGS:
                 return raceDatabase.getMeetingDAO().getMeetingsCount("N");
             case INSERT_MEETINGS:
-                Set<String> keyset = bundle.keySet();
-                object = bundle.getParcelable("key_data");
-                //bundle.
+                ArrayList<Meeting> lMeeting = bundle.getParcelableArrayList("key-data");
                 String bp = "";
                 break;
         }

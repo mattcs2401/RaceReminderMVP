@@ -10,39 +10,11 @@ import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 public class MeetingList implements Parcelable {
 
-//    public MeetingList(Object object) {
-////        this.object = object;
-//        createListing(object);
-//    }
+    public MeetingList() {}
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Parcel">
-    protected MeetingList(Parcel in) {
-        meetingList = new ArrayList<>();
-        in.readTypedList(meetingList, Meeting.CREATOR);
+    public MeetingList(Object object) {
+        createListing(object);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-//        meetingList = (List<Meeting>) object;
-        dest.writeTypedList(meetingList);
-    }
-
-    public static final Parcelable.Creator<MeetingList> CREATOR = new Parcelable.Creator<MeetingList>() {
-        @Override
-        public MeetingList createFromParcel(Parcel in) {
-            return new MeetingList(in);
-        }
-        @Override
-        public MeetingList[] newArray(int size) {
-            return new MeetingList[size];
-        }
-    };
-    //</editor-fold>
 
     public ArrayList<Meeting> getMeetingList() {
         return lMeeting;
@@ -53,10 +25,50 @@ public class MeetingList implements Parcelable {
         for(Meeting meeting : (List<Meeting>) object) {
             lMeeting.add(meeting);
         }
-        String bp = "";
     }
 
-    private ArrayList<Meeting> lMeeting;
-    private Object object;
-    private List<Meeting> meetingList;
+    // Note: Parceler library recomends no private fields.
+    ArrayList<Meeting> lMeeting;
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Parcel">
+    // Note: Generated code - http://www.parcelabler.com/
+    protected MeetingList(Parcel in) {
+        if (in.readByte() == 0x01) {
+            lMeeting = new ArrayList<Meeting>();
+            in.readList(lMeeting, Meeting.class.getClassLoader());
+        } else {
+            lMeeting = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (lMeeting == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(lMeeting);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<MeetingList> CREATOR = new Parcelable.Creator<MeetingList>() {
+        @Override
+        public MeetingList createFromParcel(Parcel in) {
+            return new MeetingList(in);
+        }
+
+        @Override
+        public MeetingList[] newArray(int size) {
+            return new MeetingList[size];
+        }
+    };
+    //</editor-fold>
+
+
 }
