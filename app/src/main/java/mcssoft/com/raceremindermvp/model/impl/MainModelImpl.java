@@ -23,6 +23,7 @@ import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
+import mcssoft.com.raceremindermvp.utility.MeetingList;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
@@ -217,8 +218,10 @@ public class MainModelImpl
                 opType = OpType.INSERT_MEETINGS;
                 // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
-                //bundle.put("key-data", response);
-                loaderManager.initLoader(1, bundle, this);
+                bundle.putParcelable("key-data", new MeetingList(response));
+                if(loaderManager.getLoader(1) != null) {
+                    loaderManager.restartLoader(1, bundle, this);
+                }
                 break;
         }
     }

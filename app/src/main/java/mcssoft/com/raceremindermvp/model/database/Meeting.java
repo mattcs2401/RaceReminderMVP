@@ -4,9 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +22,7 @@ import java.util.List;
  * </RaceDay>
  */
 @Entity(tableName = "MEETINGS")
-public class Meeting {
+public class Meeting { //implements Parcelable {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
     public Meeting() {
@@ -178,5 +181,55 @@ public class Meeting {
     @NonNull
     @ColumnInfo(name = "ArchvFlag")   private String archvFlag;      // e.g. "N"
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
+//    // TBA ...
+//    // Note: This done mainly so we can put a List<Meeting> into a Bundle.
+//    protected Meeting(Parcel in) {
+//        id = in.readString();
+//        meetingId = in.readString();
+//        abandoned = in.readString();
+//        venueName = in.readString();
+//        hiRaceNo = in.readString();
+//        meetingCode = in.readString();
+//        meetingDate = in.readString();
+//        trackDesc = in.readString();
+//        trackRating = in.readString();
+//        weatherDesc = in.readString();
+//        archvFlag = in.readString();
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(id);
+//        dest.writeString(meetingId);
+//        dest.writeString(abandoned);
+//        dest.writeString(venueName);
+//        dest.writeString(hiRaceNo);
+//        dest.writeString(meetingCode);
+//        dest.writeString(meetingDate);
+//        dest.writeString(trackDesc);
+//        dest.writeString(trackRating);
+//        dest.writeString(weatherDesc);
+//        dest.writeString(archvFlag);
+//    }
+//
+//    public static final Parcelable.Creator<Meeting> CREATOR
+//            = new Parcelable.Creator<Meeting>() {
+//        public Meeting createFromParcel(Parcel in) {
+//            return new Meeting(in);
+//        }
+//
+//        public Meeting[] newArray(int size) {
+//            return new Meeting[size];
+//        }
+//    };
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//    //</editor-fold>
+//
 }
 

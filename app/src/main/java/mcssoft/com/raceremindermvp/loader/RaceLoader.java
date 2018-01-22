@@ -4,6 +4,8 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
 
+import java.util.Set;
+
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
@@ -26,7 +28,10 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
             case COUNT_MEETINGS:
                 return raceDatabase.getMeetingDAO().getMeetingsCount("N");
             case INSERT_MEETINGS:
-                object = bundle.get("key_data");
+                Set<String> keyset = bundle.keySet();
+                object = bundle.getParcelable("key_data");
+                //bundle.
+                String bp = "";
                 break;
         }
         return object;
