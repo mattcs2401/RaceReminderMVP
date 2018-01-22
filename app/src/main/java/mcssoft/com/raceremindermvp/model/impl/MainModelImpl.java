@@ -218,7 +218,8 @@ public class MainModelImpl
                 opType = OpType.INSERT_MEETINGS;
                 // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
-                bundle.putParcelable("key-data", new MeetingList(response));
+                MeetingList meetingList = new MeetingList(response);
+                bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
                 if(loaderManager.getLoader(1) != null) {
                     loaderManager.restartLoader(1, bundle, this);
                 }
