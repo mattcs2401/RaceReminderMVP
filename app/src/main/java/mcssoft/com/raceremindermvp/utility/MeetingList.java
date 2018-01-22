@@ -70,5 +70,4 @@ public class MeetingList implements Parcelable {
     };
     //</editor-fold>
 
-
 }

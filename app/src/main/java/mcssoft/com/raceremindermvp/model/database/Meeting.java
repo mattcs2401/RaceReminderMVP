@@ -4,10 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -42,7 +44,6 @@ public class Meeting implements Parcelable {
         this.trackRating = trackRating;
         this.weatherDesc = weatherDesc;
         this.archvFlag = archvFlag;
-
         // Note: 'id' and 'archvFlag' are not part of the XML.
     }
 
@@ -230,6 +231,5 @@ public class Meeting implements Parcelable {
         return 0;
     }
     //</editor-fold>
-
 }
 

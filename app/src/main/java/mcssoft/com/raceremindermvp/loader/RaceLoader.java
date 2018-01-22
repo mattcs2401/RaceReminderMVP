@@ -3,10 +3,8 @@ package mcssoft.com.raceremindermvp.loader;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
@@ -37,7 +35,6 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
         }
         return object;
     }
-
 
     @Override
     public void deliverResult(Object newResult) {

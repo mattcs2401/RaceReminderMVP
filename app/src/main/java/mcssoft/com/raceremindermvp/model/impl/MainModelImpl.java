@@ -220,6 +220,7 @@ public class MainModelImpl
                 // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
                 MeetingList meetingList = new MeetingList(response);
+                //bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
                 bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
                 if(loaderManager.getLoader(1) != null) {
                     loaderManager.restartLoader(1, bundle, this);
