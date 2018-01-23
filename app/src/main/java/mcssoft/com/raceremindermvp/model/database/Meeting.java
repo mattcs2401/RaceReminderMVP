@@ -182,8 +182,9 @@ public class Meeting implements Parcelable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
-    // Note: Generated code - http://www.parcelabler.com/
+    // Note: methods below are generated code. Refer: http://www.parcelabler.com/
     // Note: This done mainly so we can put a List<Meeting> into a Bundle.
+
     protected Meeting(Parcel in) {
         id = in.readString();
         meetingId = in.readString();

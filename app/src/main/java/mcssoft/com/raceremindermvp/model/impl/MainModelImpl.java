@@ -164,15 +164,20 @@ public class MainModelImpl
         switch(opType) {
             // a count of Meeting records was requested. Param 'object' will be an int.
             case COUNT_MEETINGS:
-                if((int) object == 0) {
+                if((int) object < 1
+                        ) {
                     // no Meeting records exist, so download them.
                     if(getNetworkCheck()) {
                         opType = OpType.DOWNLOAD_MEETINGS; // set current operation type.
                         downloadMeetings();                // get Meeting info.
                     }
                 } else {
+                    String bp = "";
                     // TBA
                 }
+                break;
+            case INSERT_MEETINGS:
+                String bp = "";
                 break;
 
         }
@@ -215,12 +220,13 @@ public class MainModelImpl
                 break;
             case INSERT_MEETINGS:
                 bundle = new Bundle();
-                // set the current operation type.
+                // set the current operation type and set in bundle
                 opType = OpType.INSERT_MEETINGS;
-                // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
+                // get the list of Meeting objects and set in bundle.
                 MeetingList meetingList = new MeetingList(response);
                 bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
+                // restart loader to pickup changes.
                 if(loaderManager.getLoader(1) != null) {
                     loaderManager.restartLoader(1, bundle, this);
                 }

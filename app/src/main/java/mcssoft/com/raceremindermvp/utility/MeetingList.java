@@ -8,30 +8,27 @@ import java.util.List;
 
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 
+/**
+ * utility class for a list of Meeting objects that can be passed in a Bundle.
+ */
 public class MeetingList implements Parcelable {
 
-    public MeetingList() {}
-
     public MeetingList(Object object) {
-        createListing(object);
-    }
-
-    public ArrayList<Meeting> getMeetingList() {
-        return lMeeting;
-    }
-
-    private void createListing(Object object) {
         lMeeting = new ArrayList<>();
         for(Meeting meeting : (List<Meeting>) object) {
             lMeeting.add(meeting);
         }
     }
 
-    // Note: Parceler library recomends no private fields.
-    ArrayList<Meeting> lMeeting;
+    public ArrayList<Meeting> getMeetingList() {
+        return lMeeting;
+    }
+
+    private ArrayList<Meeting> lMeeting;
 
     //<editor-fold defaultstate="collapsed" desc="Region: Parcel">
-    // Note: Generated code - http://www.parcelabler.com/
+    // Note: Methods below are generated code. Refer: http://www.parcelabler.com/
+
     protected MeetingList(Parcel in) {
         if (in.readByte() == 0x01) {
             lMeeting = new ArrayList<Meeting>();

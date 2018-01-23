@@ -30,8 +30,9 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
                 return raceDatabase.getMeetingDAO().getMeetingsCount("N");
             case INSERT_MEETINGS:
                 ArrayList<Meeting> lMeeting = bundle.getParcelableArrayList("key-data");
-                String bp = "";
-                break;
+                return raceDatabase.getMeetingDAO().insertMeetings(lMeeting);
+//                String bp = "";
+//                break;
         }
         return object;
     }
