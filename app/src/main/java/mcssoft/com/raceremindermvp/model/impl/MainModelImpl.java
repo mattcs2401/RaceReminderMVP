@@ -7,7 +7,6 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.android.volley.NetworkResponse;
@@ -21,7 +20,7 @@ import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
-import mcssoft.com.raceremindermvp.loader.RaceLoader;
+import mcssoft.com.raceremindermvp.loader.MeetingLoader;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
@@ -146,7 +145,7 @@ public class MainModelImpl
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
-        return new RaceLoader(iPresenterModel.getContext(), raceDatabase, bundle);
+        return new MeetingLoader(iPresenterModel.getContext(), raceDatabase, bundle);
     }
 
     /**

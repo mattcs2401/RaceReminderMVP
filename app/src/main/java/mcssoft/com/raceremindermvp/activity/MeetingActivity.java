@@ -13,10 +13,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
-import mcssoft.com.raceremindermvp.fragment.MainFragment;
-import mcssoft.com.raceremindermvp.interfaces.IActivityFragment;
+import mcssoft.com.raceremindermvp.fragment.MeetingFragment;
+import mcssoft.com.raceremindermvp.interfaces.fragment.IMeetingActivity;
 
-public class MainActivity extends AppCompatActivity implements IActivityFragment {
+public class MeetingActivity extends AppCompatActivity implements IMeetingActivity {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
         setSupportActionBar(toolbar);
         // set Fragment.
-        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MainFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MeetingFragment()).commit();
         // ButterKnife.
         unbinder = ButterKnife.bind(this);
     }
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements IActivityFragment
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IActivityFragment">
+    //<editor-fold defaultstate="collapsed" desc="Region: IMeetingActivity">
     @Override
     public void showNoNetworkDialog() {
         networkDialog = new NetworkDialog();

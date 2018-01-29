@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.interfaces;
+package mcssoft.com.raceremindermvp.interfaces.fragment;
 
 import android.app.ProgressDialog;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 /**
  * Interface between the Activity and the Fragment (so the fragment can call activity methods).
  */
-public interface IActivityFragment {
+public interface IMeetingActivity {
 
     /**
      * Call on the Activity to show a dialog that no network connection exists.

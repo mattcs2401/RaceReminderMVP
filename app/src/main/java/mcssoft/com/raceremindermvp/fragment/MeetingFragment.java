@@ -13,30 +13,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.interfaces.IActivityFragment;
+import mcssoft.com.raceremindermvp.interfaces.fragment.IMeetingActivity;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
-import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends Fragment implements IViewPresenter, IClick.ItemClick {
+public class MeetingFragment extends Fragment implements IViewPresenter, IClick.ItemClick {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         // Get interface to the Activity.
-        iActivityFragment = (IActivityFragment) activity;
+        iActivityFragment = (IMeetingActivity) activity;
     }
 
     @Override
@@ -111,7 +108,7 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     //</editor-fold>
 
     private IPresenterView iPresenterView;
-    private IActivityFragment iActivityFragment;
+    private IMeetingActivity iActivityFragment;
 
     // Butter Knife.
     private Unbinder unbinder;

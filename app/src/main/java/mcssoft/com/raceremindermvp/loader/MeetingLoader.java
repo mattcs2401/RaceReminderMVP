@@ -4,11 +4,18 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
 
+import java.util.List;
+
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
+import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
 
-public class RaceLoader extends AsyncTaskLoader<Object> {
+/**
+ * Utility class that provides the background thread for the Room database object 'raceDatabase'.
+ */
+public class MeetingLoader extends AsyncTaskLoader<Object> {
 
-    public RaceLoader(Context context, RaceDatabase raceDatabase, Bundle bundle) {
+    public MeetingLoader(Context context, RaceDatabase raceDatabase, Bundle bundle) {
         super(context);
         this.bundle = bundle;
         this.raceDatabase = raceDatabase;
@@ -16,7 +23,21 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
 
     @Override
     public Object loadInBackground() {
-        return null;
+        Object object = null;
+        MainModelImpl.OpType opType = MainModelImpl.OpType.valueOf(bundle.getString("key"));
+        switch(opType) {
+            case COUNT_MEETINGS:
+                object = raceDatabase.getMeetingDAO().getMeetingsCount("N");
+                break;
+            case INSERT_MEETINGS:
+                List<Meeting> lMeeting = bundle.getParcelableArrayList("key-data");
+                object = raceDatabase.getMeetingDAO().insertMeetings(lMeeting);
+                break;
+            case SELECT_MEETINGS:
+                object = raceDatabase.getMeetingDAO().getMeetings("N");
+                break;
+        }
+        return object;
     }
 
     @Override
@@ -64,3 +85,7 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
     private Object theResult;
     private RaceDatabase raceDatabase;
 }
+/*
+Example:
+https://developer.android.com/reference/android/content/AsyncTaskLoader.html
+ */
