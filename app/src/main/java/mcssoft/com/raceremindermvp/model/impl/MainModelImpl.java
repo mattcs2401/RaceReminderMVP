@@ -42,13 +42,7 @@ public class MainModelImpl
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
 
         // testing
-        opType = OpType.COUNT_MEETINGS;
-        doMeetingOps(opType, null);
-//        dbOper = new DatabaseOperations(iPresenterModel.getContext());
-//        // set the database TaskManager
-//        taskManager = new TaskManager(dbOper, this);
-//        // get the Meeting records for display.
-//        taskManager.getMeetings(OpType.COUNT_MEETINGS);
+        doMeetingOps(OpType.COUNT_MEETINGS, null);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -123,8 +117,7 @@ public class MainModelImpl
                     // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
                     // set operation type flag.
-                    opType = OpType.INSERT_MEETINGS;
-                    doMeetingOps(opType, response);
+                    doMeetingOps(OpType.INSERT_MEETINGS, response);
                     break;
             }
         }
@@ -166,31 +159,16 @@ public class MainModelImpl
         switch(opType) {
             // a count of Meeting records was requested. Param 'object' will be an int.
             case COUNT_MEETINGS:
-                if((int) object < 1
-                        ) {
-                    // no Meeting records exist, so download them.
-                    if(getNetworkCheck()) {
-                        opType = OpType.DOWNLOAD_MEETINGS; // set current operation type.
-                        downloadMeetings();                // get Meeting info.
-                    }
-                } else {
-                    // Meeting records already exist in database, select them so we can load up the
-                    // adapter.
-                    opType = OpType.SELECT_MEETINGS;
-                    doMeetingOps(opType, null);
-                }
+                onLoadFinishedCountMeetings(object);
                 break;
             case INSERT_MEETINGS:
                 // Meeting information has been inserted into the database, now select them so we
                 // can load up the adapter.
-                opType = OpType.SELECT_MEETINGS;
-                doMeetingOps(opType, null);
+                onLoadFinishedInsertMeetings();
                 break;
             case SELECT_MEETINGS:
                 // select on Meeting records returns here.
-                iPresenterModel.showProgressDialog(false, null);
-                List<Meeting> lMeeting = (List<Meeting>) object;
-                meetingAdapter.swapData(lMeeting);
+                onLoadFinishedSelectMeetings(object);
                 break;
 
         }
@@ -207,40 +185,70 @@ public class MainModelImpl
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    private void onLoadFinishedCountMeetings(Object object) {
+        if((int) object < 1
+                ) {
+            // no Meeting records exist, so download them.
+            if(getNetworkCheck()) {
+                opType = OpType.DOWNLOAD_MEETINGS; // set current operation type.
+                downloadMeetings();                // get Meeting info.
+            }
+        } else {
+            // Meeting records already exist in database, select them so we can load up the
+            // adapter.
+            doMeetingOps(OpType.SELECT_MEETINGS, null);
+        }
+    }
+
+    private void onLoadFinishedInsertMeetings() {
+        doMeetingOps(OpType.SELECT_MEETINGS, null);
+    }
+
+    private void onLoadFinishedSelectMeetings(Object object) {
+        iPresenterModel.showProgressDialog(false, null);
+//        List<Meeting> lMeeting = (List<Meeting>) object;
+//        meetingAdapter.swapData((lMeeting);
+        meetingAdapter.swapData((List<Meeting>) object);
+    }
+
     private void doMeetingOps(OpType opType, @Nullable Object response) {
-        Bundle bundle = null;
+        this.opType = opType;
         switch(opType) {
             case COUNT_MEETINGS:
-                bundle = new Bundle();
-                // set the current operation type.
-                opType = OpType.COUNT_MEETINGS;
-                // set the current operation type in the bundle.
-                bundle.putString("key", opType.toString());
-                doLoaderManager(bundle);
+                doMeetingOpsCountMeetings(opType);
                 break;
             case DOWNLOAD_MEETINGS:
-                // set the current operation type.
-                opType = OpType.DOWNLOAD_MEETINGS;
                 break;
             case INSERT_MEETINGS:
-                bundle = new Bundle();
-                // set the current operation type and set in bundle
-                opType = OpType.INSERT_MEETINGS;
-                bundle.putString("key", opType.toString());
-                // get the list of Meeting objects and set in bundle.
-                MeetingList meetingList = new MeetingList(response);
-                bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
-                // restart loader to pickup changes.
-                doLoaderManager(bundle);
+                doMeetingOpsInsertMeetings(opType, response);
                 break;
             case SELECT_MEETINGS:
-                opType = OpType.SELECT_MEETINGS;
-                bundle = new Bundle();
-                bundle.putString("key", opType.toString());
-                doLoaderManager(bundle);
-                String bp="";
+                doMeetingOpsSelectMeetings(opType);
                 break;
         }
+    }
+
+    private void doMeetingOpsCountMeetings(OpType opType) {
+        Bundle bundle = new Bundle();
+        // set the current operation type in the bundle.
+        bundle.putString("key", opType.toString());
+        doLoaderManager(bundle);
+    }
+
+    private void doMeetingOpsInsertMeetings(OpType opType, Object response) {
+        Bundle bundle = new Bundle();
+        bundle.putString("key", opType.toString());
+        // get the list of Meeting objects and set in bundle.
+        MeetingList meetingList = new MeetingList(response);
+        bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
+        // restart loader to pickup changes.
+        doLoaderManager(bundle);
+    }
+
+    private void doMeetingOpsSelectMeetings(OpType opType) {
+        Bundle bundle = new Bundle();
+        bundle.putString("key", opType.toString());
+        doLoaderManager(bundle);
     }
 
     private void doLoaderManager(Bundle bundle) {
