@@ -54,18 +54,6 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
         // set the MainPresenterImpl (in turn sets MainModelImpl).
         iPresenterView = new MainPresenterImpl(this);
 
-//        List<Meeting> lMeetings= (List) iPresenterView.getMeetings();
-//        if(lMeetings != null && lMeetings.size() > 1) {
-//
-//            String bp = "";
-//        }
-//        else if(iPresenterView.getNetworkCheck()) {
-//            iPresenterView.downloadMeetings();
-//        } else {
-//            iActivityFragment.showNoNetworkDialog();
-//            // TODO - start a background service to periodically check for a connection ?
-//            String bp = "";
-//        }
     }
 
     @Override
@@ -78,7 +66,7 @@ public class MainFragment extends Fragment implements IViewPresenter, IClick.Ite
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        // Actual TBA
+        // TODO - start the process to get the Races associated with the Meeting selected.
         Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }

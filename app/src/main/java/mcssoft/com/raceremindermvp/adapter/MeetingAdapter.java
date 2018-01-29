@@ -1,6 +1,5 @@
 package mcssoft.com.raceremindermvp.adapter;
 
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public MeetingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-//        this.viewType = viewType;
+        this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch(viewType) {
             case EMPTY_VIEW:
@@ -42,11 +41,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         holder.getTvMeetingCode().setText(meeting.getMeetingCode());
         holder.getTvMeetingDate().setText(meeting.getMeetingDate());
         holder.getTvVenueName().setText(meeting.getVenueName());
-
-//        cursor.moveToPosition(position);
-//        holder.getTvMeetingCode().setText(cursor.getString(meetingCodeNdx));
-//        holder.getTvMeetingDate().setText(cursor.getString(meetingDateNdx));
-//        holder.getTvVenueName().setText(cursor.getString(meetingVenueNdx));
     }
 
     @Override
@@ -85,49 +79,20 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         // Note: lMeeting could be null;
         this.lMeeting = lMeeting;
         if(lMeeting == null || lMeeting.size() < 1) {
-            isEmptyView = true;
+            setEmptyView(true);
         } else {
-            isEmptyView = false;
+            setEmptyView(false);
         }
         notifyDataSetChanged();
     }
-
-//    public void swapCursor(Cursor cursor) {
-//        Log.d(LOG_TAG, "swapCursor");
-//        if(!isEmptyView && (cursor != null) && (cursor.getCount() > 0)) {
-//            this.cursor = cursor;
-//            cursor.moveToFirst();
-//
-//            meetingIdColNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_ROWID);
-//            meetingCodeNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_CODE);
-//            meetingVenueNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_VENUE);
-//            meetingDateNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_DATE);
-//
-//            meetingWeatherDescNdx = cursor.getColumnIndex(SchemaConstants.MEETING_WEATHER_DESC);
-//            meetingTrackDescNdx = cursor.getColumnIndex(SchemaConstants.MEETING_TRACK_DESC);
-//            meetingTrackRatingNdx = cursor.getColumnIndex(SchemaConstants.MEETING_TRACK_RATING);
-//
-//            notifyDataSetChanged();
-//        }
-//    }
 
     public void setEmptyView(boolean isEmptyView) {
         this.isEmptyView = isEmptyView;
     }
 
-    public Cursor getCursor() {
-        return cursor;
-    }
-
-    private int meetingIdColNdx;
-    private int meetingCodeNdx;
-    private int meetingVenueNdx;
-    private int meetingDateNdx;
-
-    private Cursor cursor;
     private int viewType;
-    private List<Meeting> lMeeting;
     private boolean isEmptyView;
+    private List<Meeting> lMeeting;
     private IClick.ItemClick icListener;
 
     private static final int EMPTY_VIEW = 0;
