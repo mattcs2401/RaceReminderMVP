@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import java.util.List;
 
+import butterknife.BindString;
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
@@ -24,13 +26,13 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
     @Override
     public Object loadInBackground() {
         Object object = null;
-        MainModelImpl.OpType opType = MainModelImpl.OpType.valueOf(bundle.getString("key"));
-        switch(opType) {
+        //MainModelImpl.OpType opType = MainModelImpl.OpType.valueOf(bundle.getString(bundle_key));
+        switch(MainModelImpl.OpType.valueOf(bundle.getString(bundle_key))) {
             case COUNT_MEETINGS:
                 object = raceDatabase.getMeetingDAO().getMeetingsCount("N");
                 break;
             case INSERT_MEETINGS:
-                List<Meeting> lMeeting = bundle.getParcelableArrayList("key-data");
+                List<Meeting> lMeeting = bundle.getParcelableArrayList(bundle_data_key);
                 object = raceDatabase.getMeetingDAO().insertMeetings(lMeeting);
                 break;
             case SELECT_MEETINGS:
@@ -84,6 +86,9 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
     private Bundle bundle;
     private Object theResult;
     private RaceDatabase raceDatabase;
+
+    @BindString(R.string.bundle_key) String bundle_key;
+    @BindString(R.string.bundle_data_key) String bundle_data_key;
 }
 /*
 Example:

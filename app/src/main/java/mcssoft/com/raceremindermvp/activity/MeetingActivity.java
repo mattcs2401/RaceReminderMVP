@@ -82,7 +82,7 @@ public class MeetingActivity extends AppCompatActivity implements IMeetingActivi
             if(progressDialog == null) {
                 progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCancelable(false);
-                progressDialog.setMessage(message); //get_meetings_info);
+                progressDialog.setMessage(message); //getting_meetings);
             }
             progressDialog.show();
         } else {
@@ -105,5 +105,5 @@ public class MeetingActivity extends AppCompatActivity implements IMeetingActivi
     @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
     @BindString(R.string.network_connection_error_p1) String network_connection_error_l1;
     @BindString(R.string.network_connection_error_p2) String network_connection_error_l2;
-    @BindString(R.string.get_meetings_info) String get_meetings_info;
+
 }

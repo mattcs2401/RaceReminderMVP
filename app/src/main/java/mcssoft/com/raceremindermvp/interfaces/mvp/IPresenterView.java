@@ -10,28 +10,28 @@ public interface IPresenterView {
      * Check a network connection exists.
      * @return
      */
-    boolean getNetworkCheck();
+//    boolean getNetworkCheck();
 
     /**
      * Downlaod the Meetings for today.
      */
-    void downloadMeetings();
+//    void downloadMeetings();
 
     /**
      * Get the Meetings from the database.
      * @return
      */
-    Object getMeetings();
+//    Object getMeetings();
 
     /**
      * Download the Races for a meeting.
      */
-    void downloadRaces();
+//    void downloadRaces();
 
     /**
      * Get the Races from the database.
      * @return
      */
-    Object getRaces();
+//    Object getRaces();
 
 }

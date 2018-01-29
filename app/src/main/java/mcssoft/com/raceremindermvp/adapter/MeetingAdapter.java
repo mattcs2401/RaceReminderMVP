@@ -37,10 +37,12 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public void onBindViewHolder(MeetingViewHolder holder, int position) {
         Log.d(getClass().getSimpleName(), "onBindViewHolder");
-        Meeting meeting = lMeeting.get(position);
-        holder.getTvMeetingCode().setText(meeting.getMeetingCode());
-        holder.getTvMeetingDate().setText(meeting.getMeetingDate());
-        holder.getTvVenueName().setText(meeting.getVenueName());
+        if(!isEmptyView) {
+            Meeting meeting = lMeeting.get(position);
+            holder.getTvMeetingCode().setText(meeting.getMeetingCode());
+            holder.getTvMeetingDate().setText(meeting.getMeetingDate());
+            holder.getTvVenueName().setText(meeting.getVenueName());
+        }
     }
 
     @Override

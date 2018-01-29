@@ -13,7 +13,8 @@
     <!-- Dialog messages. -->
     <string name="network_connection_error_p1">No active network connection exists.</string>
     <string name="network_connection_error_p2">Check your device\'s mobile data or network connections.</string>
-    <string name="get_meetings_info">Getting Meetings information.</string>
+    <string name="getting_meetings">Getting Meetings &#8230;</string>
+    <string name="writing_meetings">Writing Meeting information &#8230;</string>
 
     <!-- General text. -->
     <string name="nothing_to_show">Nothing to show.</string>
@@ -23,6 +24,9 @@
     <string name="layout_fragment_main_key">layout_fragment_main_key</string>
     <string name="layout_fragment_new_key">layout_fragment_new_key</string>
     <string name="network_dialog_text_key">network_dialog_text</string>
+
+    <string name="bundle_key">key</string>
+    <string name="bundle_data_key">data_key</string>
 
     <!-- Labels - Activity. -->
     <string name="label_new_activity_title">New Race</string>

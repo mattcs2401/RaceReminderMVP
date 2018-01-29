@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 
 import java.util.List;
 
+import butterknife.BindString;
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
@@ -28,7 +30,7 @@ import mcssoft.com.raceremindermvp.utility.MeetingList;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 public class MainModelImpl
-    implements IModelPresenter, Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object> {
+    implements Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object>, IModelPresenter  {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
@@ -45,53 +47,26 @@ public class MainModelImpl
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-    /**
-     * Check that a connection exists.
-     * @return True if a connection exists.
-     */
-    @Override
-    public boolean getNetworkCheck() {
-        boolean networkExists = true;
-        ConnectivityManager connMgr = (ConnectivityManager) iPresenterModel.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null || (!networkInfo.isAvailable() && !networkInfo.isConnected())) {
-            networkExists = false;
-        }
-        return networkExists;
-    }
+//    @Override
+//    public Object getMeetings() {
+//
+////        raceLoaderManager.initLoader(raceDatabase, null);
+//        return null;
+//    }
 
-    @Override
-    public Object getMeetings() {
-
-//        raceLoaderManager.initLoader(raceDatabase, null);
-        return null;
-    }
-
-    /**
-     * Download today's Meetings.
-     */
-    @Override
-    public void downloadMeetings() {
-        Url url = new Url(iPresenterModel.getContext());
-        String uri = url.createRaceDayUrl(null);
-        iPresenterModel.showProgressDialog(true, "Getting Meetings ...");
-        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
-        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
-    }
-
-    @Override
-    public Object getRaces() {
-        return null;
-    }
+//    @Override
+//    public Object getRaces() {
+//        return null;
+//    }
 
     /**
      * Get the Races for a Meeting.
      * @return A count of the Races.
      */
-    @Override
-    public void downloadRaces() {
-        // TBA
-    }
+//    @Override
+//    public void downloadRaces() {
+//        // TBA
+//    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
@@ -114,7 +89,7 @@ public class MainModelImpl
                     // cancel previous progress.
                     iPresenterModel.showProgressDialog(false, null);
                     // meetings have been downloaded, insert them into the database.
-                    iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
+                    iPresenterModel.showProgressDialog(true, writing_meetings);
                     // set operation type flag.
                     doMeetingOps(OpType.INSERT_MEETINGS, response);
                     break;
@@ -169,7 +144,6 @@ public class MainModelImpl
                 // select on Meeting records returns here.
                 onLoadFinishedSelectMeetings(object);
                 break;
-
         }
     }
 
@@ -184,13 +158,19 @@ public class MainModelImpl
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    /**
+     * MeetingLoader.onLoadFinished and operation type was OpType.COUNT_MEETINGS.
+     * @param object The count of meetings (as int).
+     */
     private void onLoadFinishedCountMeetings(Object object) {
-        if((int) object < 1
-                ) {
+        if((int) object < 1) {
             // no Meeting records exist, so download them.
             if(getNetworkCheck()) {
-                opType = OpType.DOWNLOAD_MEETINGS; // set current operation type.
-                downloadMeetings();                // get Meeting info.
+                doMeetingOps(OpType.DOWNLOAD_MEETINGS, null);
+            } else {
+                // no meetings in database and no network.
+                iPresenterModel.showNoNetworkDialog();
+                meetingAdapter.swapData(null);
             }
         } else {
             // Meeting records already exist in database, select them so we can load up the
@@ -199,27 +179,39 @@ public class MainModelImpl
         }
     }
 
+    /**
+     * MeetingLoader.onLoadFinished and operation type was OpType.INSERT_MEETINGS.
+     */
     private void onLoadFinishedInsertMeetings() {
+        // now select the Meeting  records so we can load up the adapter.
         doMeetingOps(OpType.SELECT_MEETINGS, null);
     }
 
+    /**
+     * MeetingLoader.onLoadFinished and operation type was OpType.SELECT_MEETINGS.
+     * @param object The selected Meeting records.
+     */
     private void onLoadFinishedSelectMeetings(Object object) {
         iPresenterModel.showProgressDialog(false, null);
-//        List<Meeting> lMeeting = (List<Meeting>) object;
-//        meetingAdapter.swapData((lMeeting);
         meetingAdapter.swapData((List<Meeting>) object);
     }
 
-    private void doMeetingOps(OpType opType, @Nullable Object response) {
+    /**
+     * A switchboard foe Meeting operations.
+     * @param opType The operation type (from enum OpTyp).
+     * @param object A data object.
+     */
+    private void doMeetingOps(OpType opType, @Nullable Object object) {
         this.opType = opType;
         switch(opType) {
             case COUNT_MEETINGS:
                 doMeetingOpsCountMeetings(opType);
                 break;
             case DOWNLOAD_MEETINGS:
+                doMeetingOpsDownloadMeetings();
                 break;
             case INSERT_MEETINGS:
-                doMeetingOpsInsertMeetings(opType, response);
+                doMeetingOpsInsertMeetings(opType, object);
                 break;
             case SELECT_MEETINGS:
                 doMeetingOpsSelectMeetings(opType);
@@ -230,23 +222,34 @@ public class MainModelImpl
     private void doMeetingOpsCountMeetings(OpType opType) {
         Bundle bundle = new Bundle();
         // set the current operation type in the bundle.
-        bundle.putString("key", opType.toString());
+        bundle.putString(bundle_key, opType.toString());
         doLoaderManager(bundle);
+    }
+
+    /**
+     * Download today's Meetings.
+     */
+    private void doMeetingOpsDownloadMeetings() {
+        Url url = new Url(iPresenterModel.getContext());
+        String uri = url.createRaceDayUrl(null);
+        iPresenterModel.showProgressDialog(true, getting_meetings);
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
+        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
     private void doMeetingOpsInsertMeetings(OpType opType, Object response) {
         Bundle bundle = new Bundle();
-        bundle.putString("key", opType.toString());
+        bundle.putString(bundle_key, opType.toString());
         // get the list of Meeting objects and set in bundle.
         MeetingList meetingList = new MeetingList(response);
-        bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
+        bundle.putParcelableArrayList(bundle_data_key, meetingList.getMeetingList());
         // restart loader to pickup changes.
         doLoaderManager(bundle);
     }
 
     private void doMeetingOpsSelectMeetings(OpType opType) {
         Bundle bundle = new Bundle();
-        bundle.putString("key", opType.toString());
+        bundle.putString(bundle_key, opType.toString());
         doLoaderManager(bundle);
     }
 
@@ -256,6 +259,20 @@ public class MainModelImpl
         } else {
             loaderManager.initLoader(1, bundle, this);
         }
+    }
+
+    /**
+     * Check that a connection exists.
+     * @return True if a connection exists.
+     */
+    private boolean getNetworkCheck() {
+        boolean networkExists = true;
+        ConnectivityManager connMgr = (ConnectivityManager) iPresenterModel.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null || (!networkInfo.isAvailable() && !networkInfo.isConnected())) {
+            networkExists = false;
+        }
+        return networkExists;
     }
 
     private void setMeetingAdapter() {
@@ -270,5 +287,10 @@ public class MainModelImpl
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
     private MainModelImpl.OpType opType;         // the current operation type;
+
+    @BindString(R.string.bundle_key) String bundle_key;
+    @BindString(R.string.bundle_data_key) String bundle_data_key;
+    @BindString(R.string.getting_meetings) String getting_meetings;
+    @BindString(R.string.writing_meetings) String writing_meetings;
 
 }

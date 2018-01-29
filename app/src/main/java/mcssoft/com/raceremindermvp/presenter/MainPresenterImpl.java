@@ -51,29 +51,28 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
-    @Override
-    public boolean getNetworkCheck() {
-        return iModelPresenter.getNetworkCheck();
-    }
-
-    @Override
-    public void downloadMeetings() {
-        iModelPresenter.downloadMeetings();
-    }
-
-    @Override
-    public Object getMeetings() {
-        return iModelPresenter.getMeetings();
-    }
-
-    @Override
-    public void downloadRaces() { iModelPresenter.downloadRaces(); }
-
-    @Override
-    public Object getRaces() {
-        return iModelPresenter.getRaces();
-    }
-
+//    @Override
+//    public boolean getNetworkCheck() {
+//        return iModelPresenter.getNetworkCheck();
+//    }
+//
+//    @Override
+//    public void downloadMeetings() {
+//        iModelPresenter.downloadMeetings();
+//    }
+//
+//    @Override
+//    public Object getMeetings() {
+//        return iModelPresenter.getMeetings();
+//    }
+//
+//    @Override
+//    public void downloadRaces() { iModelPresenter.downloadRaces(); }
+//
+//    @Override
+//    public Object getRaces() {
+//        return iModelPresenter.getRaces();
+//    }
     //</editor-fold>
 
 
