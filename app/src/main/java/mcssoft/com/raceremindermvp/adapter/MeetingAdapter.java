@@ -11,6 +11,7 @@ import java.util.List;
 
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
@@ -37,10 +38,15 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public void onBindViewHolder(MeetingViewHolder holder, int position) {
         Log.d(getClass().getSimpleName(), "onBindViewHolder");
-        cursor.moveToPosition(position);
-        holder.getTvMeetingCode().setText(cursor.getString(meetingCodeNdx));
-        holder.getTvMeetingDate().setText(cursor.getString(meetingDateNdx));
-        holder.getTvVenueName().setText(cursor.getString(meetingVenueNdx));
+        Meeting meeting = lMeeting.get(position);
+        holder.getTvMeetingCode().setText(meeting.getMeetingCode());
+        holder.getTvMeetingDate().setText(meeting.getMeetingDate());
+        holder.getTvVenueName().setText(meeting.getVenueName());
+
+//        cursor.moveToPosition(position);
+//        holder.getTvMeetingCode().setText(cursor.getString(meetingCodeNdx));
+//        holder.getTvMeetingDate().setText(cursor.getString(meetingDateNdx));
+//        holder.getTvVenueName().setText(cursor.getString(meetingVenueNdx));
     }
 
     @Override
@@ -48,20 +54,20 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         if(isEmptyView) {
             return  1; // need to do this so the onCreateViewHolder fires.
         } else {
-            if(cursor != null) {
-                return cursor.getCount();
+            if(lMeeting != null) {
+                return lMeeting.size();
             } else {
                 return 0;
             }
         }
     }
 
-    @Override
-    public long getItemId(int position) {
-        Log.d(LOG_TAG, "getItemId");
-        cursor.moveToPosition(position);
-        return cursor.getLong(meetingIdColNdx);
-    }
+//    @Override
+//    public long getItemId(int position) {
+//        Log.d(LOG_TAG, "getItemId");
+//        cursor.moveToPosition(position);
+//        return cursor.getLong(meetingIdColNdx);
+//    }
 
     @Override
     public int getItemViewType(int position) {
@@ -75,16 +81,23 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         this.icListener = icListener;
     }
 
-    public void swapData(List list) {
-
+    public void swapData(List<Meeting> lMeeting) {
+        // Note: lMeeting could be null;
+        this.lMeeting = lMeeting;
+        if(lMeeting == null || lMeeting.size() < 1) {
+            isEmptyView = true;
+        } else {
+            isEmptyView = false;
+        }
+        notifyDataSetChanged();
     }
 
-    public void swapCursor(Cursor cursor) {
-        Log.d(LOG_TAG, "swapCursor");
-        if(!isEmptyView && (cursor != null) && (cursor.getCount() > 0)) {
-            this.cursor = cursor;
-            cursor.moveToFirst();
-
+//    public void swapCursor(Cursor cursor) {
+//        Log.d(LOG_TAG, "swapCursor");
+//        if(!isEmptyView && (cursor != null) && (cursor.getCount() > 0)) {
+//            this.cursor = cursor;
+//            cursor.moveToFirst();
+//
 //            meetingIdColNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_ROWID);
 //            meetingCodeNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_CODE);
 //            meetingVenueNdx = cursor.getColumnIndex(DatabaseConstants.MEETING_VENUE);
@@ -93,10 +106,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 //            meetingWeatherDescNdx = cursor.getColumnIndex(SchemaConstants.MEETING_WEATHER_DESC);
 //            meetingTrackDescNdx = cursor.getColumnIndex(SchemaConstants.MEETING_TRACK_DESC);
 //            meetingTrackRatingNdx = cursor.getColumnIndex(SchemaConstants.MEETING_TRACK_RATING);
-
-            notifyDataSetChanged();
-        }
-    }
+//
+//            notifyDataSetChanged();
+//        }
+//    }
 
     public void setEmptyView(boolean isEmptyView) {
         this.isEmptyView = isEmptyView;
@@ -113,6 +126,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     private Cursor cursor;
     private int viewType;
+    private List<Meeting> lMeeting;
     private boolean isEmptyView;
     private IClick.ItemClick icListener;
 

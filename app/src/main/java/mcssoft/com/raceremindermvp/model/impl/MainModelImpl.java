@@ -22,6 +22,7 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.MeetingList;
@@ -121,8 +122,9 @@ public class MainModelImpl
                     iPresenterModel.showProgressDialog(false, null);
                     // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, "Writing Meeting information ...");
-                    //
-                    doMeetingOps(OpType.INSERT_MEETINGS, response);
+                    // set operation type flag.
+                    opType = OpType.INSERT_MEETINGS;
+                    doMeetingOps(opType, response);
                     break;
             }
         }
@@ -172,22 +174,26 @@ public class MainModelImpl
                         downloadMeetings();                // get Meeting info.
                     }
                 } else {
-                    String bp = "";
-                    // TBA
+                    // Meeting records already exist in database, select them so we can load up the
+                    // adapter.
+                    opType = OpType.SELECT_MEETINGS;
+                    doMeetingOps(opType, null);
                 }
                 break;
             case INSERT_MEETINGS:
-                String bp = "";
+                // Meeting information has been inserted into the database, now select them so we
+                // can load up the adapter.
+                opType = OpType.SELECT_MEETINGS;
+                doMeetingOps(opType, null);
+                break;
+            case SELECT_MEETINGS:
+                // select on Meeting records returns here.
+                iPresenterModel.showProgressDialog(false, null);
+                List<Meeting> lMeeting = (List<Meeting>) object;
+                meetingAdapter.swapData(lMeeting);
                 break;
 
         }
-        String bp = "";
-//        meetingAdapter.swapData(list);
-//        if(list != null && list.size() > 0) {
-//            meetingAdapter.setEmptyView(false);
-//        } else {
-//            meetingAdapter.setEmptyView(true);
-//        }
     }
 
     @Override
@@ -197,8 +203,7 @@ public class MainModelImpl
     //</editor-fold>
 
     public enum OpType {
-
-        DOWNLOAD_MEETINGS, COUNT_MEETINGS, MEETINGS_SELECT, INSERT_MEETINGS, MEETINGS_DATE_SELECT
+        DOWNLOAD_MEETINGS, COUNT_MEETINGS, SELECT_MEETINGS, INSERT_MEETINGS, MEETINGS_DATE_SELECT
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
@@ -211,12 +216,11 @@ public class MainModelImpl
                 opType = OpType.COUNT_MEETINGS;
                 // set the current operation type in the bundle.
                 bundle.putString("key", opType.toString());
-                loaderManager.initLoader(1, bundle, this);
+                doLoaderManager(bundle);
                 break;
             case DOWNLOAD_MEETINGS:
                 // set the current operation type.
                 opType = OpType.DOWNLOAD_MEETINGS;
-                String bp = "";
                 break;
             case INSERT_MEETINGS:
                 bundle = new Bundle();
@@ -227,10 +231,23 @@ public class MainModelImpl
                 MeetingList meetingList = new MeetingList(response);
                 bundle.putParcelableArrayList("key-data", meetingList.getMeetingList());
                 // restart loader to pickup changes.
-                if(loaderManager.getLoader(1) != null) {
-                    loaderManager.restartLoader(1, bundle, this);
-                }
+                doLoaderManager(bundle);
                 break;
+            case SELECT_MEETINGS:
+                opType = OpType.SELECT_MEETINGS;
+                bundle = new Bundle();
+                bundle.putString("key", opType.toString());
+                doLoaderManager(bundle);
+                String bp="";
+                break;
+        }
+    }
+
+    private void doLoaderManager(Bundle bundle) {
+        if(loaderManager.getLoader(1) != null) {
+            loaderManager.restartLoader(1, bundle, this);
+        } else {
+            loaderManager.initLoader(1, bundle, this);
         }
     }
 

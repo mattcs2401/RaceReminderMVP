@@ -26,12 +26,12 @@ public class Meeting implements Parcelable {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Constructors">
     public Meeting() {
-        id = "0";
+//        id = "";
         archvFlag = "N";
     }
 
     @Ignore
-    public Meeting(@NonNull String id, String meetingId, String abandoned, String venueName, String hiRaceNo, String meetingCode, String meetingDate,
+    public Meeting(@NonNull int id, String meetingId, String abandoned, String venueName, String hiRaceNo, String meetingCode, String meetingDate,
                    @Nullable String trackDesc, @Nullable String trackRating, @Nullable String weatherDesc, String archvFlag) {
         this.id = id;
         this.meetingId = meetingId;
@@ -49,7 +49,7 @@ public class Meeting implements Parcelable {
 
     @Ignore
     public Meeting(List<String> list) {
-        this.id = list.get(0);
+        this.id = Integer.parseInt(list.get(0));
         this.meetingId = list.get(0);
         this.abandoned = list.get(0);
         this.venueName = list.get(0);
@@ -65,11 +65,11 @@ public class Meeting implements Parcelable {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Getter/Setter">
     @NonNull
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(@NonNull int id) {
         this.id = id;
     }
 
@@ -157,9 +157,9 @@ public class Meeting implements Parcelable {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
     // Columns for MEETINGS table.
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "_id") String id;
+    @ColumnInfo(name = "_id") int id;                      // databasee row id.
 
     // From RaceDay.xml
     @ColumnInfo(name = "MeetingId")   String meetingId;    // e.g. "1224999936"
@@ -177,7 +177,7 @@ public class Meeting implements Parcelable {
     @ColumnInfo(name = "TrackRating") String trackRating;    // e.g. "5"
     @ColumnInfo(name = "weatherDesc") String weatherDesc;    // e.g. "Overcast"
 
-    @NonNull
+    //@NonNull
     @ColumnInfo(name = "ArchvFlag")   String archvFlag;      // e.g. "N"
     //</editor-fold>
 
@@ -186,7 +186,7 @@ public class Meeting implements Parcelable {
     // Note: This done mainly so we can put a List<Meeting> into a Bundle.
 
     protected Meeting(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         meetingId = in.readString();
         abandoned = in.readString();
         venueName = in.readString();
@@ -201,7 +201,7 @@ public class Meeting implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(meetingId);
         dest.writeString(abandoned);
         dest.writeString(venueName);

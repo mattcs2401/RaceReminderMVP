@@ -16,6 +16,12 @@ public interface IMeetingsDAO {
     @Query("SELECT COUNT(*) FROM MEETINGS WHERE ArchvFlag = :flag")
     public int getMeetingsCount(String flag);
 
+    @Query("SELECT * FROM MEETINGS WHERE ArchvFlag = :flag")
+    public List<Meeting> getMeetings(String flag);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public List<Long> insertMeetings(ArrayList<Meeting> meetings);
+    public List<Long> insertMeetings(List<Meeting> meetings);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public long insertMeeting(Meeting meeting);
 }
