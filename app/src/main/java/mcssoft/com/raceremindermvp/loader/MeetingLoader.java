@@ -10,7 +10,11 @@ import butterknife.BindString;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
-import mcssoft.com.raceremindermvp.model.impl.MainModelImpl;
+import mcssoft.com.raceremindermvp.utility.OpType;
+
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
 /**
  * Utility class that provides the background thread for the Room database object 'raceDatabase'.
@@ -26,8 +30,8 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
     @Override
     public Object loadInBackground() {
         Object object = null;
-        //MainModelImpl.OpType opType = MainModelImpl.OpType.valueOf(bundle.getString(bundle_key));
-        switch(MainModelImpl.OpType.valueOf(bundle.getString(bundle_key))) {
+        @OpType.MType int opType = bundle.getInt(bundle_key);
+        switch(opType) {
             case COUNT_MEETINGS:
                 object = raceDatabase.getMeetingDAO().getMeetingsCount("N");
                 break;

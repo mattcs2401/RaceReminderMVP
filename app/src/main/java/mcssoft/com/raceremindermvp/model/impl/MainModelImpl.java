@@ -27,7 +27,13 @@ import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.MeetingList;
+import mcssoft.com.raceremindermvp.utility.OpType;
 import mcssoft.com.raceremindermvp.utility.Url;
+
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.DOWNLOAD_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
 public class MainModelImpl
     implements Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object>, IModelPresenter  {
@@ -43,7 +49,7 @@ public class MainModelImpl
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
 
         // testing
-        doMeetingOps(OpType.COUNT_MEETINGS, null);
+        doMeetingOps(COUNT_MEETINGS, null);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -91,7 +97,7 @@ public class MainModelImpl
                     // meetings have been downloaded, insert them into the database.
                     iPresenterModel.showProgressDialog(true, writing_meetings);
                     // set operation type flag.
-                    doMeetingOps(OpType.INSERT_MEETINGS, response);
+                    doMeetingOps(INSERT_MEETINGS, response);
                     break;
             }
         }
@@ -153,10 +159,6 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    public enum OpType {
-        DOWNLOAD_MEETINGS, COUNT_MEETINGS, SELECT_MEETINGS, INSERT_MEETINGS, MEETINGS_DATE_SELECT
-    }
-
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     /**
      * MeetingLoader.onLoadFinished and operation type was OpType.COUNT_MEETINGS.
@@ -166,7 +168,7 @@ public class MainModelImpl
         if((int) object < 1) {
             // no Meeting records exist, so download them.
             if(getNetworkCheck()) {
-                doMeetingOps(OpType.DOWNLOAD_MEETINGS, null);
+                doMeetingOps(DOWNLOAD_MEETINGS, null);
             } else {
                 // no meetings in database and no network.
                 iPresenterModel.showNoNetworkDialog();
@@ -175,7 +177,7 @@ public class MainModelImpl
         } else {
             // Meeting records already exist in database, select them so we can load up the
             // adapter.
-            doMeetingOps(OpType.SELECT_MEETINGS, null);
+            doMeetingOps(SELECT_MEETINGS, null);
         }
     }
 
@@ -184,7 +186,7 @@ public class MainModelImpl
      */
     private void onLoadFinishedInsertMeetings() {
         // now select the Meeting  records so we can load up the adapter.
-        doMeetingOps(OpType.SELECT_MEETINGS, null);
+        doMeetingOps(SELECT_MEETINGS, null);
     }
 
     /**
@@ -201,7 +203,7 @@ public class MainModelImpl
      * @param opType The operation type (from enum OpTyp).
      * @param object A data object.
      */
-    private void doMeetingOps(OpType opType, @Nullable Object object) {
+    private void doMeetingOps(@OpType.MType int opType, @Nullable Object object) {
         this.opType = opType;
         switch(opType) {
             case COUNT_MEETINGS:
@@ -219,10 +221,10 @@ public class MainModelImpl
         }
     }
 
-    private void doMeetingOpsCountMeetings(OpType opType) {
+    private void doMeetingOpsCountMeetings(@OpType.MType int opType) {
         Bundle bundle = new Bundle();
         // set the current operation type in the bundle.
-        bundle.putString(bundle_key, opType.toString());
+        bundle.putInt(bundle_key, opType);
         doLoaderManager(bundle);
     }
 
@@ -237,9 +239,9 @@ public class MainModelImpl
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
-    private void doMeetingOpsInsertMeetings(OpType opType, Object response) {
+    private void doMeetingOpsInsertMeetings(@OpType.MType int opType, Object response) {
         Bundle bundle = new Bundle();
-        bundle.putString(bundle_key, opType.toString());
+        bundle.putInt(bundle_key, opType);
         // get the list of Meeting objects and set in bundle.
         MeetingList meetingList = new MeetingList(response);
         bundle.putParcelableArrayList(bundle_data_key, meetingList.getMeetingList());
@@ -247,9 +249,9 @@ public class MainModelImpl
         doLoaderManager(bundle);
     }
 
-    private void doMeetingOpsSelectMeetings(OpType opType) {
+    private void doMeetingOpsSelectMeetings(@OpType.MType int opType) {
         Bundle bundle = new Bundle();
-        bundle.putString(bundle_key, opType.toString());
+        bundle.putInt(bundle_key, opType);
         doLoaderManager(bundle);
     }
 
@@ -286,7 +288,8 @@ public class MainModelImpl
     private RaceDatabase raceDatabase;
     private MeetingAdapter meetingAdapter;
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
-    private MainModelImpl.OpType opType;         // the current operation type;
+
+    @OpType.MType int opType;
 
     @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.bundle_data_key) String bundle_data_key;
