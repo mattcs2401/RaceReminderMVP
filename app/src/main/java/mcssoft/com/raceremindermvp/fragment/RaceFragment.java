@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -85,9 +86,9 @@ public class RaceFragment extends Fragment implements IViewPresenter, IClick.Ite
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-//        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
-        iMainActivity.showRaceFragment(lPos);
+        Snackbar.make(view, "Race item " + lPos + " selected.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+//        iMainActivity.showRaceFragment(lPos);
     }
     //</editor-fold>
 
