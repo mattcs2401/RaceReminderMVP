@@ -34,6 +34,7 @@ import mcssoft.com.raceremindermvp.utility.OpType;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETING;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.DOWNLOAD_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
@@ -48,7 +49,7 @@ public class MainModelImpl
         // set the adapter.
         setMeetingAdapter();
         // set the database.
-        raceDatabase = Room.databaseBuilder(context, RaceDatabase.class, "RACEREMINDER").build();
+        raceDatabase = RaceDatabase.getInstance(context);
         // set the loader manager.
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
         // resource bindings
@@ -156,6 +157,9 @@ public class MainModelImpl
                 // select on Meeting records returns here.
                 onLoadFinishedSelectMeetings(object);
                 break;
+            case DELETE_MEETING:
+                // TBA
+                break;
         }
     }
 
@@ -246,6 +250,11 @@ public class MainModelImpl
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
+    /**
+     * Insert the downloaded Meeing records.
+     * @param opType The operation type for the MeetingLoader.
+     * @param response The Meeting records.
+     */
     private void doMeetingOpsInsertMeetings(@OpType.MType int opType, Object response) {
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
@@ -256,14 +265,23 @@ public class MainModelImpl
         doLoaderManager(bundle);
     }
 
+    /**
+     * Select the Meeting records.
+     * @param opType The operation type for the MeetingLoader.
+     */
     private void doMeetingOpsSelectMeetings(@OpType.MType int opType) {
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
         doLoaderManager(bundle);
     }
 
+    /**
+     * Initialise or restart the MeetingLoader.
+     * @param bundle Data package.
+     */
     private void doLoaderManager(Bundle bundle) {
         if(loaderManager.getLoader(1) != null) {
+            // restart the loader to pick up new changes.
             loaderManager.restartLoader(1, bundle, this);
         } else {
             loaderManager.initLoader(1, bundle, this);
@@ -291,13 +309,14 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    private LoaderManager loaderManager;
-    private RaceDatabase raceDatabase;
-    private MeetingAdapter meetingAdapter;
+    private LoaderManager loaderManager;         // get or restart loader.
+    private RaceDatabase raceDatabase;           // the databse.
+    private MeetingAdapter meetingAdapter;       // recyclerview adapter.
     private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
 
-    @OpType.MType int opType;
+    @OpType.MType int opType;     // current operation type.
 
+    // String bindings.
     @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.bundle_data_key) String bundle_data_key;
     @BindString(R.string.getting_meetings) String getting_meetings;
