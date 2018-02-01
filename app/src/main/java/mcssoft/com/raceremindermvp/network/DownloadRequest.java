@@ -16,7 +16,6 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.utility.Resources;
 import mcssoft.com.raceremindermvp.utility.XmlParser;
 
 /**
