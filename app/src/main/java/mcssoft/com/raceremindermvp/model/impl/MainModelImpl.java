@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.volley.NetworkResponse;
@@ -40,7 +42,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
 public class MainModelImpl
-    implements Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object>, IModelPresenter  {
+    implements Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object>, IModelPresenter {
 
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.

@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.activity;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,9 +15,10 @@ import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.fragment.MeetingFragment;
-import mcssoft.com.raceremindermvp.interfaces.fragment.IMeetingActivity;
+import mcssoft.com.raceremindermvp.fragment.RaceFragment;
+import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 
-public class MeetingActivity extends AppCompatActivity implements IMeetingActivity {
+public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -57,7 +59,7 @@ public class MeetingActivity extends AppCompatActivity implements IMeetingActivi
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IMeetingActivity">
+    //<editor-fold defaultstate="collapsed" desc="Region: IMainActivity">
     @Override
     public void showNoNetworkDialog() {
         networkDialog = new NetworkDialog();
@@ -90,6 +92,18 @@ public class MeetingActivity extends AppCompatActivity implements IMeetingActivi
                 progressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    public void showRaceFragment(int lPos) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("key", lPos);
+        RaceFragment raceFragment = new RaceFragment();
+        raceFragment.setArguments(bundle);
+        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+        fragTrans.replace(R.id.id_main_fragment_container, raceFragment);
+        fragTrans.addToBackStack(null);
+        fragTrans.commit();
     }
     //</editor-fold>
 

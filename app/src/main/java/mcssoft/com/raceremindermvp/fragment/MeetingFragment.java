@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.interfaces.fragment.IMeetingActivity;
+import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
@@ -33,12 +32,12 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         // Get interface to the Activity.
-        iActivityFragment = (IMeetingActivity) activity;
+        iMainActivity = (IMainActivity) activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_meeting, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -50,7 +49,6 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
         setRecyclerView();
         // set the MainPresenterImpl (in turn sets MainModelImpl).
         iPresenterView = new MainPresenterImpl(this);
-
     }
 
     @Override
@@ -63,9 +61,9 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        // TODO - start the process to get the Races associated with the Meeting selected.
-        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+//        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
+        iMainActivity.showRaceFragment(lPos);
     }
     //</editor-fold>
 
@@ -87,12 +85,12 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
 
     @Override
     public void showProgressDialog(boolean show, String message) {
-        iActivityFragment.showProgressDialog(show, message);
+        iMainActivity.showProgressDialog(show, message);
     }
 
     @Override
     public void showNoNetworkDialog() {
-        iActivityFragment.showNoNetworkDialog();
+        iMainActivity.showNoNetworkDialog();
     }
     //</editor-fold>
 
@@ -104,11 +102,12 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
     }
     //</editor-fold>
 
     private IPresenterView iPresenterView;
-    private IMeetingActivity iActivityFragment;
+    private IMainActivity iMainActivity;
 
     // Butter Knife.
     private Unbinder unbinder;
