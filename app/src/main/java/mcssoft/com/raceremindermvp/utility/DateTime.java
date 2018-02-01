@@ -2,13 +2,18 @@ package mcssoft.com.raceremindermvp.utility;
 
 
 import android.content.Context;
+import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
+
+import static java.util.Locale.getDefault;
 
 /**
  * utility class for general manipulation of time values (primarily for display).
@@ -32,7 +37,7 @@ public class DateTime {
      * @return The calendar.
      */
     public Calendar getCalendar() {
-        return Calendar.getInstance(Locale.getDefault());
+        return Calendar.getInstance(getDefault());
     }
     /**
      * Get the time as a string formatted HH:MM.
@@ -46,8 +51,7 @@ public class DateTime {
         Calendar calendar = getCalendar();
         calendar.setTime(new Date(timeInMillis));
 
-        SimpleDateFormat sdFormat = new SimpleDateFormat(Resources.getInstance(context)
-                    .getString(R.string.time_format_24hr), Locale.getDefault());
+        SimpleDateFormat sdFormat = new SimpleDateFormat(time_format_24hr, Locale.getDefault());
         return sdFormat.format(calendar.getTime());
     }
 
@@ -62,8 +66,7 @@ public class DateTime {
         }
         Calendar calendar = getCalendar();
         calendar.setTime(new Date(timeInMillis));
-        SimpleDateFormat sdFormat = new SimpleDateFormat(Resources.getInstance(context)
-                .getString(R.string.date_format), Locale.getDefault());
+        SimpleDateFormat sdFormat = new SimpleDateFormat(date_format, Locale.getDefault());
         return sdFormat.format(calendar.getTime());
     }
 
@@ -220,11 +223,15 @@ public class DateTime {
 
     private DateTime(Context context) {
         this.context = context;
+        ButterKnife.bind(this, new View(context));
     }
 
     private String timeFormat;    // the current time format (12HR/24HR).
     private Context context;      // app context for shared preferences.
 
     private static volatile DateTime instance = null;
+
+    @BindString(R.string.date_format) String date_format;
+    @BindString(R.string.time_format_24hr) String time_format_24hr;
 }
 

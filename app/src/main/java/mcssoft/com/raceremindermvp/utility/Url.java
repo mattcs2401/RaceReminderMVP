@@ -3,7 +3,10 @@ package mcssoft.com.raceremindermvp.utility;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.view.View;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 
 /**
@@ -13,6 +16,7 @@ public class Url {
 
     public Url(Context context) {
         this.context = context;
+        ButterKnife.bind(this, new View(context));
     }
 
     /**
@@ -26,7 +30,7 @@ public class Url {
             raceDate = DateTime.getInstance(context).getCurrentDateComponents();
         }
         Uri.Builder builder = new Uri.Builder();
-        builder.encodedPath(Resources.getInstance(context).getString(R.string.base_path))
+        builder.encodedPath(base_path)
                .appendPath(raceDate[0]);
 
         // Remove leading zeros if exist.
@@ -41,7 +45,7 @@ public class Url {
             builder.appendPath(raceDate[2]);
         }
 
-        builder.appendPath(Resources.getInstance(context).getString(R.string.race_day_listing));
+        builder.appendPath(race_day_listing);
         builder.build();
         return builder.toString();
     }
@@ -55,7 +59,7 @@ public class Url {
      */
     public String createMeetingUrl(String[] meetingDate, String meetingCode) {
         Uri.Builder builder = new Uri.Builder();
-        builder.encodedPath(Resources.getInstance(context).getString(R.string.base_path))
+        builder.encodedPath(base_path)
                .appendPath(meetingDate[0]);
 
         // Remove leading zeros if exist..
@@ -85,7 +89,7 @@ public class Url {
      */
     public String createRaceUrl(String[] meetingDate, String meetingCode, String raceNo) {
         Uri.Builder builder = new Uri.Builder();
-        builder.encodedPath(Resources.getInstance(context).getString(R.string.base_path))
+        builder.encodedPath(base_path)
                 .appendPath(meetingDate[0])
                 .appendPath(meetingDate[1])
                 .appendPath(meetingDate[2])
@@ -95,4 +99,7 @@ public class Url {
     }
 
     private Context context;
+
+    @BindString(R.string.base_path) String base_path;
+    @BindString(R.string.race_day_listing) String race_day_listing;
 }

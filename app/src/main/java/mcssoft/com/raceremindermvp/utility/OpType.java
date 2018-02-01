@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 public final class OpType {
 
-    @IntDef ({MType.DOWNLOAD_MEETINGS, MType.COUNT_MEETINGS, MType.SELECT_MEETINGS, MType.INSERT_MEETINGS})
+    @IntDef ({MType.DOWNLOAD_MEETINGS, MType.COUNT_MEETINGS, MType.SELECT_MEETINGS, MType.INSERT_MEETINGS, MType.DELETE_MEETING})
 
     @Retention(RetentionPolicy.SOURCE)
 
@@ -19,5 +19,6 @@ public final class OpType {
         int COUNT_MEETINGS = 0x01;
         int SELECT_MEETINGS = 0x02;
         int INSERT_MEETINGS = 0x03;
+        int DELETE_MEETING = 0x04;
     }
 }

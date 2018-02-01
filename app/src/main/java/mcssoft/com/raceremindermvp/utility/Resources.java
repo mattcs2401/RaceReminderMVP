@@ -42,9 +42,9 @@ public class Resources {
      * @param resId The resource id.
      * @return The string resource.
      */
-    public String getString(int resId) {
-        return context.getResources().getString(resId);
-    }
+//    public String getString(int resId) {
+//        return context.getResources().getString(resId);
+//    }
 
     /**
      * Get an array resource.

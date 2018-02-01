@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -15,8 +16,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
@@ -41,13 +44,15 @@ public class MainModelImpl
     public MainModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
+        Context context = iPresenterModel.getContext();
         // set the adapter.
         setMeetingAdapter();
         // set the database.
-        raceDatabase = Room.databaseBuilder(iPresenterModel.getContext(), RaceDatabase.class, "RACEREMINDER").build();
+        raceDatabase = Room.databaseBuilder(context, RaceDatabase.class, "RACEREMINDER").build();
         // set the loader manager.
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
-
+        // resource bindings
+        ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
         // testing
         doMeetingOps(COUNT_MEETINGS, null);
     }
@@ -117,7 +122,8 @@ public class MainModelImpl
             }
         } else {
             // Some sort of network error, e.g. 404 page not found etc.
-//            Map<String,String> headers = networkResponse.headers;
+            Map<String,String> headers = networkResponse.headers;
+            String bp = "";
             // TODO - some generic error dialog ?
         }
     }
@@ -182,19 +188,20 @@ public class MainModelImpl
     }
 
     /**
-     * MeetingLoader.onLoadFinished and operation type was OpType.INSERT_MEETINGS.
+     * MeetingLoader.onLoadFinished and operation type was INSERT_MEETINGS.
      */
     private void onLoadFinishedInsertMeetings() {
-        // now select the Meeting  records so we can load up the adapter.
+        // now select the Meeting records so we can load up the adapter.
         doMeetingOps(SELECT_MEETINGS, null);
     }
 
     /**
-     * MeetingLoader.onLoadFinished and operation type was OpType.SELECT_MEETINGS.
+     * MeetingLoader.onLoadFinished and operation type was SELECT_MEETINGS.
      * @param object The selected Meeting records.
      */
     private void onLoadFinishedSelectMeetings(Object object) {
         iPresenterModel.showProgressDialog(false, null);
+        // load up the adapter.
         meetingAdapter.swapData((List<Meeting>) object);
     }
 

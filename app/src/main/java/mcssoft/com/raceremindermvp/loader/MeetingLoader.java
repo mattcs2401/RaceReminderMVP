@@ -3,16 +3,19 @@ package mcssoft.com.raceremindermvp.loader;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 
 import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.utility.OpType;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETING;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
@@ -25,13 +28,13 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
         super(context);
         this.bundle = bundle;
         this.raceDatabase = raceDatabase;
+        ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
     }
 
     @Override
     public Object loadInBackground() {
         Object object = null;
-        @OpType.MType int opType = bundle.getInt(bundle_key);
-        switch(opType) {
+        switch (bundle.getInt(bundle_key)) {
             case COUNT_MEETINGS:
                 object = raceDatabase.getMeetingDAO().getMeetingsCount("N");
                 break;
@@ -42,7 +45,10 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
             case SELECT_MEETINGS:
                 object = raceDatabase.getMeetingDAO().getMeetings("N");
                 break;
-        }
+            case DELETE_MEETING:
+                // TBA
+                break;
+            }
         return object;
     }
 
@@ -57,12 +63,12 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
 
     @Override
     protected void onStartLoading() {
-        if(theResult != null) {
+        if (theResult != null) {
             // If we currently have a result available, deliver it now.
             deliverResult(theResult);
         }
 
-        if(takeContentChanged() || theResult == null) {
+        if (takeContentChanged() || theResult == null) {
             // If the data has changed since the last time it was loaded or is not currently
             // available, start a load.
             forceLoad();
@@ -90,6 +96,9 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
     private Bundle bundle;
     private Object theResult;
     private RaceDatabase raceDatabase;
+
+    @OpType.MType
+    int opType;
 
     @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.bundle_data_key) String bundle_data_key;

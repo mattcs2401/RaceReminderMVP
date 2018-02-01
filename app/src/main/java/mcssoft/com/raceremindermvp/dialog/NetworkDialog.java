@@ -5,20 +5,22 @@ import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.utility.Resources;
 
 public class NetworkDialog extends DialogFragment
         implements DialogInterface.OnClickListener {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        ButterKnife.bind(this, new View(getContext()));
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setIcon(R.drawable.ic_action_warning)
-                .setTitle(Resources.getInstance(getContext()).getString(R.string.title_dialog_network))
-                .setMessage(getArguments().getString(Resources.getInstance(getContext())
-                .getString(R.string.network_dialog_text_key)))
+                .setTitle(title_dialog_network)
+                .setMessage(getArguments().getString(network_dialog_text_key))
                 .setPositiveButton(R.string.button_ok_text, this);
         return dialog.create();
     }
@@ -30,4 +32,7 @@ public class NetworkDialog extends DialogFragment
                 break;
         }
     }
+
+    @BindString(R.string.title_dialog_network) String title_dialog_network;
+    @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
 }
