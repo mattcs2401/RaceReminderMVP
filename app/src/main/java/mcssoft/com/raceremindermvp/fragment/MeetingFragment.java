@@ -59,8 +59,6 @@ public class MeetingFragment extends BaseFragment {
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-//        Snackbar.make(view, "Item " + lPos + " selected.", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
         iMainActivity.showRaceFragment(lPos);
     }
     //</editor-fold>
@@ -106,5 +104,4 @@ public class MeetingFragment extends BaseFragment {
     // Butter Knife.
     private Unbinder unbinder;
     @BindView(R.id.id_rv_meetingListing) RecyclerView recyclerView;
-
 }
