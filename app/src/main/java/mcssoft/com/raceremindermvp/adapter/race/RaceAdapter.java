@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.adapter;
+package mcssoft.com.raceremindermvp.adapter.race;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

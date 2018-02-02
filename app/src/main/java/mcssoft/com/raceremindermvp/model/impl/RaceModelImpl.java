@@ -1,7 +1,6 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
@@ -11,9 +10,10 @@ import android.view.View;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.adapter.RaceAdapter;
+import mcssoft.com.raceremindermvp.adapter.race.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.utility.OpType;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;

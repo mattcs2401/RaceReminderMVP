@@ -1,6 +1,5 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.net.ConnectivityManager;
@@ -19,11 +18,12 @@ import java.util.Map;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
-import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
+import mcssoft.com.raceremindermvp.adapter.meeting.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.MeetingLoader;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
+import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.MeetingList;

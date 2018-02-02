@@ -1,4 +1,4 @@
-package mcssoft.com.raceremindermvp.model.impl;
+package mcssoft.com.raceremindermvp.model.impl.base;
 
 import android.app.LoaderManager;
 import android.content.Loader;

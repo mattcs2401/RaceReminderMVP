@@ -1,7 +1,6 @@
 package mcssoft.com.raceremindermvp.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -16,16 +15,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.fragment.base.BaseFragment;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
-import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
-import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MeetingFragment extends Fragment implements IViewPresenter, IClick.ItemClick {
+public class MeetingFragment extends BaseFragment {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -102,12 +100,8 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
     }
     //</editor-fold>
-
-    private IPresenterView iPresenterView;
-    private IMainActivity iMainActivity;
 
     // Butter Knife.
     private Unbinder unbinder;
