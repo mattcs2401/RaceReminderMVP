@@ -1,20 +1,16 @@
 package mcssoft.com.raceremindermvp.model.impl;
 
 import android.app.LoaderManager;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import java.util.List;
@@ -25,7 +21,6 @@ import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.MeetingAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
-import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.MeetingLoader;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
@@ -41,10 +36,9 @@ import static mcssoft.com.raceremindermvp.utility.OpType.MType.DOWNLOAD_MEETINGS
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
-public class MainModelImpl
-    implements Response.Listener, Response.ErrorListener, LoaderManager.LoaderCallbacks<Object>, IModelPresenter {
+public class MeetingModelImpl extends BaseModelImpl {
 
-    public MainModelImpl(IPresenterModel iPresenterModel) {
+    public MeetingModelImpl(IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
@@ -56,32 +50,9 @@ public class MainModelImpl
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
         // resource bindings
         ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
-        // testing
+
         doMeetingOps(COUNT_MEETINGS, null);
     }
-
-    //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-//    @Override
-//    public Object getMeetings() {
-//
-////        raceLoaderManager.initLoader(raceDatabase, null);
-//        return null;
-//    }
-
-//    @Override
-//    public Object getRaces() {
-//        return null;
-//    }
-
-    /**
-     * Get the Races for a Meeting.
-     * @return A count of the Races.
-     */
-//    @Override
-//    public void downloadRaces() {
-//        // TBA
-//    }
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
     /**
@@ -144,7 +115,7 @@ public class MainModelImpl
      * @param object The result object.
      */
     @Override
-    public void onLoadFinished(Loader<Object> loader, Object object) {
+    public void onLoadFinished(Loader loader, Object object) {
         switch(opType) {
             // a count of Meeting records was requested. Param 'object' will be an int.
             case COUNT_MEETINGS:
@@ -166,7 +137,7 @@ public class MainModelImpl
     }
 
     @Override
-    public void onLoaderReset(Loader<Object> loader) {
+    public void onLoaderReset(Loader loader) {
         meetingAdapter.swapData(null);
     }
     //</editor-fold>
@@ -311,10 +282,7 @@ public class MainModelImpl
     }
     //</editor-fold>
 
-    private LoaderManager loaderManager;         // get or restart loader.
-    private RaceDatabase raceDatabase;           // the databse.
     private MeetingAdapter meetingAdapter;       // recyclerview adapter.
-    private IPresenterModel iPresenterModel;     // access to IPresenterModel methods.
 
     @OpType.MType int opType;     // current operation type.
 

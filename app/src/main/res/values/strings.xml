@@ -15,6 +15,8 @@
     <string name="network_connection_error_p2">Check your device\'s mobile data or network connections.</string>
     <string name="getting_meetings">Getting Meetings &#8230;</string>
     <string name="writing_meetings">Writing Meeting information &#8230;</string>
+    <string name="getting_races">Getting Races &#8230;</string>
+    <string name="writing_races">Writing Race information &#8230;</string>
 
     <!-- General text. -->
     <string name="nothing_to_show">Nothing to show.</string>

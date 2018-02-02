@@ -31,6 +31,7 @@ public class RaceFragment extends Fragment implements IViewPresenter, IClick.Ite
         super.onAttach(activity);
         // Get interface to the Activity.
         iMainActivity = (IMainActivity) activity;
+        arguments = getArguments();
     }
 
     @Override
@@ -45,8 +46,8 @@ public class RaceFragment extends Fragment implements IViewPresenter, IClick.Ite
         super.onActivityCreated(savedInstanceState);
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
-        // set the MainPresenterImpl (in turn sets MainModelImpl).
-        iPresenterView = new MainPresenterImpl(this);
+        // set the MainPresenterImpl (in turn sets MeetingModelImpl).
+        iPresenterView = new MainPresenterImpl(this, arguments);
     }
 
     @Override
@@ -103,6 +104,7 @@ public class RaceFragment extends Fragment implements IViewPresenter, IClick.Ite
     }
     //</editor-fold>
 
+    private Bundle arguments;
     private IPresenterView iPresenterView;
     private IMainActivity iMainActivity;
 

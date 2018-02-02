@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void showRaceFragment(int lPos) {
         Bundle bundle = new Bundle();
-        bundle.putInt("key", lPos);
+        bundle.putInt("lPosKey", lPos);
+        bundle.putString("opsForKey", "races");
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);
         FragmentTransaction fragTrans = getFragmentManager().beginTransaction();

@@ -3,8 +3,13 @@ package mcssoft.com.raceremindermvp.loader;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.utility.OpType;
 
 public class RaceLoader extends AsyncTaskLoader<Object> {
 
@@ -12,6 +17,7 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
         super(context);
         this.bundle = bundle;
         this.raceDatabase = raceDatabase;
+        ButterKnife.bind(this, new View(context));
     }
 
     @Override
@@ -63,4 +69,10 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
     private Bundle bundle;
     private Object theResult;
     private RaceDatabase raceDatabase;
+
+    @OpType.RType
+    int opType;
+
+    @BindString(R.string.bundle_key) String bundle_key;
+    @BindString(R.string.bundle_data_key) String bundle_data_key;
 }

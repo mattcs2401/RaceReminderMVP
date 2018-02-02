@@ -47,8 +47,8 @@ public class MeetingFragment extends Fragment implements IViewPresenter, IClick.
         super.onActivityCreated(savedInstanceState);
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
-        // set the MainPresenterImpl (in turn sets MainModelImpl).
-        iPresenterView = new MainPresenterImpl(this);
+        // set the MainPresenterImpl (in turn sets MeetingModelImpl).
+        iPresenterView = new MainPresenterImpl(this, null);
     }
 
     @Override
