@@ -32,6 +32,7 @@ import mcssoft.com.raceremindermvp.utility.Url;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETING;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.DOWNLOAD_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
@@ -50,7 +51,7 @@ public class MeetingModelImpl extends BaseModelImpl {
         loaderManager = iPresenterModel.getActivity().getLoaderManager();
         // resource bindings
         ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
-
+        //
         doMeetingOps(COUNT_MEETINGS, null);
     }
 
@@ -117,7 +118,6 @@ public class MeetingModelImpl extends BaseModelImpl {
     @Override
     public void onLoadFinished(Loader loader, Object object) {
         switch(opType) {
-            // a count of Meeting records was requested. Param 'object' will be an int.
             case COUNT_MEETINGS:
                 onLoadFinishedCountMeetings(object);
                 break;
@@ -131,7 +131,7 @@ public class MeetingModelImpl extends BaseModelImpl {
                 onLoadFinishedSelectMeetings(object);
                 break;
             case DELETE_MEETING:
-                // TBA
+                onLoadFinishedDeleteMeetings();
                 break;
         }
     }
@@ -172,6 +172,11 @@ public class MeetingModelImpl extends BaseModelImpl {
         doMeetingOps(SELECT_MEETINGS, null);
     }
 
+    private void onLoadFinishedDeleteMeetings() {
+        //
+        doMeetingOps(DELETE_MEETINGS, null);
+    }
+
     /**
      * MeetingLoader.onLoadFinished and operation type was SELECT_MEETINGS.
      * @param object The selected Meeting records.
@@ -201,6 +206,9 @@ public class MeetingModelImpl extends BaseModelImpl {
                 break;
             case SELECT_MEETINGS:
                 doMeetingOpsSelectMeetings(opType);
+                break;
+            case DELETE_MEETINGS:
+                doMeetingOpsDeleteMeetings(opType);
                 break;
         }
     }
@@ -248,6 +256,11 @@ public class MeetingModelImpl extends BaseModelImpl {
         doLoaderManager(bundle);
     }
 
+    private void doMeetingOpsDeleteMeetings(@OpType.MType int opType) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(bundle_key, opType);
+        doLoaderManager(bundle);
+    }
     /**
      * Initialise or restart the MeetingLoader.
      * @param bundle Data package.
@@ -281,6 +294,11 @@ public class MeetingModelImpl extends BaseModelImpl {
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }
     //</editor-fold>
+
+    @Override
+    public void deleteMeetings() {
+        super.deleteMeetings();
+    }
 
     private MeetingAdapter meetingAdapter;       // recyclerview adapter.
 

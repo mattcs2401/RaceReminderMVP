@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.zip.Inflater;
+
+import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
@@ -31,6 +36,11 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

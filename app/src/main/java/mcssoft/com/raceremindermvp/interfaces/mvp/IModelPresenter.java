@@ -6,6 +6,8 @@ package mcssoft.com.raceremindermvp.interfaces.mvp;
  */
 public interface IModelPresenter {
 
+    void deleteMeetings();
+
     /**
      * Check a network connection exists.
      * @return

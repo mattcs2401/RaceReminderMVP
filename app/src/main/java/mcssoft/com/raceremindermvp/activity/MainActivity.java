@@ -44,11 +44,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            // TBA
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -105,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         fragTrans.replace(R.id.id_main_fragment_container, raceFragment);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
+    }
+
+    @Override
+    public void deleteRaces() {
+
     }
     //</editor-fold>
 

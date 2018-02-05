@@ -27,4 +27,6 @@ public interface IMainActivity {
      * @param lPos The position of the list item that was selected.
      */
     void showRaceFragment(int lPos);
+
+    void deleteRaces();
 }

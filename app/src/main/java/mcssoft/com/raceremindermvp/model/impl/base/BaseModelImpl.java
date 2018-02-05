@@ -47,26 +47,7 @@ public abstract class BaseModelImpl
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-//    @Override
-//    public Object getMeetings() {
-//
-////        raceLoaderManager.initLoader(raceDatabase, null);
-//        return null;
-//    }
-
-//    @Override
-//    public Object getRaces() {
-//        return null;
-//    }
-
-    /**
-     * Get the Races for a Meeting.
-     * @return A count of the Races.
-     */
-//    @Override
-//    public void downloadRaces() {
-//        // TBA
-//    }
+    public void deleteMeetings() {}
     //</editor-fold>
 
     protected RaceDatabase raceDatabase;
