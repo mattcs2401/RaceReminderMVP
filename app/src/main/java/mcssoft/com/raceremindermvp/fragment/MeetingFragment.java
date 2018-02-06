@@ -77,6 +77,7 @@ public class MeetingFragment extends BaseFragment {
         switch(item.getItemId()) {
             case R.id.id_delete_meetings:
                 deleteMeetings();
+                refreshDisplay();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -125,6 +126,11 @@ public class MeetingFragment extends BaseFragment {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    private void refreshDisplay() {
+        // TODO - refresh the view.
+        String bp = "";
+    }
+
     private void setRecyclerView() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
