@@ -34,6 +34,7 @@ public class MeetingFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         // pickup fragment related menu options.
         setHasOptionsMenu(true);
+        chgDelToAdd = false;
     }
 
     @Override
@@ -62,6 +63,8 @@ public class MeetingFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_meeting, menu);
+        delMenuItem = menu.findItem(R.id.id_delete_meetings);
+        addMenuItem = menu.findItem(R.id.id_add_meetings);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -72,12 +75,34 @@ public class MeetingFragment extends BaseFragment {
     }
     //</editor-fold>
 
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Note: this is called every time so need to keep as simple as possible.
+        super.onPrepareOptionsMenu(menu);
+        if(chgDelToAdd) {
+            // insert Add
+            addMenuItem.setVisible(true);
+            delMenuItem.setVisible(false);
+        } else {
+            // insert Delete
+            addMenuItem.setVisible(false);
+            delMenuItem.setVisible(true);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.id_delete_meetings:
                 deleteMeetings();
-                refreshDisplay();
+                clearDisplay();
+//                getActivity().invalidateOptionsMenu();
+                chgDelToAdd = true;
+                return true;
+            case R.id.id_add_meetings:
+                // TBA
+                chgDelToAdd = false;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -88,6 +113,11 @@ public class MeetingFragment extends BaseFragment {
     @Override
     public void deleteMeetings() {
         iPresenterView.deleteMeetings();
+    }
+
+    @Override
+    public void clearDisplay() {
+        iPresenterView.clearDisplay();
     }
     //</editor-fold>
 
@@ -126,12 +156,6 @@ public class MeetingFragment extends BaseFragment {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    private void refreshDisplay() {
-        // TODO - refresh the view.
-
-        String bp = "";
-    }
-
     private void setRecyclerView() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -141,6 +165,10 @@ public class MeetingFragment extends BaseFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
     //</editor-fold>
+
+    private boolean chgDelToAdd;       // flag, change Delete menu item to Add.
+    private MenuItem delMenuItem;      // menu option Delete.
+    private MenuItem addMenuItem;      // menu option Add.
 
     // Butter Knife.
     private Unbinder unbinder;

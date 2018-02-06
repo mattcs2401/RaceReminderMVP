@@ -142,6 +142,18 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
+    @Override
+    public void deleteMeetings() {
+        doMeetingOps(DELETE_MEETINGS, null);
+    }
+
+    @Override
+    public void clearDisplay() {
+        meetingAdapter.swapData(null);
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     /**
      * MeetingLoader.onLoadFinished and operation type was OpType.COUNT_MEETINGS.
@@ -294,11 +306,6 @@ public class MeetingModelImpl extends BaseModelImpl {
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }
     //</editor-fold>
-
-    @Override
-    public void deleteMeetings() {
-        doMeetingOps(DELETE_MEETINGS, null);
-    }
 
     private MeetingAdapter meetingAdapter;       // recyclerview adapter.
 

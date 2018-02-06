@@ -67,6 +67,11 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     public void deleteMeetings() {
         iModelPresenter.deleteMeetings();
     }
+
+    @Override
+    public void clearDisplay() {
+        iModelPresenter.clearDisplay();
+    }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference

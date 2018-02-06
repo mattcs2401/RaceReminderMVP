@@ -73,6 +73,9 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     @Override
     public void deleteMeetings() { }
+
+    @Override
+    public void clearDisplay() { }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">

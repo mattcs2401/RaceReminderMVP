@@ -47,7 +47,10 @@ public abstract class BaseModelImpl
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
-    public void deleteMeetings() {}
+    public void deleteMeetings() { }
+
+    @Override
+    public void clearDisplay() { }
     //</editor-fold>
 
     protected RaceDatabase raceDatabase;

@@ -5,6 +5,16 @@
     <item
         android:id="@+id/id_delete_meetings"
         android:orderInCategory="101"
-        android:title="Delete All"
+        android:title="Delete Meetings"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/id_add_meetings"
+        android:orderInCategory="101"
+        android:title="Add Meetings"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>
+<!--
+ Note: menu visibility set in code.
+-->
