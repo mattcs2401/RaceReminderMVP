@@ -47,8 +47,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         switch(item.getItemId()) {
             case R.id.action_settings:
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

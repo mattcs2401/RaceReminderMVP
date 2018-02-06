@@ -20,7 +20,7 @@ import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 
-public abstract class BaseFragment extends Fragment implements IViewPresenter, IClick.ItemClick {
+public abstract class BaseFragment extends Fragment implements IViewPresenter, IPresenterView, IClick.ItemClick {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -51,9 +51,7 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
 
     //<editor-fold defaultstate="collapsed" desc="Region: IViewPresenter">
     @Override
-    public void onItemClick(View view, @Nullable int lPos) {
-
-    }
+    public void onItemClick(View view, @Nullable int lPos) { }
 
     @Override
     public Context getContext() {
@@ -66,14 +64,15 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     }
 
     @Override
-    public void showProgressDialog(boolean show, @Nullable String message) {
-
-    }
+    public void showProgressDialog(boolean show, @Nullable String message) { }
 
     @Override
-    public void showNoNetworkDialog() {
+    public void showNoNetworkDialog() { }
+    //</editor-fold>
 
-    }
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
+    @Override
+    public void deleteMeetings() { }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">

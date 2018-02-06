@@ -17,6 +17,7 @@ import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.utility.OpType;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DOWNLOAD_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.INSERT_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
@@ -76,6 +77,9 @@ public class RaceModelImpl extends BaseModelImpl {
             case SELECT_RACES:
                 doRaceOpsSelectRaces(opType);
                 break;
+            case DELETE_RACES:
+                doRaceOpsDeleteRaces(opType);
+                break;
         }
     }
 
@@ -96,6 +100,10 @@ public class RaceModelImpl extends BaseModelImpl {
     private void doRaceOpsSelectRaces(@OpType.RType int opType) {
         String bp = "";
 
+    }
+
+    private void doRaceOpsDeleteRaces(@OpType.RType int opType) {
+        String bp = "";
     }
 
     private void setMeetingAdapter() {

@@ -26,11 +26,9 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     public MainPresenterImpl(IViewPresenter iViewPresenter, @Nullable Bundle arguments) {
         this.iViewPresenter = iViewPresenter;
         if(arguments == null) {
-//            iModelPresenter = new MeetingModelImpl(this);
-            new MeetingModelImpl(this);
+            iModelPresenter = new MeetingModelImpl(this);
         } else {
-//            iModelPresenter = new RaceModelImpl(this, arguments);
-            new RaceModelImpl(this, arguments);
+            iModelPresenter = new RaceModelImpl(this, arguments);
         }
     }
 
@@ -65,28 +63,10 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
-//    @Override
-//    public boolean getNetworkCheck() {
-//        return iModelPresenter.getNetworkCheck();
-//    }
-//
-//    @Override
-//    public void downloadMeetings() {
-//        iModelPresenter.downloadMeetings();
-//    }
-//
-//    @Override
-//    public Object getMeetings() {
-//        return iModelPresenter.getMeetings();
-//    }
-//
-//    @Override
-//    public void downloadRaces() { iModelPresenter.downloadRaces(); }
-//
-//    @Override
-//    public Object getRaces() {
-//        return iModelPresenter.getRaces();
-//    }
+    @Override
+    public void deleteMeetings() {
+        iModelPresenter.deleteMeetings();
+    }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference

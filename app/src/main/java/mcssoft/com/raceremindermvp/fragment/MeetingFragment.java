@@ -30,6 +30,13 @@ public class MeetingFragment extends BaseFragment {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // pickup fragment related menu options.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         // Get interface to the Activity.
@@ -55,6 +62,7 @@ public class MeetingFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_meeting, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -68,10 +76,19 @@ public class MeetingFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.id_delete_meetings:
+                deleteMeetings();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
+    @Override
+    public void deleteMeetings() {
+        iPresenterView.deleteMeetings();
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override

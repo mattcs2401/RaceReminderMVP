@@ -297,7 +297,7 @@ public class MeetingModelImpl extends BaseModelImpl {
 
     @Override
     public void deleteMeetings() {
-        super.deleteMeetings();
+        doMeetingOps(DELETE_MEETINGS, null);
     }
 
     private MeetingAdapter meetingAdapter;       // recyclerview adapter.

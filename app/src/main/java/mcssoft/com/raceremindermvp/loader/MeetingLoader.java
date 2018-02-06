@@ -16,6 +16,7 @@ import mcssoft.com.raceremindermvp.utility.OpType;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETING;
+import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.INSERT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
@@ -45,8 +46,8 @@ public class MeetingLoader extends AsyncTaskLoader<Object> {
             case SELECT_MEETINGS:
                 object = raceDatabase.getMeetingDAO().getMeetings("N");
                 break;
-            case DELETE_MEETING:
-                // TBA
+            case DELETE_MEETINGS:
+                object = raceDatabase.getMeetingDAO().deleteMeetings();
                 break;
             }
         return object;
