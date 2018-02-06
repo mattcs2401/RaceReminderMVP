@@ -47,7 +47,11 @@ public abstract class BaseModelImpl
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
+    @Override
     public void deleteMeetings() { }
+
+    @Override
+    public void downloadMeetings() { }
 
     @Override
     public void clearDisplay() { }

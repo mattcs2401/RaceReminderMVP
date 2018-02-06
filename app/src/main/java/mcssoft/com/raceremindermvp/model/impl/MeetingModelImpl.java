@@ -149,6 +149,11 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
 
     @Override
+    public void downloadMeetings() {
+        doMeetingOps(DOWNLOAD_MEETINGS, null);
+    }
+
+    @Override
     public void clearDisplay() {
         meetingAdapter.swapData(null);
     }

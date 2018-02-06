@@ -97,11 +97,10 @@ public class MeetingFragment extends BaseFragment {
             case R.id.id_delete_meetings:
                 deleteMeetings();
                 clearDisplay();
-//                getActivity().invalidateOptionsMenu();
                 chgDelToAdd = true;
                 return true;
             case R.id.id_add_meetings:
-                // TBA
+                downloadMeetings();
                 chgDelToAdd = false;
                 return true;
             default:
@@ -113,6 +112,11 @@ public class MeetingFragment extends BaseFragment {
     @Override
     public void deleteMeetings() {
         iPresenterView.deleteMeetings();
+    }
+
+    @Override
+    public void downloadMeetings() {
+        iPresenterView.downloadMeetings();
     }
 
     @Override

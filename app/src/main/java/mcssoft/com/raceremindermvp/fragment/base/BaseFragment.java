@@ -75,6 +75,9 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     public void deleteMeetings() { }
 
     @Override
+    public void downloadMeetings() { }
+
+    @Override
     public void clearDisplay() { }
     //</editor-fold>
 

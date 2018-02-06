@@ -11,5 +11,7 @@ public interface IModelPresenter {
      */
     void deleteMeetings();
 
+    void downloadMeetings();
+
     void clearDisplay();
 }

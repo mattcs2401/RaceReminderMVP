@@ -11,5 +11,7 @@ public interface IPresenterView {
      */
     void deleteMeetings();
 
+    void downloadMeetings();
+
     void clearDisplay();
 }

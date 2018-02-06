@@ -69,6 +69,11 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
+    public void downloadMeetings() {
+        iModelPresenter.downloadMeetings();
+    }
+
+    @Override
     public void clearDisplay() {
         iModelPresenter.clearDisplay();
     }
