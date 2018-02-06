@@ -128,6 +128,7 @@ public class MeetingFragment extends BaseFragment {
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     private void refreshDisplay() {
         // TODO - refresh the view.
+
         String bp = "";
     }
 
