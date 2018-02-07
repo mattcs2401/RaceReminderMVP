@@ -75,7 +75,7 @@ public class MeetingFragment extends BaseFragment {
     }
     //</editor-fold>
 
-
+    //<editor-fold defaultstate="collapsed" desc="Region: Menu">
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Note: this is called every time so need to keep as simple as possible.
@@ -107,6 +107,7 @@ public class MeetingFragment extends BaseFragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     @Override
