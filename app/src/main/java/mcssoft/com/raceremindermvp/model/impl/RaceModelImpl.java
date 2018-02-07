@@ -132,11 +132,11 @@ public class RaceModelImpl extends BaseModelImpl {
      */
     @Override
     protected void doLoaderManager(Bundle bundle) {
-        if(loaderManager.getLoader(1) != null) {
+        if(loaderManager.getLoader(2) != null) {
             // restart the loader to pick up new changes.
-            loaderManager.restartLoader(1, bundle, this);
+            loaderManager.restartLoader(2, bundle, this);
         } else {
-            loaderManager.initLoader(1, bundle, this);
+            loaderManager.initLoader(2, bundle, this);
         }
     }
 
