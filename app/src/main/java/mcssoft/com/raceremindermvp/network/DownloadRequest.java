@@ -48,13 +48,13 @@ public class DownloadRequest<T> extends Request<List> {
             // TODO - remove hard coded table names.
             switch(tableName) {
                 case "MEETINGS":
-                    theResult = parser.parse(meetings_tag);
+                    theResult = parser.parse(table_meetings);
                     break;
                 case "RACES":
-                    theResult = parser.parse(races_tag);
+                    theResult = parser.parse(table_races);
                     break;
                 case "RUNNERS":
-                    theResult = parser.parse(runners_tag);
+                    theResult = parser.parse(table_runners);
                     break;
             }
             // Write the results to the database (if don't already exist).
@@ -84,8 +84,8 @@ public class DownloadRequest<T> extends Request<List> {
     private Response.Listener<List> listener;         // non-error listener callback.
     private Response.ErrorListener errorListener;     // error listener callback.
 
-    @BindString(R.string.meetings_tag) String meetings_tag;
-    @BindString(R.string.races_tag) String races_tag;
-    @BindString(R.string.runners_tag) String runners_tag;
+    @BindString(R.string.table_meetings) String table_meetings;
+    @BindString(R.string.table_races) String table_races;
+    @BindString(R.string.table_runners) String table_runners;
     //</editor-fold>
 }

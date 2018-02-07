@@ -237,7 +237,7 @@ public class MeetingModelImpl extends BaseModelImpl {
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createRaceDayUrl(null);
         iPresenterModel.showProgressDialog(true, getting_meetings);
-        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, "MEETINGS");
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_meetings);
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
@@ -301,6 +301,7 @@ public class MeetingModelImpl extends BaseModelImpl {
     @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.bundle_data_key) String bundle_data_key;
     @BindString(R.string.getting_meetings) String getting_meetings;
+    @BindString(R.string.table_meetings) String table_meetings;
     @BindString(R.string.writing_meetings) String writing_meetings;
 
 }

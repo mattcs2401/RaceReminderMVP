@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.android.volley.Request;
+
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
@@ -15,7 +17,10 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
 import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
+import mcssoft.com.raceremindermvp.network.DownloadRequest;
+import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.OpType;
+import mcssoft.com.raceremindermvp.utility.Url;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
@@ -115,9 +120,12 @@ public class RaceModelImpl extends BaseModelImpl {
     }
 
     private void doRaceOpsDownloadRaces() {
-        String bp = "";
-
-    }
+        Url url = new Url(iPresenterModel.getContext());
+        // TBA
+        String uri = url.createMeetingUrl(new String[] {"meetingdate"}, "meretingcode");
+        iPresenterModel.showProgressDialog(true, getting_races);
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
+        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);    }
 
     private void doRaceOpsInsertRaces(@OpType.RType int opType, Object data) {
         String bp = "";
@@ -156,4 +164,5 @@ public class RaceModelImpl extends BaseModelImpl {
     @BindString(R.string.bundle_data_key) String bundle_data_key;
     @BindString(R.string.getting_races) String getting_races;
     @BindString(R.string.writing_races) String writing_races;
+    @BindString(R.string.table_races) String table_races;
 }

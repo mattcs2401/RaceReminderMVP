@@ -58,13 +58,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         }
     }
 
-//    @Override
-//    public long getItemId(int position) {
-//        Log.d(LOG_TAG, "getItemId");
-//        cursor.moveToPosition(position);
-//        return cursor.getLong(meetingIdColNdx);
-//    }
-
     @Override
     public int getItemViewType(int position) {
         if(isEmptyView) {
@@ -87,6 +80,19 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         }
         notifyDataSetChanged();
     }
+
+    /**
+     * Return the Meeting object at the adapter position.
+     * @param lPos The adapter position (0 based).
+     * @return The Meeting object, or NULL.
+     */
+    public Meeting getMeeting(int lPos) {
+        if(lMeeting != null && lPos > -1) {
+            return lMeeting.get(lPos);
+        }
+        return null;
+    }
+
 
     public void setEmptyView(boolean isEmptyView) {
         this.isEmptyView = isEmptyView;
