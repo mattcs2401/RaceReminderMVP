@@ -19,14 +19,10 @@ public abstract class BaseModelImpl
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
     @Override
-    public void onErrorResponse(VolleyError error) {
-
-    }
+    public void onErrorResponse(VolleyError error) { }
 
     @Override
-    public void onResponse(Object response) {
-
-    }
+    public void onResponse(Object response) { }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
@@ -36,14 +32,10 @@ public abstract class BaseModelImpl
     }
 
     @Override
-    public void onLoadFinished(Loader loader, Object data) {
-
-    }
+    public void onLoadFinished(Loader loader, Object data) { }
 
     @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
+    public void onLoaderReset(Loader loader) { }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
@@ -56,6 +48,8 @@ public abstract class BaseModelImpl
     @Override
     public void clearDisplay() { }
     //</editor-fold>
+
+    protected void doLoaderManager(Bundle bundle) { }
 
     protected RaceDatabase raceDatabase;
     protected LoaderManager loaderManager;

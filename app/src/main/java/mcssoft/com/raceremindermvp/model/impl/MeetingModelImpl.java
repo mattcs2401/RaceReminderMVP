@@ -130,7 +130,7 @@ public class MeetingModelImpl extends BaseModelImpl {
                 // select on Meeting records returns here.
                 onLoadFinishedSelectMeetings(object);
                 break;
-            case DELETE_MEETING:
+            case DELETE_MEETINGS:
                 onLoadFinishedDeleteMeetings();
                 break;
         }
@@ -159,7 +159,7 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    //<editor-fold defaultstate="collapsed" desc="Region: onLoadFinished methods">
     /**
      * MeetingLoader.onLoadFinished and operation type was OpType.COUNT_MEETINGS.
      * @param object The count of meetings (as int).
@@ -203,7 +203,9 @@ public class MeetingModelImpl extends BaseModelImpl {
         // load up the adapter.
         meetingAdapter.swapData((List<Meeting>) object);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: doMeetingOps methods">
     /**
      * A switchboard foe Meeting operations.
      * @param opType The operation type (from enum OpTyp).
@@ -213,7 +215,11 @@ public class MeetingModelImpl extends BaseModelImpl {
         this.opType = opType;
         switch(opType) {
             case COUNT_MEETINGS:
-                doMeetingOpsCountMeetings(opType);
+            case SELECT_MEETINGS:
+            case DELETE_MEETINGS:
+                Bundle bundle = new Bundle();
+                bundle.putInt(bundle_key, opType);
+                doLoaderManager(bundle);
                 break;
             case DOWNLOAD_MEETINGS:
                 doMeetingOpsDownloadMeetings();
@@ -221,20 +227,7 @@ public class MeetingModelImpl extends BaseModelImpl {
             case INSERT_MEETINGS:
                 doMeetingOpsInsertMeetings(opType, object);
                 break;
-            case SELECT_MEETINGS:
-                doMeetingOpsSelectMeetings(opType);
-                break;
-            case DELETE_MEETINGS:
-                doMeetingOpsDeleteMeetings(opType);
-                break;
         }
-    }
-
-    private void doMeetingOpsCountMeetings(@OpType.MType int opType) {
-        Bundle bundle = new Bundle();
-        // set the current operation type in the bundle.
-        bundle.putInt(bundle_key, opType);
-        doLoaderManager(bundle);
     }
 
     /**
@@ -262,27 +255,15 @@ public class MeetingModelImpl extends BaseModelImpl {
         // restart loader to pickup changes.
         doLoaderManager(bundle);
     }
+    //</editor-fold>
 
-    /**
-     * Select the Meeting records.
-     * @param opType The operation type for the MeetingLoader.
-     */
-    private void doMeetingOpsSelectMeetings(@OpType.MType int opType) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(bundle_key, opType);
-        doLoaderManager(bundle);
-    }
-
-    private void doMeetingOpsDeleteMeetings(@OpType.MType int opType) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(bundle_key, opType);
-        doLoaderManager(bundle);
-    }
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     /**
      * Initialise or restart the MeetingLoader.
      * @param bundle Data package.
      */
-    private void doLoaderManager(Bundle bundle) {
+    @Override
+    protected void doLoaderManager(Bundle bundle) {
         if(loaderManager.getLoader(1) != null) {
             // restart the loader to pick up new changes.
             loaderManager.restartLoader(1, bundle, this);

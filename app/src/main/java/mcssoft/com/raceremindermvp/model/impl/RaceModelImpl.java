@@ -13,6 +13,7 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.adapter.race.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.loader.RaceLoader;
 import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.utility.OpType;
 
@@ -43,20 +44,52 @@ public class RaceModelImpl extends BaseModelImpl {
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return null;
+        return new RaceLoader(iPresenterModel.getContext(), raceDatabase, args);
     }
 
     @Override
-    public void onLoadFinished(Loader loader, Object data) {
-
+    public void onLoadFinished(Loader loader, Object object) {
+        switch(opType) {
+            case COUNT_RACES:
+                onLoadFinishedCountRaces(object);
+                break;
+            case SELECT_RACES:
+                // select on Meeting records returns here.
+                onLoadFinishedSelectRaces(object);
+                break;
+            case DELETE_RACES:
+                onLoadFinishedDeleteRaces();
+                break;
+            case DOWNLOAD_RACES:
+                onLoadFinishedDownloadRaces();
+                break;
+            case INSERT_RACES:
+                // Meeting information has been inserted into the database, now select them so we
+                // can load up the adapter.
+                onLoadFinishedInsertRaces();
+                break;
+        }
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
-
+        raceAdapter.swapData(null);
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: doLoadFinished methods">
+    private void onLoadFinishedCountRaces(Object object) { }
+
+    private void onLoadFinishedDownloadRaces() { }
+
+    private void onLoadFinishedInsertRaces() { }
+
+    private void onLoadFinishedSelectRaces(Object object) { }
+
+    private void onLoadFinishedDeleteRaces() { }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: doRaceOps methods">
     /**
      * A switchboard foe Meeting operations.
      * @param opType The operation type (from enum OpTyp).
@@ -66,7 +99,11 @@ public class RaceModelImpl extends BaseModelImpl {
         this.opType = opType;
         switch(opType) {
             case COUNT_RACES:
-                doRaceOpsCountRaces(opType);
+            case SELECT_RACES:
+            case DELETE_RACES:
+                Bundle bundle = new Bundle();
+                bundle.putInt(bundle_key, opType);
+                doLoaderManager(bundle);
                 break;
             case DOWNLOAD_RACES:
                 doRaceOpsDownloadRaces();
@@ -74,17 +111,7 @@ public class RaceModelImpl extends BaseModelImpl {
             case INSERT_RACES:
                 doRaceOpsInsertRaces(opType, object);
                 break;
-            case SELECT_RACES:
-                doRaceOpsSelectRaces(opType);
-                break;
-            case DELETE_RACES:
-                doRaceOpsDeleteRaces(opType);
-                break;
         }
-    }
-
-    private void doRaceOpsCountRaces(@OpType.RType int opType) {
-        String bp = "";
     }
 
     private void doRaceOpsDownloadRaces() {
@@ -96,14 +123,21 @@ public class RaceModelImpl extends BaseModelImpl {
         String bp = "";
 
     }
+    //</editor-fold>
 
-    private void doRaceOpsSelectRaces(@OpType.RType int opType) {
-        String bp = "";
-
-    }
-
-    private void doRaceOpsDeleteRaces(@OpType.RType int opType) {
-        String bp = "";
+    //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    /**
+     * Initialise or restart the MeetingLoader.
+     * @param bundle Data package.
+     */
+    @Override
+    protected void doLoaderManager(Bundle bundle) {
+        if(loaderManager.getLoader(1) != null) {
+            // restart the loader to pick up new changes.
+            loaderManager.restartLoader(1, bundle, this);
+        } else {
+            loaderManager.initLoader(1, bundle, this);
+        }
     }
 
     private void setMeetingAdapter() {
@@ -111,6 +145,7 @@ public class RaceModelImpl extends BaseModelImpl {
         raceAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(raceAdapter);
     }
+    //</editor-fold>
 
     private RaceAdapter raceAdapter;       // recyclerview adapter.
 
