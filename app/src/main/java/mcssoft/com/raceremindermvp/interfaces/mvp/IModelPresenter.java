@@ -17,5 +17,5 @@ public interface IModelPresenter {
 
     void clearDisplay();
 
-    Meeting getMeeting(int lPos);
+    int getMeetingRowId(int lPos);
 }

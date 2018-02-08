@@ -159,8 +159,8 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
 
     @Override
-    public Meeting getMeeting(int lPos) {
-        return meetingAdapter.getMeeting(lPos);
+    public int getMeetingRowId(int lPos) {
+        return (meetingAdapter.getMeeting(lPos)).getId();
     }
 
     //</editor-fold>

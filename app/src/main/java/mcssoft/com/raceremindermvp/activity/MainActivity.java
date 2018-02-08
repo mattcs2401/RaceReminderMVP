@@ -96,11 +96,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     @Override
-    public void showRaceFragment(Meeting meeting) {
-        // TODO - hmm ... the View now knows about the Model (or an aspect of it) ??
-        // TODO - don't pass the Meeting object, just pass the database row 'id' (in the object).
+    public void showRaceFragment(int rowId) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("meeting", meeting);
+        bundle.putInt("meeting", rowId);
         bundle.putString("opsForKey", "races");
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);
@@ -108,11 +106,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         fragTrans.replace(R.id.id_main_fragment_container, raceFragment);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
-    }
-
-    @Override
-    public void deleteRaces() {
-
     }
     //</editor-fold>
 

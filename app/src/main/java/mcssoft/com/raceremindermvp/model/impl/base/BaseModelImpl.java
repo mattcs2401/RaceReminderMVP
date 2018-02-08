@@ -50,7 +50,7 @@ public abstract class BaseModelImpl
     public void clearDisplay() { }
 
     @Override
-    public Meeting getMeeting(int lPos) { return null; }
+    public int getMeetingRowId(int lPos) { return 0; }
     //</editor-fold>
 
     protected void doLoaderManager(Bundle bundle) { }

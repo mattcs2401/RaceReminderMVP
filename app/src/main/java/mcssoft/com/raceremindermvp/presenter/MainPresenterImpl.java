@@ -80,7 +80,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public Meeting getMeeting(int lPos) { return iModelPresenter.getMeeting(lPos); }
+    public int getMeetingRowId(int lPos) { return iModelPresenter.getMeetingRowId(lPos); }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference

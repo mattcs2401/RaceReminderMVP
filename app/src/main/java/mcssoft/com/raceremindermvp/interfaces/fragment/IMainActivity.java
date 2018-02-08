@@ -25,9 +25,7 @@ public interface IMainActivity {
 
     /**
      * Call on the Meeting activity to show a new Race activity.
-     * @param meeting The seledted Meeting object (from the list of Meeting)..
+     * @param rowId The row id in the database (MEETINGS table).
      */
-    void showRaceFragment(Meeting meeting);
-
-    void deleteRaces();
+    void showRaceFragment(int rowId);
 }

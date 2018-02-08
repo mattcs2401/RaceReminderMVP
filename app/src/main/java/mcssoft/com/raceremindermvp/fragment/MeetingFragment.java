@@ -128,16 +128,15 @@ public class MeetingFragment extends BaseFragment {
     }
 
     @Override
-    public Meeting getMeeting(int lPos) {
-        return iPresenterView.getMeeting(lPos);
+    public int getMeetingRowId(int lPos) {
+        return iPresenterView.getMeetingRowId(lPos);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        Meeting meeting = iPresenterView.getMeeting(lPos);
-        iMainActivity.showRaceFragment(meeting);
+        iMainActivity.showRaceFragment(iPresenterView.getMeetingRowId(lPos));
     }
     //</editor-fold>
 
