@@ -24,7 +24,7 @@ public final class OpType {
         int DELETE_MEETINGS = 0x05;
     }
 
-    @IntDef({RType.DOWNLOAD_RACES, RType.COUNT_RACES, RType.SELECT_RACES, RType.INSERT_RACES, RType.DELETE_RACE})
+    @IntDef({RType.DOWNLOAD_RACES, RType.COUNT_RACES, RType.SELECT_RACES, RType.INSERT_RACES, RType.DELETE_RACE, RType.DELETE_RACES})
 
     @Retention(RetentionPolicy.SOURCE)
 

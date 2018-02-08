@@ -98,8 +98,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void showRaceFragment(int rowId) {
         Bundle bundle = new Bundle();
-        bundle.putInt("meeting", rowId);
-        bundle.putString("opsForKey", "races");
+        bundle.putInt(bundle_key, rowId);
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);
         FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private ProgressDialog progressDialog;  // the progress dialog.
 
     // Butter Knife
+    @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
     @BindString(R.string.network_connection_error_p1) String network_connection_error_l1;
     @BindString(R.string.network_connection_error_p2) String network_connection_error_l2;

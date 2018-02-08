@@ -43,7 +43,12 @@ public class RaceModelImpl extends BaseModelImpl {
         // resource bindings
         ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
 
-        doRaceOps(COUNT_RACES, null);
+        // clear any races that exist in the database
+        doRaceOps(DELETE_RACES, null);
+        // get the meeting database row id from the arguments
+        int dBRowId = arguments.getInt(bundle_key);
+        // download races based on the meeting information
+        doRaceOps(DOWNLOAD_RACES, dBRowId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
@@ -111,7 +116,7 @@ public class RaceModelImpl extends BaseModelImpl {
                 doLoaderManager(bundle);
                 break;
             case DOWNLOAD_RACES:
-                doRaceOpsDownloadRaces();
+                doRaceOpsDownloadRaces(opType, int);
                 break;
             case INSERT_RACES:
                 doRaceOpsInsertRaces(opType, object);
@@ -119,7 +124,7 @@ public class RaceModelImpl extends BaseModelImpl {
         }
     }
 
-    private void doRaceOpsDownloadRaces() {
+    private void doRaceOpsDownloadRaces(int id) {
         Url url = new Url(iPresenterModel.getContext());
         // TBA
         String uri = url.createMeetingUrl(new String[] {"meetingdate"}, "meretingcode");
