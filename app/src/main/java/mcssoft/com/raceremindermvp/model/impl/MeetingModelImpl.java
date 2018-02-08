@@ -157,6 +157,12 @@ public class MeetingModelImpl extends BaseModelImpl {
     public void clearDisplay() {
         meetingAdapter.swapData(null);
     }
+
+    @Override
+    public Meeting getMeeting(int lPos) {
+        return meetingAdapter.getMeeting(lPos);
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: onLoadFinished methods">

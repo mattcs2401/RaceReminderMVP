@@ -22,6 +22,7 @@ import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 public class RaceFragment extends BaseFragment {
+// BaseFragment extends Fragment implements IViewPresenter, IPresenterView, IClick.ItemClick
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -87,7 +88,6 @@ public class RaceFragment extends BaseFragment {
     public void onItemClick(View view, @Nullable int lPos) {
         Snackbar.make(view, "Race item " + lPos + " selected.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-//        iMainActivity.showRaceFragment(lPos);
     }
     //</editor-fold>
 

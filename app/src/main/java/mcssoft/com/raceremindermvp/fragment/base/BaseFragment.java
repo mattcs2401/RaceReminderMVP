@@ -19,6 +19,7 @@ import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 public abstract class BaseFragment extends Fragment implements IViewPresenter, IPresenterView, IClick.ItemClick {
 
@@ -79,6 +80,9 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
 
     @Override
     public void clearDisplay() { }
+
+    @Override
+    public Meeting getMeeting(int lPos) { return null; }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">

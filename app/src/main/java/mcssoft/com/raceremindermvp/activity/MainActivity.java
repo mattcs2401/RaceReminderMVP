@@ -17,6 +17,7 @@ import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
 import mcssoft.com.raceremindermvp.fragment.MeetingFragment;
 import mcssoft.com.raceremindermvp.fragment.RaceFragment;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
@@ -95,9 +96,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     @Override
-    public void showRaceFragment(int lPos) {
+    public void showRaceFragment(Meeting meeting) {
+        // TODO - hmm ... the View now knows about the Model (or an aspect of it) ??
+        // TODO - don't pass the Meeting object, just pass the database row 'id' (in the object).
         Bundle bundle = new Bundle();
-        bundle.putInt("lPosKey", lPos);
+        bundle.putParcelable("meeting", meeting);
         bundle.putString("opsForKey", "races");
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);

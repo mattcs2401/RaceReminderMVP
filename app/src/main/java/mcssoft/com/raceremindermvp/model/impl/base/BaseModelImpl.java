@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 /**
  * Utility base class for the implementation of the Model.
@@ -47,6 +48,9 @@ public abstract class BaseModelImpl
 
     @Override
     public void clearDisplay() { }
+
+    @Override
+    public Meeting getMeeting(int lPos) { return null; }
     //</editor-fold>
 
     protected void doLoaderManager(Bundle bundle) { }

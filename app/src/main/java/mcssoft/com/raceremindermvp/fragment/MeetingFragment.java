@@ -21,12 +21,14 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.fragment.base.BaseFragment;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MeetingFragment extends BaseFragment {
+// BaseFragment extends Fragment implements IViewPresenter, IPresenterView, IClick.ItemClick
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -124,12 +126,18 @@ public class MeetingFragment extends BaseFragment {
     public void clearDisplay() {
         iPresenterView.clearDisplay();
     }
+
+    @Override
+    public Meeting getMeeting(int lPos) {
+        return iPresenterView.getMeeting(lPos);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        iMainActivity.showRaceFragment(lPos);
+        Meeting meeting = iPresenterView.getMeeting(lPos);
+        iMainActivity.showRaceFragment(meeting);
     }
     //</editor-fold>
 

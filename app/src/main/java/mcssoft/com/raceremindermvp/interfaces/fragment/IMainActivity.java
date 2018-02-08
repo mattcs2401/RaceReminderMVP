@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.support.annotation.Nullable;
 
 import mcssoft.com.raceremindermvp.dialog.NetworkDialog;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 /**
  * Interface between the Activity and the Fragment (so the fragment can call activity methods).
@@ -24,9 +25,9 @@ public interface IMainActivity {
 
     /**
      * Call on the Meeting activity to show a new Race activity.
-     * @param lPos The position of the list item that was selected.
+     * @param meeting The seledted Meeting object (from the list of Meeting)..
      */
-    void showRaceFragment(int lPos);
+    void showRaceFragment(Meeting meeting);
 
     void deleteRaces();
 }

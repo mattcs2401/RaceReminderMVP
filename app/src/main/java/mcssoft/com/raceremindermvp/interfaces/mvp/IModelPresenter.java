@@ -1,5 +1,7 @@
 package mcssoft.com.raceremindermvp.interfaces.mvp;
 
+import mcssoft.com.raceremindermvp.model.database.Meeting;
+
 /**
  * Implementation of interface between Model and Presenter.
  * Provides Model operations available to the Presenter.
@@ -14,4 +16,6 @@ public interface IModelPresenter {
     void downloadMeetings();
 
     void clearDisplay();
+
+    Meeting getMeeting(int lPos);
 }

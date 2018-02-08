@@ -13,6 +13,7 @@ import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.MeetingModelImpl;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
@@ -77,6 +78,9 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     public void clearDisplay() {
         iModelPresenter.clearDisplay();
     }
+
+    @Override
+    public Meeting getMeeting(int lPos) { return iModelPresenter.getMeeting(lPos); }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
