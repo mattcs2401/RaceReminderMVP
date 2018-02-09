@@ -16,6 +16,7 @@ import mcssoft.com.raceremindermvp.adapter.race.RaceAdapter;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
+import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
@@ -26,6 +27,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DOWNLOAD_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.INSERT_RACES;
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_MEETING;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 
 public class RaceModelImpl extends BaseModelImpl {
@@ -46,9 +48,9 @@ public class RaceModelImpl extends BaseModelImpl {
         // clear any races that exist in the database
         doRaceOps(DELETE_RACES, null);
         // get the meeting database row id from the arguments
-        int dBRowId = arguments.getInt(bundle_key);
+        this.arguments = arguments;
         // download races based on the meeting information
-        doRaceOps(DOWNLOAD_RACES, dBRowId);
+        doRaceOps(SELECT_MEETING, null);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
@@ -78,6 +80,9 @@ public class RaceModelImpl extends BaseModelImpl {
                 // can load up the adapter.
                 onLoadFinishedInsertRaces();
                 break;
+            case SELECT_MEETING:
+                onLoadFinishedSelectMeeting(object);
+                break;
         }
     }
 
@@ -97,6 +102,10 @@ public class RaceModelImpl extends BaseModelImpl {
     private void onLoadFinishedSelectRaces(Object object) { }
 
     private void onLoadFinishedDeleteRaces() { }
+
+    private void onLoadFinishedSelectMeeting(Object object) {
+        doRaceOpsDownloadRaces(object);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: doRaceOps methods">
@@ -106,31 +115,45 @@ public class RaceModelImpl extends BaseModelImpl {
      * @param object A data object.
      */
     private void doRaceOps(@OpType.RType int opType, @Nullable Object object) {
+        Bundle bundle = null;
         this.opType = opType;
         switch(opType) {
             case COUNT_RACES:
             case SELECT_RACES:
             case DELETE_RACES:
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putInt(bundle_key, opType);
                 doLoaderManager(bundle);
                 break;
             case DOWNLOAD_RACES:
-                doRaceOpsDownloadRaces(opType, int);
+                doRaceOpsDownloadRaces(object);
                 break;
             case INSERT_RACES:
                 doRaceOpsInsertRaces(opType, object);
                 break;
+            case SELECT_MEETING:
+                bundle = new Bundle();
+                bundle.putInt(bundle_key, opType);
+                bundle.putInt(bundle_data_key, arguments.getInt(bundle_key));
+                doLoaderManager(bundle);
+                break;
         }
     }
 
-    private void doRaceOpsDownloadRaces(int id) {
+    /**
+     *
+     * @param object The selected Meeting record.
+     */
+    private void doRaceOpsDownloadRaces(Object object) {
+        // Note: meeting date is YYYY-MM-DD
+        Meeting meeting = (Meeting) object;
+        String meetingCode = meeting.getMeetingCode() + "xml";
         Url url = new Url(iPresenterModel.getContext());
-        // TBA
-        String uri = url.createMeetingUrl(new String[] {"meetingdate"}, "meretingcode");
-        iPresenterModel.showProgressDialog(true, getting_races);
-        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
-        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);    }
+        String uri = url.createMeetingUrl(new String[] {"meetingdate"}, meetingCode);
+//        iPresenterModel.showProgressDialog(true, getting_races);
+//        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
+//        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
+    }
 
     private void doRaceOpsInsertRaces(@OpType.RType int opType, Object data) {
         String bp = "";
@@ -160,6 +183,7 @@ public class RaceModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
+    private Bundle arguments;
     private RaceAdapter raceAdapter;       // recyclerview adapter.
 
     @OpType.RType int opType;     // current operation type.

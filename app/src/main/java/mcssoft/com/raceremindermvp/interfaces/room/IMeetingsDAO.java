@@ -17,6 +17,9 @@ public interface IMeetingsDAO {
     @Query("SELECT COUNT(*) FROM MEETINGS WHERE ArchvFlag = :flag")
     public int getMeetingsCount(String flag);
 
+    @Query("SELECT * FROM MEETINGS WHERE _id = :rowId")
+    public Meeting getMeeting(int rowId);
+
     @Query("SELECT * FROM MEETINGS WHERE ArchvFlag = :flag")
     public List<Meeting> getMeetings(String flag);
 

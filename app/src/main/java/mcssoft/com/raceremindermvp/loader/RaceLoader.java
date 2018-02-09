@@ -11,6 +11,8 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.utility.OpType;
 
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_MEETING;
+
 public class RaceLoader extends AsyncTaskLoader<Object> {
 
     public RaceLoader(Context context, RaceDatabase raceDatabase, Bundle bundle) {
@@ -22,7 +24,14 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
 
     @Override
     public Object loadInBackground() {
-        return null;
+        Object object = null;
+        switch(bundle.getInt(bundle_key)) {
+            case SELECT_MEETING:
+                int rowId = bundle.getInt(bundle_data_key);
+                object = raceDatabase.getMeetingDAO().getMeeting(rowId);
+                break;
+        }
+        return object;
     }
 
     @Override

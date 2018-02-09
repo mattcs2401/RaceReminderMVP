@@ -36,7 +36,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     @Override
     public void onBindViewHolder(MeetingViewHolder holder, int position) {
-        Log.d(getClass().getSimpleName(), "onBindViewHolder");
+//        Log.d(getClass().getSimpleName(), "onBindViewHolder");
         if(!isEmptyView) {
             Meeting meeting = lMeeting.get(position);
             holder.getTvMeetingCode().setText(meeting.getMeetingCode());
@@ -71,7 +71,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     }
 
     public void swapData(List<Meeting> lMeeting) {
-        // Note: lMeeting could be null;
         this.lMeeting = lMeeting;
         if(lMeeting == null || lMeeting.size() < 1) {
             setEmptyView(true);
