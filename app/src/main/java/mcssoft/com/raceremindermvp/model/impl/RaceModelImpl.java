@@ -147,9 +147,9 @@ public class RaceModelImpl extends BaseModelImpl {
     private void doRaceOpsDownloadRaces(Object object) {
         // Note: meeting date is YYYY-MM-DD
         Meeting meeting = (Meeting) object;
-        String meetingCode = meeting.getMeetingCode() + "xml";
+        String meetingCode = meeting.getMeetingCode() + xml_extn;
         Url url = new Url(iPresenterModel.getContext());
-        String uri = url.createMeetingUrl(new String[] {"meetingdate"}, meetingCode);
+        String uri = url.createMeetingUrl(meeting.getMeetingDate(), meetingCode);
 //        iPresenterModel.showProgressDialog(true, getting_races);
 //        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
 //        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
@@ -194,4 +194,5 @@ public class RaceModelImpl extends BaseModelImpl {
     @BindString(R.string.getting_races) String getting_races;
     @BindString(R.string.writing_races) String writing_races;
     @BindString(R.string.table_races) String table_races;
+    @BindString(R.string.xml_extn) String xml_extn;
 }

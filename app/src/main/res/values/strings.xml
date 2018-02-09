@@ -59,4 +59,7 @@
     <string name="table_meetings">MEETINGS</string>
     <string name="table_races">RACES</string>
     <string name="table_runners">RUNNERS</string>
+
+    <!-- Other -->
+    <string name="xml_extn">.xml</string>
 </resources>

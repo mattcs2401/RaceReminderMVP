@@ -27,7 +27,8 @@ public class Url {
      */
     public String createRaceDayUrl(@Nullable String[] raceDate) {
         if(raceDate == null) {
-            raceDate = DateTime.getInstance(context).getCurrentDateComponents();
+            DateTime dt = new DateTime(context);
+            dt.getCurrentDateComponents();
         }
         Uri.Builder builder = new Uri.Builder();
         builder.encodedPath(base_path)
@@ -57,24 +58,24 @@ public class Url {
      * @param meetingCode The meeting code value.
      * @return The Url.
      */
-    public String createMeetingUrl(String[] meetingDate, String meetingCode) {
+    public String createMeetingUrl(String meetingDate, String meetingCode) {
         Uri.Builder builder = new Uri.Builder();
-        builder.encodedPath(base_path)
-               .appendPath(meetingDate[0]);
+//        builder.encodedPath(base_path)
+//               .appendPath(meetingDate[0]);
+//
+//        // Remove leading zeros if exist..
+//        if(meetingDate[1].charAt(0) == '0') {
+//            builder.appendPath(meetingDate[1].substring(1));
+//        } else {
+//            builder.appendPath(meetingDate[1]);
+//        }
+//        if(meetingDate[2].charAt(0) == '0') {
+//            builder.appendPath(meetingDate[2].substring(1));
+//        } else {
+//            builder.appendPath(meetingDate[2]);
+//        }
 
-        // Remove leading zeros if exist..
-        if(meetingDate[1].charAt(0) == '0') {
-            builder.appendPath(meetingDate[1].substring(1));
-        } else {
-            builder.appendPath(meetingDate[1]);
-        }
-        if(meetingDate[2].charAt(0) == '0') {
-            builder.appendPath(meetingDate[2].substring(1));
-        } else {
-            builder.appendPath(meetingDate[2]);
-        }
-
-        builder.appendPath(meetingCode + ".xml");
+        builder.appendPath(meetingCode);
         builder.build();
         return builder.toString();
     }

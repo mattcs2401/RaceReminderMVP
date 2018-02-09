@@ -157,7 +157,8 @@ public class XmlParser {
     private Race readRace() {
         Race race = new Race();
         race.setRaceNumber(parser.getAttributeValue(nameSpace,"RaceNo"));
-        race.setRaceTime(DateTime.getInstance(context).getTimeComponent(parser.getAttributeValue(nameSpace,"RaceTime")));
+        DateTime dt = new DateTime(context);
+        race.setRaceTime(dt.getTimeComponent(parser.getAttributeValue(nameSpace,"RaceTime")));
         race.setRaceName(parser.getAttributeValue(nameSpace,"RaceName"));
         race.setRaceDistance(parser.getAttributeValue(nameSpace,"Distance") + "m");
         return race;

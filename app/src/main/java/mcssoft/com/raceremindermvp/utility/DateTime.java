@@ -20,16 +20,9 @@ import static java.util.Locale.getDefault;
  */
 public class DateTime {
 
-    /**
-     * Get (initialise) an instance of MeetingTime.
-     * @param context The current context.
-     * @return An instance of MeetingTime.
-     */
-    public static synchronized DateTime getInstance(Context context) {
-        if(instance == null) {
-            instance = new DateTime(context);
-        }
-        return instance;
+    public DateTime(Context context) {
+        this.context = context;
+        ButterKnife.bind(this, new View(context));
     }
 
     /**
@@ -113,123 +106,15 @@ public class DateTime {
         String[] array = (time.split("T")[1]).split(":");
         return (array[0] + ":" + array[1]);
     }
-//    /**
-//     * Get the HH (hour) and MM (minute) time components of the given time.
-//     * @param timeInMillis The time value in mSec.
-//     * @param component An identifier for the time component.
-//     * @return The time components; int[0] == hour or minute, and int[1] == minute or -1, or null
-//     *         if the parameter is unrecognised.
-//     */
-//    public int [] getTimeComponent(long timeInMillis, int component) {
-//
-//        int [] time = new int[2];
-//
-//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-//        calendar.setTime(new Date(timeInMillis));
-//
-//        switch(component) {
-//            case R.integer.time_component_hour_minute:
-//                time[0] = calendar.get(Calendar.HOUR_OF_DAY);
-//                time[1] = calendar.get(Calendar.MINUTE);
-//                break;
-//            case R.integer.time_component_hour:
-//                time[0] = calendar.get(Calendar.HOUR_OF_DAY);
-//                time[1] = R.integer.init_default;
-//                break;
-//            case R.integer.time_component_minute:
-//                time[0] = calendar.get(Calendar.MINUTE);
-//                time[1] = R.integer.init_default;
-//                break;
-//            default:
-//                time = null;
-//        }
-//        return time;
-//    }
 
-//    public String getTimeFormatPrefKey() {
-//        String timeFormatPrefKey = null;
-//        if (timeFormat.equals(MeetingResources.getInstance()
-//                .getString(R.string.time_format_pref_12hr))) {
-//            timeFormatPrefKey = MeetingResources.getInstance()
-//                    .getString(R.string.time_format_pref_12hr_key);
-//        } else if (timeFormat.equals(MeetingResources.getInstance()
-//                .getString(R.string.time_format_pref_24hr))) {
-//            timeFormatPrefKey = MeetingResources.getInstance()
-//                    .getString(R.string.time_format_pref_24hr_key);
-//        }
-//        return timeFormatPrefKey;
-//    }
+    public String createRaceUrl(String meetingDate) {
 
-//    /**
-//     * Get a time value in millis that is the current time minus (parameter).
-//     * @param reminderTime A time value in minutes.
-//     * @param raceTime A time value in milli seconds.
-//     * @return A time value that is the race time minus the reminder time.
-//     */
-//    public long getTimeMinus(int reminderTime, long raceTime) {
-//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-//        calendar.setTime(new Date(raceTime));
-//        calendar.add(Calendar.MINUTE, -reminderTime);
-//        return calendar.getTimeInMillis();
-//    }
-
-//    /**
-//     * Ensure instance values are made NULL.
-//     */
-//    public void destroy() {
-//        context = null;
-//        instance = null;
-//    }
-
-//    /**
-//     * Check if the current time is after the time given.
-//     * @param timeInMillis The given time.
-//     * @return True if current time is after the given time, else false.
-//     */
-//    public boolean isTimeAfter(long timeInMillis) {
-//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-//        calendar.setTime(new Date(timeInMillis));
-//        return Calendar.getInstance().after(calendar);
-//    }
-
-//    /**
-//     * Get a value that represents midnight (00:00 hours of the current day).
-//     * @return DateTime in mSec representing mignight.
-//     */
-//    public long getMidnight() {
-//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-//        calendar.set(Calendar.HOUR_OF_DAY, 0);
-//        calendar.set(Calendar.MINUTE, 0);
-//        return calendar.getTimeInMillis();
-//    }
-
-//    /**
-//     * Check if the given time is a time from today.
-//     * @param timeInMillis The given time.
-//     * @return True if the given time is a time from today, else false.
-//     * Note: A return value of false means a time on a previous day.
-//     */
-//    public boolean isTimeToday(long timeInMillis) {
-//        Calendar today = Calendar.getInstance(Locale.getDefault());
-//        Calendar toCheck = Calendar.getInstance(Locale.getDefault());
-//        toCheck.setTime(new Date(timeInMillis));
-//
-//        if(toCheck.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-    private DateTime(Context context) {
-        this.context = context;
-        ButterKnife.bind(this, new View(context));
+        String bp = "";
+        return null;
     }
 
     private String timeFormat;    // the current time format (12HR/24HR).
     private Context context;      // app context for shared preferences.
-
-    private static volatile DateTime instance = null;
 
     @BindString(R.string.date_format) String date_format;
     @BindString(R.string.time_format_24hr) String time_format_24hr;
