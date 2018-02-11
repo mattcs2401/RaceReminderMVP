@@ -139,12 +139,11 @@ public class XmlParser {
             String name = parser.getName();
             if(name.equals("Race")) {
                 theList.add(readRace());
-                skip();
-            } else if (name.equals("Tipster")) {
-                // nothig we want after this (ATT).
-                break;
-            } else {
-                skip();
+//                skip();
+//            } else if (name.equals("Tipster") || name.equals("Pool") || name.equals("MultiLeg") || name.equals("Meeting")) {
+////                skip();
+//            } else {
+//                skip();
             }
         }
         return theList;
@@ -205,9 +204,11 @@ public class XmlParser {
         while (depth != 0) {
             switch (parser.next()) {
                 case XmlPullParser.END_TAG:
+//                    name = parser.getName();
                     depth--;
                     break;
                 case XmlPullParser.START_TAG:
+//                    name = parser.getName();
                     depth++;
                     break;
             }

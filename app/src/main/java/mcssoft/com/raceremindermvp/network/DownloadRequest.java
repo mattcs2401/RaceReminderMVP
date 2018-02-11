@@ -57,9 +57,6 @@ public class DownloadRequest<T> extends Request<List> {
                     theResult = parser.parse(table_runners);
                     break;
             }
-            // Write the results to the database (if don't already exist).
-//            checkOrInsert(theResult, tableName);
-
         } catch(Exception ex) {
             Log.d(this.getClass().getCanonicalName(), ex.getMessage());
         } finally {

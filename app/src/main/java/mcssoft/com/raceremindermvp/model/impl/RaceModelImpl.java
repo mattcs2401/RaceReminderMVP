@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
@@ -52,6 +53,18 @@ public class RaceModelImpl extends BaseModelImpl {
         // download races based on the meeting information
         doRaceOps(SELECT_MEETING, null);
     }
+
+    //<editor-fold defaultstate="collapsed" desc="Region: Volley">
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        String bp = "";
+    }
+
+    @Override
+    public void onResponse(Object response) {
+        String bp = "";
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Loader">
     @Override
@@ -147,12 +160,12 @@ public class RaceModelImpl extends BaseModelImpl {
     private void doRaceOpsDownloadRaces(Object object) {
         // Note: meeting date is YYYY-MM-DD
         Meeting meeting = (Meeting) object;
-        String meetingCode = meeting.getMeetingCode() + xml_extn;
+        String meetingCode = meeting.getMeetingCode();
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createMeetingUrl(meeting.getMeetingDate(), meetingCode);
-//        iPresenterModel.showProgressDialog(true, getting_races);
-//        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
-//        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
+        iPresenterModel.showProgressDialog(true, getting_races);
+        DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
+        DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
     private void doRaceOpsInsertRaces(@OpType.RType int opType, Object data) {
