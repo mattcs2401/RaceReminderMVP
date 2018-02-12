@@ -60,6 +60,25 @@
     <string name="table_races">RACES</string>
     <string name="table_runners">RUNNERS</string>
 
+    <!-- XML references. These match what's in the page xml. -->
+    <string name="race_day">RaceDay</string>
+    <string name="meeting">Meeting</string>
+    <string name="abandoned">Abandoned</string>
+    <string name="venue_name">VenueName</string>
+    <string name="hi_race_no">HiRaceNo</string>
+    <string name="meeting_code">MeetingCode</string>
+    <string name="meeting_id">MtgId</string>
+    <string name="weather_desc">WeatherDesc</string>
+    <string name="track_rating">TrackRating</string>
+    <string name="track_desc">TrackDesc</string>
+
+    <string name="race">Race</string>
+    <string name="race_no">RaceNo</string>
+    <string name="race_time">RaceTime</string>
+    <string name="race_name">RaceName</string>
+    <string name="race_distance">Distance</string>
+    <string name="race_day_date">RaceDayDate</string>
+
     <!-- Other -->
     <string name="xml_extn">.xml</string>
 </resources>
