@@ -68,6 +68,9 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     public void showProgressDialog(boolean show, @Nullable String message) { }
 
     @Override
+    public boolean isProgressDialogShowing() { return false; }
+
+    @Override
     public void showNoNetworkDialog() { }
     //</editor-fold>
 

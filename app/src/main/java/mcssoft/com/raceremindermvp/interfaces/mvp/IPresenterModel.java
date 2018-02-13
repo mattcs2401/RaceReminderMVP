@@ -24,5 +24,7 @@ public interface IPresenterModel {
 
     void showProgressDialog(boolean show, @Nullable String message);
 
+    boolean isProgressDialogShowing();
+
     void showNoNetworkDialog();
 }

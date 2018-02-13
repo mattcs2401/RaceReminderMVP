@@ -58,6 +58,11 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
+    public boolean isProgressDialogShowing() {
+        return iViewPresenter.isProgressDialogShowing();
+    }
+
+    @Override
     public void showNoNetworkDialog() {
         iViewPresenter.showNoNetworkDialog();
     }

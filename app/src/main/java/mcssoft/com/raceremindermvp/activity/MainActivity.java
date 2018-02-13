@@ -96,6 +96,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     @Override
+    public boolean isProgressDialogShowing() {
+        boolean isShowing = false;
+        if (progressDialog != null && progressDialog.isShowing()) {
+            isShowing = true;
+        }
+        return isShowing;
+    }
+
+    @Override
     public void showRaceFragment(int rowId) {
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, rowId);

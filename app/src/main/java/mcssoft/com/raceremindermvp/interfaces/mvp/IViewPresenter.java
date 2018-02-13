@@ -48,5 +48,11 @@ public interface IViewPresenter {
      *
      * @return
      */
+    boolean isProgressDialogShowing();
+
+    /**
+     *
+     * @return
+     */
     void showNoNetworkDialog();
 }

@@ -162,6 +162,11 @@ public class MeetingFragment extends BaseFragment {
     }
 
     @Override
+    public boolean isProgressDialogShowing() {
+        return iMainActivity.isProgressDialogShowing();
+    }
+
+    @Override
     public void showNoNetworkDialog() {
         iMainActivity.showNoNetworkDialog();
     }

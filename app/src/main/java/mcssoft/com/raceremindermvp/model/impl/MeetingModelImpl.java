@@ -189,6 +189,9 @@ public class MeetingModelImpl extends BaseModelImpl {
      * MeetingLoader.onLoadFinished and operation type was INSERT_MEETINGS.
      */
     private void onLoadFinishedInsertMeetings() {
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
         // now select the Meeting records so we can load up the adapter.
         doMeetingOps(SELECT_MEETINGS, null);
     }
@@ -203,7 +206,9 @@ public class MeetingModelImpl extends BaseModelImpl {
      * @param object The selected Meeting records.
      */
     private void onLoadFinishedSelectMeetings(Object object) {
-        iPresenterModel.showProgressDialog(false, null);
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
         // load up the adapter.
         meetingAdapter.swapData((List<Meeting>) object);
     }
@@ -252,7 +257,9 @@ public class MeetingModelImpl extends BaseModelImpl {
      */
     private void doMeetingOpsInsertMeetings(@OpType.MType int opType, Object response) {
         // meetings have been downloaded, insert them into the database.
-        iPresenterModel.showProgressDialog(true, writing_meetings);
+        if(!iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(true, writing_meetings);
+        }
         
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);

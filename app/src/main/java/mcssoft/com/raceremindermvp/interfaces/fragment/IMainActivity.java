@@ -24,6 +24,12 @@ public interface IMainActivity {
     void showProgressDialog(boolean show, @Nullable String message);
 
     /**
+     * Call on the Meeting activity to query if the progress dialog is showing
+     * @return True if showing, else false.
+     */
+    boolean isProgressDialogShowing();
+
+    /**
      * Call on the Meeting activity to show a new Race activity.
      * @param rowId The row id in the database (MEETINGS table).
      */
