@@ -19,6 +19,9 @@ import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.model.database.Runner;
 
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.RACES;
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.RUNNERS;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class XmlParser {
@@ -157,7 +160,7 @@ public class XmlParser {
 //                continue;
 //            }
 //            String name = parser.getName();
-//            if(name.equals("Race")) {
+//            if(name.equals(race)) {
 //                theList.add(readRace());
 //                skip();
 //            } else if (name.equals("Tipster")) {
@@ -240,10 +243,6 @@ public class XmlParser {
     private String nameSpace;
     private XmlPullParser parser;
     private  boolean haveWeather;      // flag, weather details retieved.
-
-    private final String MEETINGS = "MEETINGS";
-    private final String RACES = "RACES";
-    private final String RUNNERS = "RUNNERS";
 
     @BindString(R.string.meeting) String meeting;               // Meeting
     @BindString(R.string.race_day_date) String race_day_date;   // RaceDayDate

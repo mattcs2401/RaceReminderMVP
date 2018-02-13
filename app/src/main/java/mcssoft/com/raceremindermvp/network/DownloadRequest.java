@@ -18,6 +18,10 @@ import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.utility.XmlParser;
 
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.MEETINGS;
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.RACES;
+import static mcssoft.com.raceremindermvp.utility.DbType.TName.RUNNERS;
+
 /**
  * Custom Volley.Request<T> class
  * @param <T>
@@ -45,15 +49,14 @@ public class DownloadRequest<T> extends Request<List> {
         try {
             parser = new XmlParser(context, instream);
             // Parse the response into Meeting, Race or Runner objects.
-            // TODO - remove hard coded table names.
             switch(tableName) {
-                case "MEETINGS":
+                case MEETINGS:
                     theResult = parser.parse(table_meetings);
                     break;
-                case "RACES":
+                case RACES:
                     theResult = parser.parse(table_races);
                     break;
-                case "RUNNERS":
+                case RUNNERS:
                     theResult = parser.parse(table_runners);
                     break;
             }
