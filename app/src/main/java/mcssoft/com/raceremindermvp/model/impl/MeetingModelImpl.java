@@ -62,8 +62,10 @@ public class MeetingModelImpl extends BaseModelImpl {
      */
     @Override
     public void onResponse(Object response) {
-        /* Note: the response object is actually a list of objects (either Meeting, Race etc). */
+        /* Note: the response object is actually a list of Meeting objects. */
+        // cancel dialog.
         iPresenterModel.showProgressDialog(false, null);
+
         if(response == null) {
             // TODO - what if the response object is null for some reason.
         } else if(response != null && ((List) response).size() < 1) {
@@ -72,10 +74,6 @@ public class MeetingModelImpl extends BaseModelImpl {
             // the response object contains data.
             switch(opType) {
                 case DOWNLOAD_MEETINGS:
-                    // cancel previous progress.
-                    iPresenterModel.showProgressDialog(false, null);
-                    // meetings have been downloaded, insert them into the database.
-                    iPresenterModel.showProgressDialog(true, writing_meetings);
                     // set operation type flag.
                     doMeetingOps(INSERT_MEETINGS, response);
                     break;
@@ -253,6 +251,9 @@ public class MeetingModelImpl extends BaseModelImpl {
      * @param response The Meeting records.
      */
     private void doMeetingOpsInsertMeetings(@OpType.MType int opType, Object response) {
+        // meetings have been downloaded, insert them into the database.
+        iPresenterModel.showProgressDialog(true, writing_meetings);
+        
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
         // get the list of Meeting objects and set in bundle.
