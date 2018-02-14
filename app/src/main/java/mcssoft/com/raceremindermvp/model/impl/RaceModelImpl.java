@@ -129,27 +129,23 @@ public class RaceModelImpl extends BaseModelImpl {
      * @param object A data object.
      */
     private void doRaceOps(@OpType.RType int opType, @Nullable Object object) {
-        Bundle bundle = null;
+        // set the current operation type.
         this.opType = opType;
+
         switch(opType) {
             case COUNT_RACES:
             case SELECT_RACES:
             case DELETE_RACES:
-                bundle = new Bundle();
-                bundle.putInt(bundle_key, opType);
-                doLoaderManager(bundle);
+                doRaceOpsOther();
                 break;
             case DOWNLOAD_RACES:
                 doRaceOpsDownloadRaces(object);
                 break;
             case INSERT_RACES:
-                doRaceOpsInsertRaces(opType, object);
+                doRaceOpsInsertRaces(object);
                 break;
             case SELECT_MEETING:
-                bundle = new Bundle();
-                bundle.putInt(bundle_key, opType);
-                bundle.putInt(bundle_data_key, arguments.getInt(bundle_key));
-                doLoaderManager(bundle);
+                doRaceOpsSelectMeeting();
                 break;
         }
     }
@@ -169,9 +165,22 @@ public class RaceModelImpl extends BaseModelImpl {
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
-    private void doRaceOpsInsertRaces(@OpType.RType int opType, Object data) {
+    private void doRaceOpsSelectMeeting() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(bundle_key, opType);
+        bundle.putInt(bundle_data_key, arguments.getInt(bundle_key));
+        doLoaderManager(bundle);
+    }
+
+    private void doRaceOpsInsertRaces(Object data) {
         String bp = "";
 
+    }
+
+    private void doRaceOpsOther() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(bundle_key, opType);
+        doLoaderManager(bundle);
     }
     //</editor-fold>
 
@@ -197,10 +206,10 @@ public class RaceModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    private Bundle arguments;
-    private RaceAdapter raceAdapter;       // recyclerview adapter.
-
-    @OpType.RType int opType;     // current operation type.
+    //<editor-fold defaultstate="collapsed" desc="Region: Variables">
+    @OpType.RType int opType;          // current operation type.
+    private Bundle arguments;          // Meeting record information.
+    private RaceAdapter raceAdapter;   // recyclerview adapter.
 
     // String bindings.
     @BindString(R.string.bundle_key) String bundle_key;
@@ -209,4 +218,5 @@ public class RaceModelImpl extends BaseModelImpl {
     @BindString(R.string.writing_races) String writing_races;
     @BindString(R.string.table_races) String table_races;
     @BindString(R.string.xml_extn) String xml_extn;
+    //</editor-fold>
 }
