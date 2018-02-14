@@ -85,7 +85,7 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     public void clearDisplay() { }
 
     @Override
-    public int getMeetingRowId(int lPos) { return 0; }
+    public Meeting getMeeting(int lPos) { return null; }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">

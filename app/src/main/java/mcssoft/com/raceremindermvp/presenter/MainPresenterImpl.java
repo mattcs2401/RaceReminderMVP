@@ -3,6 +3,7 @@ package mcssoft.com.raceremindermvp.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
@@ -24,7 +25,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
      * @param iViewPresenter reference to IViewPresenter interface.
      * @param arguments Optional arguments passed to Model.
      */
-    public MainPresenterImpl(IViewPresenter iViewPresenter, @Nullable Bundle arguments) {
+    public MainPresenterImpl(@NonNull IViewPresenter iViewPresenter, @Nullable Bundle arguments) {
         this.iViewPresenter = iViewPresenter;
         if(arguments == null) {
             iModelPresenter = new MeetingModelImpl(this);
@@ -85,7 +86,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public int getMeetingRowId(int lPos) { return iModelPresenter.getMeetingRowId(lPos); }
+    public Meeting getMeeting(int lPos) { return iModelPresenter.getMeeting(lPos); }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference

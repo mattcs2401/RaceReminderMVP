@@ -17,5 +17,5 @@ public interface IPresenterView {
 
     void clearDisplay();
 
-    int getMeetingRowId(int lPos);
+    Meeting getMeeting(int lPos);
 }

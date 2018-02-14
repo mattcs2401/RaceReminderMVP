@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     @Override
-    public void showRaceFragment(int rowId) {
+    public void showRaceFragment(Meeting meeting) {
         Bundle bundle = new Bundle();
-        bundle.putInt(bundle_key, rowId);
+        bundle.putParcelable(bundle_key, meeting);
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);
         FragmentTransaction fragTrans = getFragmentManager().beginTransaction();

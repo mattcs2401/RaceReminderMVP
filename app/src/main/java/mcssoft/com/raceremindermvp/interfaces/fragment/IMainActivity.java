@@ -31,7 +31,7 @@ public interface IMainActivity {
 
     /**
      * Call on the Meeting activity to show a new Race activity.
-     * @param rowId The row id in the database (MEETINGS table).
+     * @param meeting The Meeting object..
      */
-    void showRaceFragment(int rowId);
+    void showRaceFragment(Meeting meeting);
 }

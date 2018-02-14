@@ -65,7 +65,9 @@ public class MeetingModelImpl extends BaseModelImpl {
     public void onResponse(Object response) {
         /* Note: the response object is actually a list of Meeting objects. */
         // cancel dialog.
-        iPresenterModel.showProgressDialog(false, null);
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
 
         if(response == null) {
             // TODO - what if the response object is null for some reason.
@@ -158,8 +160,8 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
 
     @Override
-    public int getMeetingRowId(int lPos) {
-        return (meetingAdapter.getMeeting(lPos)).getId();
+    public Meeting getMeeting(int lPos) {
+        return meetingAdapter.getMeeting(lPos);
     }
 
     //</editor-fold>

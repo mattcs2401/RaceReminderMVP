@@ -11,6 +11,8 @@ import android.view.View;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
+import java.util.List;
+
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
@@ -29,7 +31,6 @@ import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DOWNLOAD_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.INSERT_RACES;
-import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_MEETING;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 
 public class RaceModelImpl extends BaseModelImpl {
@@ -49,10 +50,8 @@ public class RaceModelImpl extends BaseModelImpl {
 
         // clear any races that exist in the database
         doRaceOps(DELETE_RACES, null);
-        // get the meeting database row id from the arguments
-        this.arguments = arguments;
         // download races based on the meeting information
-        doRaceOps(SELECT_MEETING, null);
+        doRaceOps(DOWNLOAD_RACES, arguments);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
@@ -63,7 +62,25 @@ public class RaceModelImpl extends BaseModelImpl {
 
     @Override
     public void onResponse(Object response) {
-        String bp = "";
+        /* Note: the response object is actually a list of Race objects. */
+        // cancel dialog.
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
+
+        if(response == null) {
+            // TODO - what if the response object is null for some reason.
+        } else if(response != null && ((List) response).size() < 1) {
+            // TODO - what if the response object is valid (not null) but contains no data.
+        } else {
+            // the response object contains data.
+            switch(opType) {
+                case DOWNLOAD_RACES:
+                    String bp = "";
+                    break;
+
+            }
+        }
     }
     //</editor-fold>
 
@@ -80,7 +97,7 @@ public class RaceModelImpl extends BaseModelImpl {
                 onLoadFinishedCountRaces(object);
                 break;
             case SELECT_RACES:
-                // select on Meeting records returns here.
+                // select on Race records returns here.
                 onLoadFinishedSelectRaces(object);
                 break;
             case DELETE_RACES:
@@ -90,13 +107,13 @@ public class RaceModelImpl extends BaseModelImpl {
                 onLoadFinishedDownloadRaces();
                 break;
             case INSERT_RACES:
-                // Meeting information has been inserted into the database, now select them so we
+                // Race information has been inserted into the database, now select them so we
                 // can load up the adapter.
                 onLoadFinishedInsertRaces();
                 break;
-            case SELECT_MEETING:
-                onLoadFinishedSelectMeeting(object);
-                break;
+//            case SELECT_MEETING:
+//                onLoadFinishedSelectMeeting(object);
+//                break;
         }
     }
 
@@ -118,7 +135,7 @@ public class RaceModelImpl extends BaseModelImpl {
     private void onLoadFinishedDeleteRaces() { }
 
     private void onLoadFinishedSelectMeeting(Object object) {
-        doRaceOpsDownloadRaces(object);
+        String bp = "";
     }
     //</editor-fold>
 
@@ -144,9 +161,6 @@ public class RaceModelImpl extends BaseModelImpl {
             case INSERT_RACES:
                 doRaceOpsInsertRaces(object);
                 break;
-            case SELECT_MEETING:
-                doRaceOpsSelectMeeting();
-                break;
         }
     }
 
@@ -163,13 +177,6 @@ public class RaceModelImpl extends BaseModelImpl {
         iPresenterModel.showProgressDialog(true, getting_races);
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
-    }
-
-    private void doRaceOpsSelectMeeting() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(bundle_key, opType);
-        bundle.putInt(bundle_data_key, arguments.getInt(bundle_key));
-        doLoaderManager(bundle);
     }
 
     private void doRaceOpsInsertRaces(Object data) {
@@ -208,7 +215,6 @@ public class RaceModelImpl extends BaseModelImpl {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Variables">
     @OpType.RType int opType;          // current operation type.
-    private Bundle arguments;          // Meeting record information.
     private RaceAdapter raceAdapter;   // recyclerview adapter.
 
     // String bindings.
