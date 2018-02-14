@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -22,16 +24,15 @@ import java.util.List;
  * </RaceDay>
  */
 @Entity(tableName = "RACES")
-public class Race {
+public class Race implements Parcelable {
 
     public Race() {
-        id = "0";
         archvFlag = "N";
     }
 
     @Ignore
     public Race(List<String> list) {
-        this.id = list.get(0);
+        this.id = Integer.parseInt(list.get(0));
         this.meetingId = list.get(1);
         this.raceNumber = list.get(2);
         this.raceTime = list.get(3);
@@ -41,7 +42,7 @@ public class Race {
     }
 
     @Ignore
-    public Race(@NonNull String id, String meetingId, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
+    public Race(@NonNull int id, String meetingId, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
         this.id = id;
         this.meetingId = meetingId;
         this.raceNumber = raceNumber;
@@ -53,11 +54,11 @@ public class Race {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Getter/Setter">
     @NonNull
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(@NonNull int id) {
         this.id = id;
     }
 
@@ -111,11 +112,55 @@ public class Race {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
+    // Note: methods below are generated code. Refer: http://www.parcelabler.com/
+    // Note: This done mainly so we can put a List<Meeting> into a Bundle.
+
+    protected Race(Parcel in) {
+        id = in.readInt();
+        meetingId = in.readString();
+        raceNumber = in.readString();
+        raceTime = in.readString();
+        raceName = in.readString();
+        raceDistance = in.readString();
+        archvFlag = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(meetingId);
+        dest.writeString(raceNumber);
+        dest.writeString(raceTime);
+        dest.writeString(raceName);
+        dest.writeString(raceDistance);
+        dest.writeString(archvFlag);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Race> CREATOR = new Parcelable.Creator<Race>() {
+        @Override
+        public Race createFromParcel(Parcel in) {
+            return new Race(in);
+        }
+
+        @Override
+        public Race[] newArray(int size) {
+            return new Race[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: Private">
     // Columns for RACES table.
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "_id") private String id;
+    @ColumnInfo(name = "_id") private int id;
 
     @ColumnInfo(name = "RaceNumber") private String raceNumber;    // e.g. "1"
     @ColumnInfo(name = "RaceTime") private String raceTime;      // e.g. "12:55"

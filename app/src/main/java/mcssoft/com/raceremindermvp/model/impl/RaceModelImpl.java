@@ -25,6 +25,7 @@ import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.OpType;
+import mcssoft.com.raceremindermvp.utility.RaceList;
 import mcssoft.com.raceremindermvp.utility.Url;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
@@ -128,7 +129,9 @@ public class RaceModelImpl extends BaseModelImpl {
 
     private void onLoadFinishedDownloadRaces() { }
 
-    private void onLoadFinishedInsertRaces() { }
+    private void onLoadFinishedInsertRaces() {
+        String bp ="";
+    }
 
     private void onLoadFinishedSelectRaces(Object object) { }
 
@@ -159,7 +162,7 @@ public class RaceModelImpl extends BaseModelImpl {
                 doRaceOpsDownloadRaces(object);
                 break;
             case INSERT_RACES:
-                doRaceOpsInsertRaces(object);
+                doRaceOpsInsertRaces(INSERT_RACES, object);
                 break;
         }
     }
@@ -179,9 +182,19 @@ public class RaceModelImpl extends BaseModelImpl {
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
     }
 
-    private void doRaceOpsInsertRaces(Object data) {
-        String bp = "";
+    private void doRaceOpsInsertRaces(@OpType.RType int opType, Object data) {
+        // meetings have been downloaded, insert them into the database.
+        if(!iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(true, writing_races);
+        }
 
+        Bundle bundle = new Bundle();
+        bundle.putInt(bundle_key, opType);
+        // get the list of Meeting objects and set in bundle.
+        RaceList raceList = new RaceList(data);
+        bundle.putParcelableArrayList(bundle_data_key, raceList.getRaceList());
+        // restart loader to pickup changes.
+        doLoaderManager(bundle);
     }
 
     private void doRaceOpsOther() {
