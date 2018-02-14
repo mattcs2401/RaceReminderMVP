@@ -4,6 +4,7 @@ package mcssoft.com.raceremindermvp.model.impl;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -33,7 +34,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 
 public class RaceModelImpl extends BaseModelImpl {
 
-    public RaceModelImpl(IPresenterModel iPresenterModel, Bundle arguments) {
+    public RaceModelImpl(@NonNull IPresenterModel iPresenterModel, @NonNull Bundle arguments) {
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();

@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.android.volley.NetworkResponse;
@@ -39,7 +40,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.MType.SELECT_MEETINGS;
 
 public class MeetingModelImpl extends BaseModelImpl {
 
-    public MeetingModelImpl(IPresenterModel iPresenterModel) {
+    public MeetingModelImpl(@NonNull IPresenterModel iPresenterModel) {
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
@@ -307,9 +308,9 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    private MeetingAdapter meetingAdapter;       // recyclerview adapter.
-
-    @OpType.MType int opType;     // current operation type.
+    //<editor-fold defaultstate="collapsed" desc="Region: Variables">
+    @OpType.MType int opType;               // current operation type.
+    private MeetingAdapter meetingAdapter;  // recyclerview adapter.
 
     // String bindings.
     @BindString(R.string.bundle_key) String bundle_key;
@@ -317,5 +318,5 @@ public class MeetingModelImpl extends BaseModelImpl {
     @BindString(R.string.getting_meetings) String getting_meetings;
     @BindString(R.string.table_meetings) String table_meetings;
     @BindString(R.string.writing_meetings) String writing_meetings;
-
+    //</editor-fold>
 }
