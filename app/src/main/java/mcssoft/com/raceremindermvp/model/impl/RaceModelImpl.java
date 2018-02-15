@@ -61,9 +61,12 @@ public class RaceModelImpl extends BaseModelImpl {
         String bp = "";
     }
 
+    /**
+     * Volley non-error return point.
+     * @param response A list of Race objects.
+     */
     @Override
     public void onResponse(Object response) {
-        /* Note: the response object is actually a list of Race objects. */
         // cancel dialog.
         if(iPresenterModel.isProgressDialogShowing()) {
             iPresenterModel.showProgressDialog(false, null);
@@ -77,7 +80,7 @@ public class RaceModelImpl extends BaseModelImpl {
             // the response object contains data.
             switch(opType) {
                 case DOWNLOAD_RACES:
-                    String bp = "";
+                    doRaceOps(INSERT_RACES, response);
                     break;
 
             }
@@ -108,13 +111,8 @@ public class RaceModelImpl extends BaseModelImpl {
                 onLoadFinishedDownloadRaces();
                 break;
             case INSERT_RACES:
-                // Race information has been inserted into the database, now select them so we
-                // can load up the adapter.
                 onLoadFinishedInsertRaces();
                 break;
-//            case SELECT_MEETING:
-//                onLoadFinishedSelectMeeting(object);
-//                break;
         }
     }
 
@@ -173,10 +171,9 @@ public class RaceModelImpl extends BaseModelImpl {
      */
     private void doRaceOpsDownloadRaces(Object object) {
         // Note: meeting date is YYYY-MM-DD
-        Meeting meeting = (Meeting) object;
-        String meetingCode = meeting.getMeetingCode();
+        Meeting meeting = ((Bundle) object).getParcelable(bundle_key);
         Url url = new Url(iPresenterModel.getContext());
-        String uri = url.createMeetingUrl(meeting.getMeetingDate(), meetingCode);
+        String uri = url.createMeetingUrl(meeting.getMeetingDate(), meeting.getMeetingCode());
         iPresenterModel.showProgressDialog(true, getting_races);
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_races);
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
