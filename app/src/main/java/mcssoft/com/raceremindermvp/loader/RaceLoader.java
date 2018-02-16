@@ -5,11 +5,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.List;
+
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
+import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.utility.OpType;
+
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.INSERT_RACES;
 
 public class RaceLoader extends AsyncTaskLoader<Object> {
 
@@ -24,7 +31,16 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
     public Object loadInBackground() {
         Object object = null;
         switch(bundle.getInt(bundle_key)) {
-            // TBA
+            case COUNT_RACES:
+                // TBA
+                break;
+            case INSERT_RACES:
+                List<Race> lRaces = bundle.getParcelableArrayList(bundle_data_key);
+                object = raceDatabase.getRaceDAO().insertRaces(lRaces);
+                break;
+            case DELETE_RACES:
+                // TBA
+                break;
         }
         return object;
     }
