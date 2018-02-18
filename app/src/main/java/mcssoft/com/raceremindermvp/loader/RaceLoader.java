@@ -17,6 +17,7 @@ import mcssoft.com.raceremindermvp.utility.OpType;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.COUNT_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.DELETE_RACES;
 import static mcssoft.com.raceremindermvp.utility.OpType.RType.INSERT_RACES;
+import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 
 public class RaceLoader extends AsyncTaskLoader<Object> {
 
@@ -32,14 +33,16 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
         Object object = null;
         switch(bundle.getInt(bundle_key)) {
             case COUNT_RACES:
-                // TBA
+                object = raceDatabase.getRaceDAO().getRacesCount("N");
                 break;
             case INSERT_RACES:
                 List<Race> lRaces = bundle.getParcelableArrayList(bundle_data_key);
                 object = raceDatabase.getRaceDAO().insertRaces(lRaces);
                 break;
+            case SELECT_RACES:
+                object = raceDatabase.getRaceDAO().getRaces("N");
             case DELETE_RACES:
-                // TBA
+                object = raceDatabase.getRaceDAO().deleteRaces();
                 break;
         }
         return object;

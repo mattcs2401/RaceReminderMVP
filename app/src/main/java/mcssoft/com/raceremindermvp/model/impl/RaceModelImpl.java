@@ -170,7 +170,6 @@ public class RaceModelImpl extends BaseModelImpl {
      * @param object The selected Meeting record.
      */
     private void doRaceOpsDownloadRaces(Object object) {
-        // Note: meeting date is YYYY-MM-DD
         Meeting meeting = ((Bundle) object).getParcelable(bundle_key);
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createMeetingUrl(meeting.getMeetingDate(), meeting.getMeetingCode());
