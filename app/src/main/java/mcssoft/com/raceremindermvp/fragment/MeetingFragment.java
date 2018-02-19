@@ -111,7 +111,7 @@ public class MeetingFragment extends BaseFragment {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IMeeting">
     @Override
     public void deleteMeetings() {
         iPresenterViewMeeting.deleteMeetings();

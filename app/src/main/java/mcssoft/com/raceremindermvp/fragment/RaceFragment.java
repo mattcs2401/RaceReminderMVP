@@ -19,6 +19,7 @@ import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.fragment.base.BaseFragment;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
+import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.presenter.MainPresenterImpl;
 
 public class RaceFragment extends BaseFragment {
@@ -53,6 +54,28 @@ public class RaceFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IRace">
+    @Override
+    public void deleteRaces() {
+        iPresenterViewRace.deleteRaces();
+    }
+
+    @Override
+    public void downloadRaces() {
+        iPresenterViewRace.downloadRaces();
+    }
+
+    @Override
+    public void clearRaceDisplay() {
+        iPresenterViewRace.clearRaceDisplay();
+    }
+
+    @Override
+    public Race getRace(int lPos) {
+        return iPresenterViewRace.getRace(lPos);
     }
     //</editor-fold>
 
