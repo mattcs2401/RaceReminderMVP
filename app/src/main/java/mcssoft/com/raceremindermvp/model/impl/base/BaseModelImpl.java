@@ -1,8 +1,12 @@
 package mcssoft.com.raceremindermvp.model.impl.base;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -68,7 +72,35 @@ public abstract class BaseModelImpl
     public Race getRace(int lPos) { return null; }
     //</editor-fold>
 
-    protected void doLoaderManager(Bundle bundle) { }
+    protected void setAdapter() { }
+
+    /**
+     * Set the applicable loader manager (initialise if loader is null, else restart).
+     * @param id The id of the loader.
+     * @param bundle A data bundle that's passed to the loader.
+     */
+    protected void setLoaderManager(@NonNull int id, @NonNull Bundle bundle) {
+        if(loaderManager.getLoader(id) != null) {
+            // restart the loader to pick up new changes.
+            loaderManager.restartLoader(id, bundle, this);
+        } else {
+            loaderManager.initLoader(id, bundle, this);
+        }
+    }
+
+    /**
+     * Check that a connection exists.
+     * @return True if a connection exists.
+     */
+    protected boolean getNetworkCheck() {
+        boolean networkExists = true;
+        ConnectivityManager connMgr = (ConnectivityManager) iPresenterModel.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null || (!networkInfo.isAvailable() && !networkInfo.isConnected())) {
+            networkExists = false;
+        }
+        return networkExists;
+    }
 
     protected RaceDatabase raceDatabase;
     protected LoaderManager loaderManager;

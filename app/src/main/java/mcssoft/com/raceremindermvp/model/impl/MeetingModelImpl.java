@@ -45,7 +45,7 @@ public class MeetingModelImpl extends BaseModelImpl {
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
         // set the adapter.
-        setMeetingAdapter();
+        setAdapter();
         // set the database.
         raceDatabase = RaceDatabase.getInstance(context);
         // set the loader manager.
@@ -230,7 +230,7 @@ public class MeetingModelImpl extends BaseModelImpl {
             case DELETE_MEETINGS:
                 Bundle bundle = new Bundle();
                 bundle.putInt(bundle_key, opType);
-                doLoaderManager(bundle);
+                setLoaderManager(1, bundle);
                 break;
             case DOWNLOAD_MEETINGS:
                 doMeetingOpsDownloadMeetings();
@@ -269,40 +269,13 @@ public class MeetingModelImpl extends BaseModelImpl {
         MeetingList meetingList = new MeetingList(response);
         bundle.putParcelableArrayList(bundle_data_key, meetingList.getMeetingList());
         // restart loader to pickup changes.
-        doLoaderManager(bundle);
+        setLoaderManager(1, bundle);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    /**
-     * Initialise or restart the MeetingLoader.
-     * @param bundle Data package.
-     */
     @Override
-    protected void doLoaderManager(Bundle bundle) {
-        if(loaderManager.getLoader(1) != null) {
-            // restart the loader to pick up new changes.
-            loaderManager.restartLoader(1, bundle, this);
-        } else {
-            loaderManager.initLoader(1, bundle, this);
-        }
-    }
-
-    /**
-     * Check that a connection exists.
-     * @return True if a connection exists.
-     */
-    private boolean getNetworkCheck() {
-        boolean networkExists = true;
-        ConnectivityManager connMgr = (ConnectivityManager) iPresenterModel.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null || (!networkInfo.isAvailable() && !networkInfo.isConnected())) {
-            networkExists = false;
-        }
-        return networkExists;
-    }
-
-    private void setMeetingAdapter() {
+    protected void setAdapter() {
         meetingAdapter = new MeetingAdapter();
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);

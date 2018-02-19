@@ -3,6 +3,8 @@ package mcssoft.com.raceremindermvp.model.impl;
 
 import android.content.Context;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,7 +44,7 @@ public class RaceModelImpl extends BaseModelImpl {
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
         // set the adapter.
-        setMeetingAdapter();
+        setAdapter();
         // set the database.
         raceDatabase = RaceDatabase.getInstance(context);
         // set the loader manager.
@@ -50,10 +52,11 @@ public class RaceModelImpl extends BaseModelImpl {
         // resource bindings
         ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
 
-        // clear any races that exist in the database
-        doRaceOps(DELETE_RACES, null);
-        // download races based on the meeting information
-        doRaceOps(DOWNLOAD_RACES, arguments);
+//        // clear any races that exist in the database
+//        doRaceOps(DELETE_RACES, null);
+//        // download races based on the meeting information
+//        doRaceOps(DOWNLOAD_RACES, arguments);
+        doRaceOps(COUNT_RACES, null);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
@@ -146,9 +149,26 @@ public class RaceModelImpl extends BaseModelImpl {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: doLoadFinished methods">
-    private void onLoadFinishedCountRaces(Object object) { }
+    private void onLoadFinishedCountRaces(Object object) {
+        if((int) object < 1) {
+            // no Race records exist, so download them.
+            if(getNetworkCheck()) {
+                doRaceOps(DOWNLOAD_RACES, null);
+            } else {
+                // no race in database and no network.
+                iPresenterModel.showNoNetworkDialog();
+                raceAdapter.swapData(null);
+            }
+        } else {
+            // Race records already exist in database, select them so we can load up the
+            // adapter.
+            doRaceOps(SELECT_RACES, null);
+        }
+    }
 
-    private void onLoadFinishedDownloadRaces() { }
+    private void onLoadFinishedDownloadRaces() {
+
+    }
 
     private void onLoadFinishedInsertRaces() {
         if(iPresenterModel.isProgressDialogShowing()) {
@@ -223,32 +243,19 @@ public class RaceModelImpl extends BaseModelImpl {
         RaceList raceList = new RaceList(data);
         bundle.putParcelableArrayList(bundle_data_key, raceList.getRaceList());
         // restart loader to pickup changes.
-        doLoaderManager(bundle);
+        setLoaderManager(2, bundle);
     }
 
     private void doRaceOpsOther() {
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
-        doLoaderManager(bundle);
+        setLoaderManager(2, bundle);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    /**
-     * Initialise or restart the MeetingLoader.
-     * @param bundle Data package.
-     */
     @Override
-    protected void doLoaderManager(Bundle bundle) {
-        if(loaderManager.getLoader(2) != null) {
-            // restart the loader to pick up new changes.
-            loaderManager.restartLoader(2, bundle, this);
-        } else {
-            loaderManager.initLoader(2, bundle, this);
-        }
-    }
-
-    private void setMeetingAdapter() {
+    protected void setAdapter() {
         raceAdapter = new RaceAdapter();
         raceAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(raceAdapter);

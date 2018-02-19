@@ -37,6 +37,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     public void onBindViewHolder(RaceViewHolder holder, int position) {
         if(!isEmptyView) {
             Race race = (Race) lRace.get(position);
+            String bp = "";
 
 //            holder.getCityCode().setText(race.getCityCode());
 //            holder.getRaceCode().setText(race.getRaceCode());
