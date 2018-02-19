@@ -46,7 +46,7 @@ public class RaceFragment extends BaseFragment {
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
         // set the MainPresenterImpl (in turn sets MeetingModelImpl).
-        iPresenterView = new MainPresenterImpl(this, arguments);
+        iPresenterViewRace = new MainPresenterImpl(this, arguments);
     }
 
     @Override

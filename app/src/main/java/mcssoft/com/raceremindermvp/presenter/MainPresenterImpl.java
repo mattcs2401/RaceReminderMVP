@@ -15,10 +15,11 @@ import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
+import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.model.impl.MeetingModelImpl;
 import mcssoft.com.raceremindermvp.model.impl.RaceModelImpl;
 
-public class MainPresenterImpl implements IPresenterModel, IPresenterView {
+public class MainPresenterImpl implements IPresenterModel, IPresenterView.IMeeting, IPresenterView.IRace {
 
     /**
      * Implemeentation of the main Presenter.
@@ -30,7 +31,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
         if(arguments == null) {
             iModelPresenterMeeting = new MeetingModelImpl(this);
         } else {
-            iModelPresenterMeeting = new RaceModelImpl(this, arguments);
+            iModelPresenterRace = new RaceModelImpl(this, arguments);
         }
     }
 
@@ -69,7 +70,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IMeeting">
     @Override
     public void deleteMeetings() {
         iModelPresenterMeeting.deleteMeetings();
@@ -81,15 +82,36 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     }
 
     @Override
-    public void clearDisplay() {
+    public void clearMeetingDisplay() {
         iModelPresenterMeeting.clearMeetingDisplay();
     }
 
     @Override
-    public Meeting getMeeting(int lPos) { return iModelPresenterMeeting.getMeeting(lPos); }
+    public Meeting getMeeting(int lPos) {
+        return iModelPresenterMeeting.getMeeting(lPos); }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IRace">
+    @Override
+    public void deleteRaces() {
+        iModelPresenterRace.deleteRaces(); }
+
+    @Override
+    public void downloadRaces() {
+        iModelPresenterRace.downloadRaces(); }
+
+    @Override
+    public void clearRaceDisplay() {
+        iModelPresenterRace.clearRaceDisplay();
+    }
+
+    @Override
+    public Race getRace(int lPos) {
+        return iModelPresenterRace.getRace(lPos); }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
     private IModelPresenter.IMeeting iModelPresenterMeeting;
+    private IModelPresenter.IRace iModelPresenterRace;
     private IViewPresenter iViewPresenter;
 }

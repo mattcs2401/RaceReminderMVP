@@ -59,7 +59,7 @@ public class MeetingFragment extends BaseFragment {
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
         // set the MainPresenterImpl (in turn sets MeetingModelImpl).
-        iPresenterView = new MainPresenterImpl(this, null);
+        iPresenterViewMeeting = new MainPresenterImpl(this, null);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MeetingFragment extends BaseFragment {
         switch(item.getItemId()) {
             case R.id.id_delete_meetings:
                 deleteMeetings();
-                clearDisplay();
+                clearMeetingDisplay();
                 chgDelToAdd = true;
                 return true;
             case R.id.id_add_meetings:
@@ -114,29 +114,29 @@ public class MeetingFragment extends BaseFragment {
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     @Override
     public void deleteMeetings() {
-        iPresenterView.deleteMeetings();
+        iPresenterViewMeeting.deleteMeetings();
     }
 
     @Override
     public void downloadMeetings() {
-        iPresenterView.downloadMeetings();
+        iPresenterViewMeeting.downloadMeetings();
     }
 
     @Override
-    public void clearDisplay() {
-        iPresenterView.clearDisplay();
+    public void clearMeetingDisplay() {
+        iPresenterViewMeeting.clearMeetingDisplay();
     }
 
     @Override
     public Meeting getMeeting(int lPos) {
-        return iPresenterView.getMeeting(lPos);
+        return iPresenterViewMeeting.getMeeting(lPos);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
     @Override
     public void onItemClick(View view, @Nullable int lPos) {
-        iMainActivity.showRaceFragment(iPresenterView.getMeeting(lPos));
+        iMainActivity.showRaceFragment(iPresenterViewMeeting.getMeeting(lPos));
     }
     //</editor-fold>
 

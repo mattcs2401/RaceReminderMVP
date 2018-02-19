@@ -20,8 +20,9 @@ import mcssoft.com.raceremindermvp.interfaces.fragment.IMainActivity;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterView;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IViewPresenter;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
+import mcssoft.com.raceremindermvp.model.database.Race;
 
-public abstract class BaseFragment extends Fragment implements IViewPresenter, IPresenterView, IClick.ItemClick {
+public abstract class BaseFragment extends Fragment implements IViewPresenter, IPresenterView.IMeeting, IPresenterView.IRace, IClick.ItemClick {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Lifecycle">
     @Override
@@ -74,7 +75,7 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     public void showNoNetworkDialog() { }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IMeeting">
     @Override
     public void deleteMeetings() { }
 
@@ -82,10 +83,25 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     public void downloadMeetings() { }
 
     @Override
-    public void clearDisplay() { }
+    public void clearMeetingDisplay() { }
 
     @Override
     public Meeting getMeeting(int lPos) { return null; }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView.IRace">
+    @Override
+    public void deleteRaces() { }
+
+    @Override
+    public void downloadRaces() { }
+
+    @Override
+    public void clearRaceDisplay() { }
+
+    @Override
+    public Race getRace(int lPos) { return null; }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">
@@ -95,6 +111,7 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
     }
     //</editor-fold>
 
-    protected IPresenterView iPresenterView;
+    protected IPresenterView.IMeeting iPresenterViewMeeting;
+    protected IPresenterView.IRace iPresenterViewRace;
     protected IMainActivity iMainActivity;
 }
