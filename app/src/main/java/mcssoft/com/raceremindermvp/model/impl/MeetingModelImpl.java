@@ -143,7 +143,7 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter">
+    //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter.IMeeting">
     @Override
     public void deleteMeetings() {
         doMeetingOps(DELETE_MEETINGS, null);
@@ -155,7 +155,7 @@ public class MeetingModelImpl extends BaseModelImpl {
     }
 
     @Override
-    public void clearDisplay() {
+    public void clearMeetingDisplay() {
         meetingAdapter.swapData(null);
     }
 
@@ -163,7 +163,6 @@ public class MeetingModelImpl extends BaseModelImpl {
     public Meeting getMeeting(int lPos) {
         return meetingAdapter.getMeeting(lPos);
     }
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: onLoadFinished methods">

@@ -36,7 +36,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     @Override
     public void onBindViewHolder(RaceViewHolder holder, int position) {
         if(!isEmptyView) {
-            Race race = (Race) list.get(position);
+            Race race = (Race) lRace.get(position);
 
 //            holder.getCityCode().setText(race.getCityCode());
 //            holder.getRaceCode().setText(race.getRaceCode());
@@ -52,8 +52,8 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         if(isEmptyView) {
             return  1; // need to do this so the onCreateViewHolder fires.
         } else {
-            if(list != null) {
-                return list.size();
+            if(lRace != null) {
+                return lRace.size();
             } else {
                 return 0;
             }
@@ -72,19 +72,34 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         this.icListener = icListener;
     }
 
-    public void swapData(List list) {
-        if(list != null && list.size() > 0) {
-            this.list = list;
-            notifyDataSetChanged();
+    public void swapData(List lRace) {
+        this.lRace = lRace;
+        if(lRace == null || lRace.size() < 1) {
+            setEmptyView(true);
+        } else {
+            setEmptyView(false);
         }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Return the Race object at the adapter position.
+     * @param lPos The adapter position (0 based).
+     * @return The Race object, or NULL.
+     */
+    public Race getRace(int lPos) {
+        if(lRace != null && lPos > -1) {
+            return lRace.get(lPos);
+        }
+        return null;
     }
 
     public void setEmptyView(boolean emptyView) {
         this.isEmptyView = emptyView;
     }
 
-    private List list;
     private int viewType;
+    private List<Race> lRace;
     private boolean isEmptyView;
     private IClick.ItemClick icListener;
 

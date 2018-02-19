@@ -21,6 +21,7 @@ import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
 import mcssoft.com.raceremindermvp.loader.RaceLoader;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
+import mcssoft.com.raceremindermvp.model.database.Race;
 import mcssoft.com.raceremindermvp.model.impl.base.BaseModelImpl;
 import mcssoft.com.raceremindermvp.network.DownloadRequest;
 import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
@@ -122,16 +123,48 @@ public class RaceModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: IModelPresenter.IRace">
+    @Override
+    public void deleteRaces() {
+        doRaceOps(DELETE_RACES, null);
+    }
+
+    @Override
+    public void downloadRaces() {
+        doRaceOps(DOWNLOAD_RACES, null);
+    }
+
+    @Override
+    public void clearRaceDisplay() {
+        raceAdapter.swapData(null);
+    }
+
+    @Override
+    public Race getRace(int lPos) {
+        return raceAdapter.getRace(lPos);
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Region: doLoadFinished methods">
     private void onLoadFinishedCountRaces(Object object) { }
 
     private void onLoadFinishedDownloadRaces() { }
 
     private void onLoadFinishedInsertRaces() {
-        String bp ="";
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
+        // now select the Meeting records so we can load up the adapter.
+        doRaceOps(SELECT_RACES, null);
     }
 
-    private void onLoadFinishedSelectRaces(Object object) { }
+    private void onLoadFinishedSelectRaces(Object object) {
+        if(iPresenterModel.isProgressDialogShowing()) {
+            iPresenterModel.showProgressDialog(false, null);
+        }
+        // load up the adapter.
+        raceAdapter.swapData((List<Race>) object);
+    }
 
     private void onLoadFinishedDeleteRaces() { }
 

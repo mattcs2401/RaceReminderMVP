@@ -28,9 +28,9 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     public MainPresenterImpl(@NonNull IViewPresenter iViewPresenter, @Nullable Bundle arguments) {
         this.iViewPresenter = iViewPresenter;
         if(arguments == null) {
-            iModelPresenter = new MeetingModelImpl(this);
+            iModelPresenterMeeting = new MeetingModelImpl(this);
         } else {
-            iModelPresenter = new RaceModelImpl(this, arguments);
+            iModelPresenterMeeting = new RaceModelImpl(this, arguments);
         }
     }
 
@@ -72,24 +72,24 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView {
     //<editor-fold defaultstate="collapsed" desc="Region: IPresenterView">
     @Override
     public void deleteMeetings() {
-        iModelPresenter.deleteMeetings();
+        iModelPresenterMeeting.deleteMeetings();
     }
 
     @Override
     public void downloadMeetings() {
-        iModelPresenter.downloadMeetings();
+        iModelPresenterMeeting.downloadMeetings();
     }
 
     @Override
     public void clearDisplay() {
-        iModelPresenter.clearDisplay();
+        iModelPresenterMeeting.clearMeetingDisplay();
     }
 
     @Override
-    public Meeting getMeeting(int lPos) { return iModelPresenter.getMeeting(lPos); }
+    public Meeting getMeeting(int lPos) { return iModelPresenterMeeting.getMeeting(lPos); }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference
-    private IModelPresenter iModelPresenter;
+    private IModelPresenter.IMeeting iModelPresenterMeeting;
     private IViewPresenter iViewPresenter;
 }
