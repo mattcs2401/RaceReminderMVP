@@ -115,7 +115,6 @@ public class Race implements Parcelable {
     //<editor-fold defaultstate="collapsed" desc="Region: Parcelable">
     // Note: methods below are generated code. Refer: http://www.parcelabler.com/
     // Note: This done mainly so we can put a List<Meeting> into a Bundle.
-
     protected Race(Parcel in) {
         id = in.readInt();
         meetingId = in.readString();

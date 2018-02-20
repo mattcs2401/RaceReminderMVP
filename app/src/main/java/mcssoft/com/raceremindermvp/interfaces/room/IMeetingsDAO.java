@@ -24,7 +24,7 @@ public interface IMeetingsDAO {
     public List<Meeting> getMeetings(String flag);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public List<Long> insertMeetings(List<Meeting> meetings);
+    public List<Long> insertMeetings(List<Meeting> lMeetings);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long insertMeeting(Meeting meeting);

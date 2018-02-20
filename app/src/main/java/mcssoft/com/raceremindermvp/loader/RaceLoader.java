@@ -37,10 +37,11 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
                 break;
             case INSERT_RACES:
                 List<Race> lRaces = bundle.getParcelableArrayList(bundle_data_key);
-                object = raceDatabase.getRaceDAO().insertRaces(lRaces);
+                List<Long> ids = raceDatabase.getRaceDAO().insertRaces(lRaces);
                 break;
             case SELECT_RACES:
                 object = raceDatabase.getRaceDAO().getRaces("N");
+                break;
             case DELETE_RACES:
                 object = raceDatabase.getRaceDAO().deleteRaces();
                 break;

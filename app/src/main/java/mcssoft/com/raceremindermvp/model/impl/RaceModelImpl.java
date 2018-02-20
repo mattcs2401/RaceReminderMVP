@@ -40,6 +40,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 public class RaceModelImpl extends BaseModelImpl {
 
     public RaceModelImpl(@NonNull IPresenterModel iPresenterModel, @NonNull Bundle arguments) {
+        this.arguments = arguments;
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
@@ -153,7 +154,7 @@ public class RaceModelImpl extends BaseModelImpl {
         if((int) object < 1) {
             // no Race records exist, so download them.
             if(getNetworkCheck()) {
-                doRaceOps(DOWNLOAD_RACES, null);
+                doRaceOps(DOWNLOAD_RACES, arguments);
             } else {
                 // no race in database and no network.
                 iPresenterModel.showNoNetworkDialog();
@@ -264,6 +265,7 @@ public class RaceModelImpl extends BaseModelImpl {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Variables">
     @OpType.RType int opType;          // current operation type.
+    private Bundle arguments;
     private RaceAdapter raceAdapter;   // recyclerview adapter.
 
     // String bindings.
