@@ -32,4 +32,5 @@ public interface IRacesDAO {
     public int deleteRaces();
 
     @Delete
-    public int deleteRaces(List<Race> lRace);}
+    public int deleteRaces(List<Race> lRace);
+}

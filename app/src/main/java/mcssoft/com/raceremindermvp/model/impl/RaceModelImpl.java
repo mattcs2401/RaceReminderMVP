@@ -151,7 +151,7 @@ public class RaceModelImpl extends BaseModelImpl {
 
     //<editor-fold defaultstate="collapsed" desc="Region: doLoadFinished methods">
     private void onLoadFinishedCountRaces(Object object) {
-        if((int) object < 1) {
+        if((int) object < 2) {
             // no Race records exist, so download them.
             if(getNetworkCheck()) {
                 doRaceOps(DOWNLOAD_RACES, arguments);

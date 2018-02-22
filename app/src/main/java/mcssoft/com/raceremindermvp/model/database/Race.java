@@ -33,18 +33,18 @@ public class Race implements Parcelable {
     @Ignore
     public Race(List<String> list) {
         this.id = Integer.parseInt(list.get(0));
-        this.meetingId = list.get(1);
-        this.raceNumber = list.get(2);
-        this.raceTime = list.get(3);
-        this.raceName = list.get(4);
-        this.raceDistance = list.get(5);
-        this.archvFlag = list.get(6);
+//        this.meetingId = list.get(1);
+        this.raceNumber = list.get(1);
+        this.raceTime = list.get(2);
+        this.raceName = list.get(3);
+        this.raceDistance = list.get(4);
+        this.archvFlag = list.get(5);
     }
 
     @Ignore
-    public Race(@NonNull int id, String meetingId, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
+    public Race(@NonNull int id /*,String meetingId*/, String raceNumber, String raceTime, String raceName, String raceDistance, @NonNull String archvFlag) {
         this.id = id;
-        this.meetingId = meetingId;
+//        this.meetingId = meetingId;
         this.raceNumber = raceNumber;
         this.raceTime = raceTime;
         this.raceName = raceName;
@@ -94,13 +94,13 @@ public class Race implements Parcelable {
         this.raceDistance = raceDistance;
     }
 
-    public String getMeetingId() {
-        return meetingId;
-    }
+//    public String getMeetingId() {
+//        return meetingId;
+//    }
 
-    public void setMeetingId(String meetingId) {
-        this.meetingId = meetingId;
-    }
+//    public void setMeetingId(String meetingId) {
+//        this.meetingId = meetingId;
+//    }
 
     @NonNull
     public String getArchvFlag() {
@@ -117,7 +117,7 @@ public class Race implements Parcelable {
     // Note: This done mainly so we can put a List<Meeting> into a Bundle.
     protected Race(Parcel in) {
         id = in.readInt();
-        meetingId = in.readString();
+//        meetingId = in.readString();
         raceNumber = in.readString();
         raceTime = in.readString();
         raceName = in.readString();
@@ -128,7 +128,7 @@ public class Race implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeString(meetingId);
+//        dest.writeString(meetingId);
         dest.writeString(raceNumber);
         dest.writeString(raceTime);
         dest.writeString(raceName);
@@ -167,8 +167,8 @@ public class Race implements Parcelable {
     @ColumnInfo(name = "RaceDist") private String raceDistance;  // e.g. "1905"
 
     // additional.
-    @ForeignKey(entity = Meeting.class, parentColumns = "id", childColumns = "MeetingId")
-    @ColumnInfo(name = "MeetingId") private String meetingId;     // FK link to MEETINGS table.
+//    @ForeignKey(entity = Meeting.class, parentColumns = "id", childColumns = "MeetingId")
+//    @ColumnInfo(name = "MeetingId") private String meetingId;     // FK link to MEETINGS table.
 
     @NonNull
     @ColumnInfo(name = "ArchvFlag") private String archvFlag;
