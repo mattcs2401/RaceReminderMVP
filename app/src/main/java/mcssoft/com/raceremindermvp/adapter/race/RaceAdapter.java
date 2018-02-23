@@ -39,12 +39,15 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
             Race race = (Race) lRace.get(position);
             String bp = "";
 
-//            holder.getCityCode().setText(race.getCityCode());
-//            holder.getRaceCode().setText(race.getRaceCode());
 //            holder.getRaceNo().setText(race.getRaceNum());
 //            holder.getRaceSel().setText(race.getRaceSel());
 //            holder.getRaceTime().setText(race.getTime());
 //            holder.getRaceDate().setText(race.getDate());
+
+//             "RaceNumber") private String raceNumber;      // e.g. "1"
+//             "RaceTime") private String raceTime;          // e.g. "12:55"
+//             "RaceName") private String raceName;          // e.g. "BM 60 HANDICAP"
+//             "RaceDist") private String raceDistance;      // e.g. "1905"
         }
     }
 

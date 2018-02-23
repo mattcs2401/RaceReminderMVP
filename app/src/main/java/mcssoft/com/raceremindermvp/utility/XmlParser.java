@@ -158,31 +158,31 @@ public class XmlParser {
         parser.require(START_TAG, nameSpace, race_day);
         int eventType = parser.getEventType();
 
-        while(eventType != parser.END_DOCUMENT) {
-            switch(eventType) {
-                case START_TAG:
-                    String name = parser.getName();
-                    if(name.equals(race)) {
-                        entries.add(readRace());
-                    }
-            }
-            eventType = parser.next();
-        }
-//        while (parser.next() != XmlPullParser.END_TAG) {
-//            if (parser.getEventType() != START_TAG) {
-//                continue;
+//        while(eventType != parser.END_DOCUMENT) {
+//            switch(eventType) {
+//                case START_TAG:
+//                    String name = parser.getName();
+//                    if(name.equals(race)) {
+//                        entries.add(readRace());
+//                    }
 //            }
-//            String name = parser.getName();
-//            if(name.equals(race)) {
-//                theList.add(readRace());
-//                skip();
-//            } else if (name.equals("Tipster")) {
-//                // nothing we want after this (ATT)
-//                break;
-//            } else {
-//                skip();
-//            }
+//            eventType = parser.next();
 //        }
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != START_TAG) {
+                continue;
+            }
+            String name = parser.getName();
+            if(name.equals(race)) {
+                entries.add(readRace());
+                skip();
+            } else if (name.equals("Tipster")) {
+                // nothing we want after this (ATT)
+                break;
+            } else {
+                skip();
+            }
+        }
         return entries;
     }
 

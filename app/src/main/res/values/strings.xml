@@ -55,7 +55,7 @@
     <string name="base_path">https://tatts.com/pagedata/racing</string>
     <string name="race_day_listing">RaceDay.xml</string>
 
-    <!-- Xml tags. -->
+    <!-- Database. -->
     <string name="table_meetings">MEETINGS</string>
     <string name="table_races">RACES</string>
     <string name="table_runners">RUNNERS</string>
