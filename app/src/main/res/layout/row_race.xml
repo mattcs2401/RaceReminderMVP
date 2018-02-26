@@ -18,33 +18,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_city_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="B"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_race_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="R"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintStart_toEndOf="@+id/tv_city_code"
-        card_view:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_venue_name"
+        android:id="@+id/id_tv_race_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -53,20 +27,20 @@
         android:text="9"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintStart_toEndOf="@+id/tv_race_code"
+        card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_race_sel"
+        android:id="@+id/id_tv_race_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="12"
+        android:text="RaceName"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintStart_toEndOf="@+id/tv_venue_name"
+        card_view:layout_constraintStart_toEndOf="@+id/id_tv_race_num"
         card_view:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -83,12 +57,12 @@
         card_view:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/id_tv_race_date"
+        android:id="@+id/id_tv_race_dist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="01/12/2017"
+        android:text="1500m"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/id_tv_race_time"

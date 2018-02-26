@@ -34,8 +34,6 @@ public class RaceFragment extends BaseFragment {
         super.onAttach(activity);
         // Get interface to the Activity.
         iMainActivity = (IMainActivity) activity;
-        arguments = getArguments();
-//        iPresenterViewRace = new MainPresenterImpl(this, arguments);
     }
 
     @Override
@@ -50,8 +48,9 @@ public class RaceFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         // set RecyclerView component first, Presenter, and Model, expect it.
         setRecyclerView();
-        // set the MainPresenterImpl (in turn sets MeetingModelImpl).
-        iPresenterViewRace = new MainPresenterImpl(this, arguments);
+        // set the MainPresenterImpl (in turn sets RaceModelImpl).
+        iPresenterViewRace = new MainPresenterImpl(this, getArguments());
+        // set a header row in the recyclerview.
         setRecyclerViewHeader();
     }
 
@@ -139,10 +138,9 @@ public class RaceFragment extends BaseFragment {
     }
     //</editor-fold>
 
-    private Bundle arguments;
-
     // Butter Knife.
     private Unbinder unbinder;
+
     @BindView(R.id.id_tv_meeting_code) TextView meetingCode;
     @BindView(R.id.id_tv_venue_name) TextView venueName;
     @BindView(R.id.id_tv_track_rating) TextView trackRating;
