@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.List;
+
 import mcssoft.com.raceremindermvp.database.RaceDatabase;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IModelPresenter;
 import mcssoft.com.raceremindermvp.interfaces.mvp.IPresenterModel;
@@ -70,6 +72,9 @@ public abstract class BaseModelImpl
 
     @Override
     public Race getRace(int lPos) { return null; }
+
+    @Override
+    public List<String> getMeetingInfo() { return null; }
     //</editor-fold>
 
     protected void setAdapter() { }

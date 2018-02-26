@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +35,7 @@ public class RaceFragment extends BaseFragment {
         // Get interface to the Activity.
         iMainActivity = (IMainActivity) activity;
         arguments = getArguments();
+//        iPresenterViewRace = new MainPresenterImpl(this, arguments);
     }
 
     @Override
@@ -48,6 +52,7 @@ public class RaceFragment extends BaseFragment {
         setRecyclerView();
         // set the MainPresenterImpl (in turn sets MeetingModelImpl).
         iPresenterViewRace = new MainPresenterImpl(this, arguments);
+        setRecyclerViewHeader();
     }
 
     @Override
@@ -115,6 +120,15 @@ public class RaceFragment extends BaseFragment {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    private void setRecyclerViewHeader() {
+        List<String> lMeetingInfo = iPresenterViewRace.getMeetingInfo();
+        meetingCode.setText(lMeetingInfo.get(0));
+        venueName.setText(lMeetingInfo.get(1));
+        trackRating.setText(lMeetingInfo.get(2));
+        weatherDesc.setText(lMeetingInfo.get(3));
+        //String bp = "";
+    }
+
     private void setRecyclerView() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -129,5 +143,9 @@ public class RaceFragment extends BaseFragment {
 
     // Butter Knife.
     private Unbinder unbinder;
-    @BindView(R.id.id_rv_raceListing) RecyclerView recyclerView;
+    @BindView(R.id.id_tv_meeting_code) TextView meetingCode;
+    @BindView(R.id.id_tv_venue_name) TextView venueName;
+    @BindView(R.id.id_tv_track_rating) TextView trackRating;
+    @BindView(R.id.id_tv_weather_desc) TextView weatherDesc;
+    @BindView(R.id.id_rv_race_listing) RecyclerView recyclerView;
 }

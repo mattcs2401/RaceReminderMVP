@@ -7,8 +7,10 @@
     tools:context="mcssoft.com.raceremindermvp.fragment.RaceFragment">
     <!--tools:showIn="@layout/activity_main">-->
 
+    <include layout="@layout/row_race_header" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_rv_raceListing"
+        android:id="@+id/id_rv_race_listing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

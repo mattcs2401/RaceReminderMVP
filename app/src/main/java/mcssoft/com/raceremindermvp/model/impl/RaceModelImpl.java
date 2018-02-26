@@ -13,6 +13,7 @@ import android.view.View;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindString;
@@ -146,6 +147,17 @@ public class RaceModelImpl extends BaseModelImpl {
     @Override
     public Race getRace(int lPos) {
         return raceAdapter.getRace(lPos);
+    }
+
+    @Override
+    public List<String> getMeetingInfo() {
+        List<String> lMeetingInfo = new ArrayList<String>();
+        Meeting meeting = (Meeting) arguments.getParcelable(bundle_key);
+        lMeetingInfo.add(0, meeting.getMeetingCode());
+        lMeetingInfo.add(1, meeting.getVenueName());
+        lMeetingInfo.add(2, meeting.getTrackDesc() + " " + meeting.getTrackRating());
+        lMeetingInfo.add(3, meeting.getWeatherDesc());
+        return lMeetingInfo;
     }
     //</editor-fold>
 

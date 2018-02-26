@@ -20,7 +20,7 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         // Set the ViewHolder components.
         tvCityCode = (TextView) view.findViewById(R.id.tv_city_code);
         tvRaceCode = (TextView) view.findViewById(R.id.tv_race_code);
-        tvRaceNo = (TextView) view.findViewById(R.id.tv_race_no);
+        tvRaceNo = (TextView) view.findViewById(R.id.tv_venue_name);
         tvRaceSel = (TextView) view.findViewById(R.id.tv_race_sel);
         tvRaceTime = (TextView) view.findViewById(R.id.id_tv_race_time);
         tvRaceDate = (TextView) view.findViewById(R.id.id_tv_race_date);
