@@ -276,7 +276,7 @@ public class MeetingModelImpl extends BaseModelImpl {
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     @Override
     protected void setAdapter() {
-        meetingAdapter = new MeetingAdapter();
+        meetingAdapter = new MeetingAdapter(iPresenterModel.getContext());
         meetingAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(meetingAdapter);
     }

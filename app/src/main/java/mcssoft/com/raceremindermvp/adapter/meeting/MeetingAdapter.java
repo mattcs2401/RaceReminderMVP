@@ -1,21 +1,25 @@
 package mcssoft.com.raceremindermvp.adapter.meeting;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
-    public MeetingAdapter() {
-        // TBA
+    public MeetingAdapter(Context context) {
+        ButterKnife.bind(this, new View(context));
     }
 
     @Override
@@ -23,10 +27,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         View view = null;
         this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        switch(viewType) {
+        switch (viewType) {
             case EMPTY_VIEW:
                 view = inflater.inflate(R.layout.row_empty, parent, false);
-                return new MeetingViewHolder(view);
+                return new MeetingViewHolder(view, nothingToShow);
             case MEETING_VIEW:
                 view = inflater.inflate(R.layout.row_meeting, parent, false);
                 return new MeetingViewHolder(view, icListener);
@@ -37,20 +41,20 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public void onBindViewHolder(MeetingViewHolder holder, int position) {
 //        Log.d(getClass().getSimpleName(), "onBindViewHolder");
-        if(!isEmptyView) {
+        if (!isEmptyView) {
             Meeting meeting = lMeeting.get(position);
-            holder.getTvMeetingCode().setText(meeting.getMeetingCode());
-            holder.getTvMeetingDate().setText(meeting.getMeetingDate());
-            holder.getTvVenueName().setText(meeting.getVenueName());
+            holder.getMeetingCode().setText(meeting.getMeetingCode());
+            holder.getMeetingDate().setText(meeting.getMeetingDate());
+            holder.getVenueName().setText(meeting.getVenueName());
         }
     }
 
     @Override
     public int getItemCount() {
-        if(isEmptyView) {
-            return  1; // need to do this so the onCreateViewHolder fires.
+        if (isEmptyView) {
+            return 1; // need to do this so the onCreateViewHolder fires.
         } else {
-            if(lMeeting != null) {
+            if (lMeeting != null) {
                 return lMeeting.size();
             } else {
                 return 0;
@@ -60,7 +64,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(isEmptyView) {
+        if (isEmptyView) {
             return EMPTY_VIEW;
         }
         return MEETING_VIEW;
@@ -72,7 +76,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     public void swapData(List<Meeting> lMeeting) {
         this.lMeeting = lMeeting;
-        if(lMeeting == null || lMeeting.size() < 1) {
+        if (lMeeting == null || lMeeting.size() < 1) {
             setEmptyView(true);
         } else {
             setEmptyView(false);
@@ -82,11 +86,12 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     /**
      * Return the Meeting object at the adapter position.
+     *
      * @param lPos The adapter position (0 based).
      * @return The Meeting object, or NULL.
      */
     public Meeting getMeeting(int lPos) {
-        if(lMeeting != null && lPos > -1) {
+        if (lMeeting != null && lPos > -1) {
             return lMeeting.get(lPos);
         }
         return null;
@@ -104,6 +109,8 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     private static final int EMPTY_VIEW = 0;
     private static final int MEETING_VIEW = 1;
+
+    @BindString(R.string.nothing_to_show) String nothingToShow;
 
     private String LOG_TAG = this.getClass().getCanonicalName();
 }

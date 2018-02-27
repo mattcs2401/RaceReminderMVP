@@ -12,11 +12,10 @@ import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 
 public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public RaceViewHolder(View view) {
+    public RaceViewHolder(View view, String message) {
         super(view);
-        // bind views.
-        ButterKnife.bind(this, view);
-        tvEmptyView.setText(nothingToShow);
+        TextView tvEmptyView = view.findViewById(R.id.id_tv_empty);
+        tvEmptyView.setText(message);
     }
 
     public RaceViewHolder(View view, IClick.ItemClick icListener) {
@@ -30,8 +29,7 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        int position = getAdapterPosition(); // debug/testing purposes.
-        icListener.onItemClick(view, position);
+        icListener.onItemClick(view, getAdapterPosition());
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Accessors">
@@ -50,18 +48,14 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView getRaceDist() {
         return tvRaceDist;
     }
-
-    public TextView getEmptyText() { return tvEmptyView; }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
     private IClick.ItemClick icListener;
 
-    @BindView(R.id.id_tv_empty) TextView tvEmptyView;
     @BindView(R.id.id_tv_race_num) TextView tvRaceNum;
     @BindView(R.id.id_tv_race_name) TextView tvRaceName;
     @BindView(R.id.id_tv_race_time) TextView tvRaceTime;
     @BindView(R.id.id_tv_race_dist) TextView tvRaceDist;
-    @BindString(R.string.nothing_to_show) String nothingToShow;
     //</editor-fold>
 }

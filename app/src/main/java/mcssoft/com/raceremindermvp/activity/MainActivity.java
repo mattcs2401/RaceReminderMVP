@@ -4,12 +4,15 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mcssoft.com.raceremindermvp.R;
@@ -26,13 +29,12 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // ButterKnife.
+        unbinder = ButterKnife.bind(this);
         // set Toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb_main);
         setSupportActionBar(toolbar);
         // set Fragment.
         getFragmentManager().beginTransaction().add(R.id.id_main_fragment_container, new MeetingFragment()).commit();
-        // ButterKnife.
-        unbinder = ButterKnife.bind(this);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
             default:
@@ -67,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         networkDialog.setShowsDialog(true);
 
         StringBuilder sb = new StringBuilder()
-        .append(network_connection_error_l1)
-        .append(System.getProperty("line.separator"))
-        .append(System.getProperty("line.separator"))
-        .append(network_connection_error_l2);
+                .append(network_connection_error_l1)
+                .append(System.getProperty("line.separator"))
+                .append(System.getProperty("line.separator"))
+                .append(network_connection_error_l2);
 
         Bundle bundle = new Bundle();
         bundle.putString(network_dialog_text_key, sb.toString());
@@ -81,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void showProgressDialog(boolean showProgress, @Nullable String message) {
-        if(showProgress) {
-            if(progressDialog == null) {
+        if (showProgress) {
+            if (progressDialog == null) {
                 progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage(message); //getting_meetings);
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private ProgressDialog progressDialog;  // the progress dialog.
 
     // Butter Knife
+    @BindView(R.id.id_tb_main) Toolbar toolbar;
+
     @BindString(R.string.bundle_key) String bundle_key;
     @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
     @BindString(R.string.network_connection_error_p1) String network_connection_error_l1;

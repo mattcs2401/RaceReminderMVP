@@ -1,5 +1,6 @@
 package mcssoft.com.raceremindermvp.adapter.race;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +8,16 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.model.database.Race;
 
 public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
 
-    public RaceAdapter() {
-        // TBA
+    public RaceAdapter(Context context) {
+        ButterKnife.bind(this, new View(context));
     }
 
     @Override
@@ -25,7 +28,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
         switch(viewType) {
             case EMPTY_VIEW:
                 view = inflater.inflate(R.layout.row_empty, parent, false);
-                return new RaceViewHolder(view);
+                return new RaceViewHolder(view, nothingToShow);
             case RACE_VIEW:
                 view = inflater.inflate(R.layout.row_race, parent, false);
                 return new RaceViewHolder(view, icListener);
@@ -102,5 +105,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
 
     private static final int EMPTY_VIEW = 0;
     private static final int RACE_VIEW = 1;
+
+    @BindString(R.string.nothing_to_show) String nothingToShow;
 }
 

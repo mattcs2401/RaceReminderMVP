@@ -269,7 +269,7 @@ public class RaceModelImpl extends BaseModelImpl {
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
     @Override
     protected void setAdapter() {
-        raceAdapter = new RaceAdapter();
+        raceAdapter = new RaceAdapter(iPresenterModel.getContext());
         raceAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(raceAdapter);
     }

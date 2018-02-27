@@ -119,15 +119,6 @@ public class RaceFragment extends BaseFragment {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
-    private void setRecyclerViewHeader() {
-        List<String> lMeetingInfo = iPresenterViewRace.getMeetingInfo();
-        meetingCode.setText(lMeetingInfo.get(0));
-        venueName.setText(lMeetingInfo.get(1));
-        trackRating.setText(lMeetingInfo.get(2));
-        weatherDesc.setText(lMeetingInfo.get(3));
-        //String bp = "";
-    }
-
     private void setRecyclerView() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -135,6 +126,14 @@ public class RaceFragment extends BaseFragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void setRecyclerViewHeader() {
+        List<String> lMeetingInfo = iPresenterViewRace.getMeetingInfo();
+        meetingCode.setText(lMeetingInfo.get(0));
+        venueName.setText(lMeetingInfo.get(1));
+        trackRating.setText(lMeetingInfo.get(2));
+        weatherDesc.setText(lMeetingInfo.get(3));
     }
     //</editor-fold>
 
