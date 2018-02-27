@@ -20,9 +20,7 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public MeetingViewHolder(View view, String message) {
         super(view);
-        TextView tvEmptyView = view.findViewById(R.id.id_tv_empty);
-        tvEmptyView.setText(message);
-
+        ((TextView) view.findViewById(R.id.id_tv_empty)).setText(message);
     }
 
     public MeetingViewHolder(View view, IClick.ItemClick icListener) {

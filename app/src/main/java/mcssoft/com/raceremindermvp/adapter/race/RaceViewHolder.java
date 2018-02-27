@@ -14,8 +14,7 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public RaceViewHolder(View view, String message) {
         super(view);
-        TextView tvEmptyView = view.findViewById(R.id.id_tv_empty);
-        tvEmptyView.setText(message);
+        ((TextView) view.findViewById(R.id.id_tv_empty)).setText(message);
     }
 
     public RaceViewHolder(View view, IClick.ItemClick icListener) {
