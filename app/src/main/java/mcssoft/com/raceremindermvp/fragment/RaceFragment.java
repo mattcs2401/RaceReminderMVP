@@ -104,6 +104,7 @@ public class RaceFragment extends BaseFragment {
         iMainActivity.showProgressDialog(show, message);
     }
 
+
     @Override
     public void showNoNetworkDialog() {
         iMainActivity.showNoNetworkDialog();

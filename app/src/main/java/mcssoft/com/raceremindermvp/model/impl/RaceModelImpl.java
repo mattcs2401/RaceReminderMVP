@@ -218,9 +218,11 @@ public class RaceModelImpl extends BaseModelImpl {
 
         switch(opType) {
             case COUNT_RACES:
-            case SELECT_RACES:
             case DELETE_RACES:
                 doRaceOpsOther();
+                break;
+            case SELECT_RACES:
+                doRaceOpsSelectRaces();
                 break;
             case DOWNLOAD_RACES:
                 doRaceOpsDownloadRaces(object);
@@ -229,6 +231,14 @@ public class RaceModelImpl extends BaseModelImpl {
                 doRaceOpsInsertRaces(INSERT_RACES, object);
                 break;
         }
+    }
+
+    private void doRaceOpsSelectRaces() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(bundle_key, opType);
+        Meeting meeting = arguments.getParcelable(bundle_data_key);
+        // TBA
+        setLoaderManager(2, bundle);
     }
 
     /**
