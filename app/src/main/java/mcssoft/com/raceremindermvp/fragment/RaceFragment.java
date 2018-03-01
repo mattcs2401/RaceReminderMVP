@@ -51,7 +51,7 @@ public class RaceFragment extends BaseFragment {
         // set the MainPresenterImpl (in turn sets RaceModelImpl).
         iPresenterViewRace = new MainPresenterImpl(this, getArguments());
         // set a header row in the recyclerview.
-        setRecyclerViewHeader();
+//        setRecyclerViewHeader();
     }
 
     @Override

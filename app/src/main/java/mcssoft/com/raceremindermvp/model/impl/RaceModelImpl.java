@@ -3,8 +3,6 @@ package mcssoft.com.raceremindermvp.model.impl;
 
 import android.content.Context;
 import android.content.Loader;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,7 +39,7 @@ import static mcssoft.com.raceremindermvp.utility.OpType.RType.SELECT_RACES;
 public class RaceModelImpl extends BaseModelImpl {
 
     public RaceModelImpl(@NonNull IPresenterModel iPresenterModel, @NonNull Bundle arguments) {
-        this.arguments = arguments;
+        this.meetingInfo = arguments;
         // retain reference to the IPresenterModel interface.
         this.iPresenterModel = iPresenterModel;
         Context context = iPresenterModel.getContext();
@@ -54,11 +52,8 @@ public class RaceModelImpl extends BaseModelImpl {
         // resource bindings
         ButterKnife.bind(this, new View(context)); // a bit of a hack but seems to work.
 
-//        // clear any races that exist in the database
-//        doRaceOps(DELETE_RACES, null);
-//        // download races based on the meeting information
-//        doRaceOps(DOWNLOAD_RACES, arguments);
-        doRaceOps(COUNT_RACES, null);
+        // see if the Race objects already exist, the Meeting code is in the meetingInfo.
+        doRaceOps(SELECT_RACES, null);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Region: Volley">
@@ -152,7 +147,7 @@ public class RaceModelImpl extends BaseModelImpl {
     @Override
     public List<String> getMeetingInfo() {
         List<String> lMeetingInfo = new ArrayList<String>();
-        Meeting meeting = (Meeting) arguments.getParcelable(bundle_key);
+        Meeting meeting = (Meeting) meetingInfo.getParcelable(bundle_key);
         lMeetingInfo.add(0, meeting.getMeetingCode());
         lMeetingInfo.add(1, meeting.getVenueName());
         lMeetingInfo.add(2, meeting.getTrackDesc() + " " + meeting.getTrackRating());
@@ -161,12 +156,12 @@ public class RaceModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: doLoadFinished methods">
+    //<editor-fold defaultstate="collapsed" desc="Region: onLoadFinished methods">
     private void onLoadFinishedCountRaces(Object object) {
         if((int) object < 2) {
             // no Race records exist, so download them.
             if(getNetworkCheck()) {
-                doRaceOps(DOWNLOAD_RACES, arguments);
+                doRaceOps(DOWNLOAD_RACES, meetingInfo);
             } else {
                 // no race in database and no network.
                 iPresenterModel.showNoNetworkDialog();
@@ -195,8 +190,14 @@ public class RaceModelImpl extends BaseModelImpl {
         if(iPresenterModel.isProgressDialogShowing()) {
             iPresenterModel.showProgressDialog(false, null);
         }
-        // load up the adapter.
-        raceAdapter.swapData((List<Race>) object);
+        if(((List<Race>) object).size() == 0) {
+            // no races selected, likely they don't exist in the database.
+            String bp = "";
+
+        } else {
+            // load up the adapter.
+            raceAdapter.swapData((List<Race>) object);
+        }
     }
 
     private void onLoadFinishedDeleteRaces() { }
@@ -236,8 +237,8 @@ public class RaceModelImpl extends BaseModelImpl {
     private void doRaceOpsSelectRaces() {
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
-        Meeting meeting = arguments.getParcelable(bundle_data_key);
-        // TBA
+//        Meeting meeting = meetingInfo.getParcelable(bundle_data_key);
+        bundle.putString(bundle_data_key, ((Meeting) meetingInfo.getParcelable(bundle_data_key)).getMeetingId());
         setLoaderManager(2, bundle);
     }
 
@@ -287,7 +288,7 @@ public class RaceModelImpl extends BaseModelImpl {
 
     //<editor-fold defaultstate="collapsed" desc="Region: Variables">
     @OpType.RType int opType;          // current operation type.
-    private Bundle arguments;
+    private Bundle meetingInfo;
     private RaceAdapter raceAdapter;   // recyclerview adapter.
 
     // String bindings.

@@ -13,14 +13,17 @@ import mcssoft.com.raceremindermvp.model.database.Race;
 @Dao
 public interface IRacesDAO {
 
-    @Query("SELECT COUNT(*) FROM RACES WHERE ArchvFlag = :flag")
-    public int getRacesCount(String flag);
+    @Query("SELECT COUNT(*) FROM RACES WHERE ArchvFlag = :archvFlag")
+    public int getRacesCount(String archvFlag);
 
     @Query("SELECT * FROM RACES WHERE _id = :rowId")
     public Race getRace(int rowId);
 
-    @Query("SELECT * FROM RACES WHERE ArchvFlag = :flag")
-    public List<Race> getRaces(String flag);
+    @Query("SELECT * FROM RACES WHERE ArchvFlag = :archvFlag")
+    public List<Race> getRaces(String archvFlag);
+
+    @Query("SELECT * FROM RACES WHERE MeetingId = :meetingId AND ArchvFlag = :archvFlag")
+    public List<Race> getRaces(String meetingId, String archvFlag);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public List<Long> insertRaces(List<Race> lRaces);

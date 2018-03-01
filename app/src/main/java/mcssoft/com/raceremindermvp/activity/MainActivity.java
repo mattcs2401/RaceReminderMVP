@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void showRaceFragment(Meeting meeting) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(bundle_key, meeting);
+        bundle.putParcelable(bundle_data_key, meeting);
         RaceFragment raceFragment = new RaceFragment();
         raceFragment.setArguments(bundle);
         FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @BindView(R.id.id_tb_main) Toolbar toolbar;
 
     @BindString(R.string.bundle_key) String bundle_key;
+    @BindString(R.string.bundle_data_key) String bundle_data_key;
     @BindString(R.string.network_dialog_text_key) String network_dialog_text_key;
     @BindString(R.string.network_connection_error_p1) String network_connection_error_l1;
     @BindString(R.string.network_connection_error_p2) String network_connection_error_l2;

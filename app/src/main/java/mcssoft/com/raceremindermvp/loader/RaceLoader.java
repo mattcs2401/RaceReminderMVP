@@ -40,7 +40,14 @@ public class RaceLoader extends AsyncTaskLoader<Object> {
                 object = raceDatabase.getRaceDAO().insertRaces(lRaces);
                 break;
             case SELECT_RACES:
-                object = raceDatabase.getRaceDAO().getRaces("N");
+                String meetingId = bundle.getString(bundle_data_key);
+                if(meetingId != null) {
+                    // get races based on the meetingId.
+                    object = raceDatabase.getRaceDAO().getRaces(meetingId, "N");
+                } else {
+                    // get all Races.
+                    object = raceDatabase.getRaceDAO().getRaces("N");
+                }
                 break;
             case DELETE_RACES:
                 object = raceDatabase.getRaceDAO().deleteRaces();
