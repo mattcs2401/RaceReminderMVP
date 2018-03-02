@@ -10,7 +10,7 @@ import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.database.Race;
 
 /**
- * utility class for a list of Meeting objects that can be passed in a Bundle.
+ * Utility class for a list of Race objects that can be passed in a Bundle.
  */
 public class RaceList implements Parcelable {
 
@@ -67,5 +67,4 @@ public class RaceList implements Parcelable {
         }
     };
     //</editor-fold>
-
 }

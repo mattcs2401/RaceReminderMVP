@@ -71,21 +71,10 @@ public class XmlParser {
     private List parseForMeetings() throws XmlPullParserException, IOException {
         // TODO - may not be efficient but seems to work.
         List entries = new ArrayList();
-
         parser.require(START_TAG, nameSpace, race_day);
-//        int eventType = parser.getEventType();
+
         String date = parser.getAttributeValue(nameSpace,race_day_date);
 
-//        while(eventType != parser.END_DOCUMENT) {
-//            switch(eventType) {
-//                case START_TAG:
-//                    String name = parser.getName();
-//                    if(name.equals(race)) {
-//                        entries.add(readMeeting(date));
-//                    }
-//            }
-//            eventType = parser.next();
-//        }
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != START_TAG) {
                 continue;
@@ -152,30 +141,16 @@ public class XmlParser {
      * @throws IOException
      */
     private List parseForRaces() throws XmlPullParserException, IOException {
-        // TODO - not be efficient (but seems to work).
         List entries = new ArrayList();
-
         parser.require(START_TAG, nameSpace, race_day);
-        int eventType = parser.getEventType();
 
-//        while(eventType != parser.END_DOCUMENT) {
-//            switch(eventType) {
-//                case START_TAG:
-//                    String name = parser.getName();
-//                    if(name.equals(race)) {
-//                        entries.add(readRace());
-//                    }
-//            }
-//            eventType = parser.next();
-//        }
-        while (parser.next() != XmlPullParser.END_TAG) {
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != START_TAG) {
                 continue;
             }
             String name = parser.getName();
             if(name.equals(race)) {
                 entries.add(readRace());
-                skip();
             } else if (name.equals("Tipster")) {
                 // nothing we want after this (ATT)
                 break;

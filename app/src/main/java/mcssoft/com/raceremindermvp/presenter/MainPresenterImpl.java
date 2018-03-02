@@ -25,7 +25,7 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView.IMeeti
     /**
      * Implemeentation of the main Presenter.
      * @param iViewPresenter reference to IViewPresenter interface.
-     * @param arguments Optional arguments passed to Model.
+     * @param arguments If not NULL, then a Meeting object (as parcelable).
      */
     public MainPresenterImpl(@NonNull IViewPresenter iViewPresenter, @Nullable Bundle arguments) {
         this.iViewPresenter = iViewPresenter;

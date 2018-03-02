@@ -192,8 +192,7 @@ public class RaceModelImpl extends BaseModelImpl {
         }
         if(((List<Race>) object).size() == 0) {
             // no races selected, likely they don't exist in the database.
-            String bp = "";
-
+            doRaceOps(DOWNLOAD_RACES, null);
         } else {
             // load up the adapter.
             raceAdapter.swapData((List<Race>) object);
@@ -226,7 +225,7 @@ public class RaceModelImpl extends BaseModelImpl {
                 doRaceOpsSelectRaces();
                 break;
             case DOWNLOAD_RACES:
-                doRaceOpsDownloadRaces(object);
+                doRaceOpsDownloadRaces(); //object);
                 break;
             case INSERT_RACES:
                 doRaceOpsInsertRaces(INSERT_RACES, object);
@@ -242,12 +241,9 @@ public class RaceModelImpl extends BaseModelImpl {
         setLoaderManager(2, bundle);
     }
 
-    /**
-     *
-     * @param object The selected Meeting record.
-     */
-    private void doRaceOpsDownloadRaces(Object object) {
-        Meeting meeting = ((Bundle) object).getParcelable(bundle_key);
+    private void doRaceOpsDownloadRaces() { //Object object) {
+        Meeting meeting = (Meeting) meetingInfo.getParcelable(bundle_data_key);
+//        Meeting meeting = ((Bundle) object).getParcelable(bundle_key);
         Url url = new Url(iPresenterModel.getContext());
         String uri = url.createMeetingUrl(meeting.getMeetingDate(), meeting.getMeetingCode());
         iPresenterModel.showProgressDialog(true, getting_races);
