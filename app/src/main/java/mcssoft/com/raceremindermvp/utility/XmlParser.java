@@ -219,8 +219,9 @@ public class XmlParser {
             throw new IllegalStateException();
         }
         int depth = 1;
-        String name;
+//        String name;
         while (depth != 0) {
+//            name = parser.getName();
             switch (parser.next()) {
                 case XmlPullParser.END_TAG:
                     depth--;
