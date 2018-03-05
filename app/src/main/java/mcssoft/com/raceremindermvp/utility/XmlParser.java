@@ -141,21 +141,27 @@ public class XmlParser {
      * @throws IOException
      */
     private List parseForRaces() throws XmlPullParserException, IOException {
-        List entries = new ArrayList();
-        parser.require(START_TAG, nameSpace, race_day);
+        // TODO - how do we optimise this ?
+        String meetingId = null;
+        List entries = new ArrayList();;
+//        parser.require(START_TAG, nameSpace, race_day);
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != START_TAG) {
                 continue;
             }
             String name = parser.getName();
+            if(name.equals(meeting) && meetingId == null) {
+                // get the Meeting ID.
+                meetingId = parser.getAttributeValue(nameSpace, meeting_id);
+            }
             if(name.equals(race)) {
-                entries.add(readRace());
+                entries.add(readRace(meetingId));
             } else if (name.equals("Tipster")) {
                 // nothing we want after this (ATT)
                 break;
             } else {
-                skip();
+//                skip();
             }
         }
         return entries;
@@ -165,8 +171,9 @@ public class XmlParser {
      * Read Race info from the Xml.
      * @return A Race object.
      */
-    private Race readRace() {
+    private Race readRace(String meetingId) {
         Race race = new Race();
+        race.setMeetingId(meetingId);
         race.setRaceNumber(parser.getAttributeValue(nameSpace,race_no));
         DateTime dt = new DateTime(context);
         race.setRaceTime(dt.getTimeComponent(parser.getAttributeValue(nameSpace,race_time)));
