@@ -129,21 +129,21 @@ public class RaceFragment extends BaseFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void setRecyclerViewHeader() {
-        List<String> lMeetingInfo = iPresenterViewRace.getMeetingInfo();
-        meetingCode.setText(lMeetingInfo.get(0));
-        venueName.setText(lMeetingInfo.get(1));
-        trackRating.setText(lMeetingInfo.get(2));
-        weatherDesc.setText(lMeetingInfo.get(3));
-    }
+//    private void setRecyclerViewHeader() {
+//        List<String> lMeetingInfo = iPresenterViewRace.getMeetingInfo();
+//        meetingCode.setText(lMeetingInfo.get(0));
+//        venueName.setText(lMeetingInfo.get(1));
+//        trackRating.setText(lMeetingInfo.get(2));
+//        weatherDesc.setText(lMeetingInfo.get(3));
+//    }
     //</editor-fold>
 
     // Butter Knife.
     private Unbinder unbinder;
 
-    @BindView(R.id.id_tv_meeting_code) TextView meetingCode;
-    @BindView(R.id.id_tv_venue_name) TextView venueName;
-    @BindView(R.id.id_tv_track_rating) TextView trackRating;
-    @BindView(R.id.id_tv_weather_desc) TextView weatherDesc;
+//    @BindView(R.id.id_tv_meeting_code) TextView meetingCode;
+//    @BindView(R.id.id_tv_venue_name) TextView venueName;
+//    @BindView(R.id.id_tv_track_rating) TextView trackRating;
+//    @BindView(R.id.id_tv_weather_desc) TextView weatherDesc;
     @BindView(R.id.id_rv_race_listing) RecyclerView recyclerView;
 }
