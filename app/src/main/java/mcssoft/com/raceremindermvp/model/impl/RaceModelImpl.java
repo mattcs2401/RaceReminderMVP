@@ -146,13 +146,14 @@ public class RaceModelImpl extends BaseModelImpl {
 
     @Override
     public List<String> getMeetingInfo() {
-        List<String> lMeetingInfo = new ArrayList<String>();
-        Meeting meeting = (Meeting) meetingInfo.getParcelable(bundle_key);
-        lMeetingInfo.add(0, meeting.getMeetingCode());
-        lMeetingInfo.add(1, meeting.getVenueName());
-        lMeetingInfo.add(2, meeting.getTrackDesc() + " " + meeting.getTrackRating());
-        lMeetingInfo.add(3, meeting.getWeatherDesc());
-        return lMeetingInfo;
+//        List<String> lMeetingInfo = new ArrayList<String>();
+//        Meeting meeting = (Meeting) meetingInfo.getParcelable(bundle_key);
+//        lMeetingInfo.add(0, meeting.getMeetingCode());
+//        lMeetingInfo.add(1, meeting.getVenueName());
+//        lMeetingInfo.add(2, meeting.getTrackDesc() + " " + meeting.getTrackRating());
+//        lMeetingInfo.add(3, meeting.getWeatherDesc());
+//        return lMeetingInfo;
+        return null;
     }
     //</editor-fold>
 
@@ -274,9 +275,12 @@ public class RaceModelImpl extends BaseModelImpl {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: Utility">
+    /**
+     * Enable setting the applicable adapter. Override from BaseModelImpl.
+     */
     @Override
     protected void setAdapter() {
-        raceAdapter = new RaceAdapter(iPresenterModel.getContext());
+        raceAdapter = new RaceAdapter(iPresenterModel.getContext(), meetingInfo);
         raceAdapter.setClickListener(iPresenterModel.getClickListener());
         iPresenterModel.getRecyclerView().setAdapter(raceAdapter);
     }
