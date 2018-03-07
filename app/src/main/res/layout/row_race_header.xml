@@ -6,11 +6,11 @@
     android:id="@+id/cv_row_race"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:focusable="true"
-    android:clickable="true"
     android:layout_margin="0dp"
     card_view:cardCornerRadius="0dp">
+    <!--android:layout_gravity="top"-->
+    <!--android:focusable="true"-->
+    <!--android:clickable="true"-->
 
     <android.support.constraint.ConstraintLayout
         xmlns:app="http://schemas.android.com/tools"
