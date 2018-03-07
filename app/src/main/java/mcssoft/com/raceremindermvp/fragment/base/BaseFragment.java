@@ -102,9 +102,6 @@ public abstract class BaseFragment extends Fragment implements IViewPresenter, I
 
     @Override
     public Race getRace(int lPos) { return null; }
-
-    @Override
-    public List<String> getMeetingInfo() { return null; }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: IClick.ItemClick">

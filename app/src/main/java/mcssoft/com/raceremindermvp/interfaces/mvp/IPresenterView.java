@@ -59,12 +59,5 @@ public interface IPresenterView {
          * @return The Race object.
          */
         Race getRace(int lPos);
-
-        /**
-         * Get Meeting information to be used in a header row in the Race listing.
-         * @return The Meeting information:
-         *         [0] meeting code, [1] venue name, [2] track description, [3] weather description
-         */
-        List<String> getMeetingInfo();
     }
 }

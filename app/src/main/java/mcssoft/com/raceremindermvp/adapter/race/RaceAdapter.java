@@ -80,7 +80,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     public int getItemViewType(int position) {
         if(isEmptyView) {
             return EMPTY_VIEW;
-        } else if(isPositionHeader(position)) {
+        } else if(position == 0) {
             return HEADER_VIEW;
         } else {
             return RACE_VIEW;
@@ -99,10 +99,6 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
             setEmptyView(false);
         }
         notifyDataSetChanged();
-    }
-
-    private boolean isPositionHeader(int position) {
-        return position == 0;
     }
 
     /**

@@ -108,11 +108,6 @@ public class MainPresenterImpl implements IPresenterModel, IPresenterView.IMeeti
 
     @Override
     public Race getRace(int lPos) { return iModelPresenterRace.getRace(lPos); }
-
-    @Override
-    public List<String> getMeetingInfo() {
-        return iModelPresenterRace.getMeetingInfo();
-    }
     //</editor-fold>
 
     private WeakReference<IViewPresenter> iPresenterView;  // IPresenterView reference

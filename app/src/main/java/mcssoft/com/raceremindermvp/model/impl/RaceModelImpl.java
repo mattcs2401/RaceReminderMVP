@@ -143,18 +143,6 @@ public class RaceModelImpl extends BaseModelImpl {
     public Race getRace(int lPos) {
         return raceAdapter.getRace(lPos);
     }
-
-    @Override
-    public List<String> getMeetingInfo() {
-//        List<String> lMeetingInfo = new ArrayList<String>();
-//        Meeting meeting = (Meeting) meetingInfo.getParcelable(bundle_key);
-//        lMeetingInfo.add(0, meeting.getMeetingCode());
-//        lMeetingInfo.add(1, meeting.getVenueName());
-//        lMeetingInfo.add(2, meeting.getTrackDesc() + " " + meeting.getTrackRating());
-//        lMeetingInfo.add(3, meeting.getWeatherDesc());
-//        return lMeetingInfo;
-        return null;
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: onLoadFinished methods">
