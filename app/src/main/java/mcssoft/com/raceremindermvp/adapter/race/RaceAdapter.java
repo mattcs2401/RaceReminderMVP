@@ -21,8 +21,10 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     public RaceAdapter(Context context, Bundle meetingDetails) {
         ButterKnife.bind(this, new View(context));
+        // so we don't get null on a getItemCount.
+        lRaces = new ArrayList<>();
+        // header info is derived from this.
         meeting = (Meeting) meetingDetails.getParcelable(bundle_data_key);
-        lRace = new ArrayList<>();
     }
 
     @Override
@@ -31,9 +33,9 @@ public class RaceAdapter extends RecyclerView.Adapter {
         this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch(viewType) {
-//            case EMPTY_VIEW:
-//                view = inflater.inflate(R.layout.row_empty, parent, false);
-//                return new RaceViewHolder(view, nothingToShow);
+            case EMPTY_VIEW:
+                view = inflater.inflate(R.layout.row_empty, parent, false);
+                return new RaceViewHolder(view, nothingToShow);
             case HEADER_VIEW:
                 view = inflater.inflate(R.layout.row_race_header, parent, false);
                 return new RaceViewHolderHeader(view);
@@ -57,7 +59,7 @@ public class RaceAdapter extends RecyclerView.Adapter {
                 break;
             case RACE_VIEW:
                 RaceViewHolder rvHolder = ((RaceViewHolder) holder);
-                Race race = (Race) lRace.get(position);
+                Race race = (Race) lRaces.get(position);
                 rvHolder.getRaceNum().setText(race.getRaceNumber());
                 rvHolder.getRaceName().setText(race.getRaceName());
                 rvHolder.getRaceTime().setText(race.getRaceTime());
@@ -68,23 +70,19 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-//        if(isEmptyView) {
-//            return  1; // need to do this so the onCreateViewHolder fires.
-//        } else {
-//            if(lRace != null) {
-                return lRace.size();
-//            }
-//            else {
-//                return 0;
-//            }
-//        }
+        if(isEmptyView) {
+            // need to do this so the onCreateViewHolder fires.
+            return  1;
+        } else {
+            return lRaces.size();
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-//        if(isEmptyView) {
-//            return EMPTY_VIEW;
-/*        } else */
+        if(isEmptyView) {
+            return EMPTY_VIEW;
+        } else
           if(isHeaderPosition(position)) {
             return HEADER_VIEW;
         } else {
@@ -97,12 +95,13 @@ public class RaceAdapter extends RecyclerView.Adapter {
     }
 
     public void swapData(List lRace) {
-        this.lRace = lRace;
-//        if(lRace == null || lRace.size() < 1) {
-//            setEmptyView(true);
-//        } else {
-//            setEmptyView(false);
-//        }
+        if(lRace.size() < 1) {
+            setEmptyView(true);
+        } else {
+            lRace.add(0, new Meeting());   // blank "header" row.
+            this.lRaces = lRace;
+            setEmptyView(false);
+        }
         notifyDataSetChanged();
     }
 
@@ -112,8 +111,8 @@ public class RaceAdapter extends RecyclerView.Adapter {
      * @return The Race object, or NULL.
      */
     public Race getRace(int lPos) {
-        if(lRace != null && lPos > -1) {
-            return lRace.get(lPos);
+        if(lPos > -1) {
+            return lRaces.get(lPos);
         }
         return null;
     }
@@ -128,7 +127,7 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     private int viewType;                   // the view type; empty, header or row.
     private Meeting meeting;                // subset of Mmeeting details for header view.
-    private List<Race> lRace;               // list of Race object for row view.
+    private List<Race> lRaces;              // list of Race object for row view.
     private boolean isEmptyView;            // flag show empty view.
     private IClick.ItemClick icListener;    // on click listewner for row views.
 
