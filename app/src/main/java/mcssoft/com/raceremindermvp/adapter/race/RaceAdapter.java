@@ -22,6 +22,7 @@ public class RaceAdapter extends RecyclerView.Adapter {
     public RaceAdapter(Context context, Bundle meetingDetails) {
         ButterKnife.bind(this, new View(context));
         meeting = (Meeting) meetingDetails.getParcelable(bundle_data_key);
+        lRace = new ArrayList<>();
     }
 
     @Override
@@ -30,9 +31,9 @@ public class RaceAdapter extends RecyclerView.Adapter {
         this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch(viewType) {
-            case EMPTY_VIEW:
-                view = inflater.inflate(R.layout.row_empty, parent, false);
-                return new RaceViewHolder(view, nothingToShow);
+//            case EMPTY_VIEW:
+//                view = inflater.inflate(R.layout.row_empty, parent, false);
+//                return new RaceViewHolder(view, nothingToShow);
             case HEADER_VIEW:
                 view = inflater.inflate(R.layout.row_race_header, parent, false);
                 return new RaceViewHolderHeader(view);
@@ -67,22 +68,24 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        if(isEmptyView) {
-            return  1; // need to do this so the onCreateViewHolder fires.
-        } else {
-            if(lRace != null) {
+//        if(isEmptyView) {
+//            return  1; // need to do this so the onCreateViewHolder fires.
+//        } else {
+//            if(lRace != null) {
                 return lRace.size();
-            } else {
-                return 0;
-            }
-        }
+//            }
+//            else {
+//                return 0;
+//            }
+//        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(isEmptyView) {
-            return EMPTY_VIEW;
-        } else if(position == 0) {
+//        if(isEmptyView) {
+//            return EMPTY_VIEW;
+/*        } else */
+          if(isHeaderPosition(position)) {
             return HEADER_VIEW;
         } else {
             return RACE_VIEW;
@@ -95,11 +98,11 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     public void swapData(List lRace) {
         this.lRace = lRace;
-        if(lRace == null || lRace.size() < 1) {
-            setEmptyView(true);
-        } else {
-            setEmptyView(false);
-        }
+//        if(lRace == null || lRace.size() < 1) {
+//            setEmptyView(true);
+//        } else {
+//            setEmptyView(false);
+//        }
         notifyDataSetChanged();
     }
 
@@ -117,6 +120,10 @@ public class RaceAdapter extends RecyclerView.Adapter {
 
     public void setEmptyView(boolean emptyView) {
         this.isEmptyView = emptyView;
+    }
+
+    private boolean isHeaderPosition(int position) {
+        return position == 0;
     }
 
     private int viewType;                   // the view type; empty, header or row.

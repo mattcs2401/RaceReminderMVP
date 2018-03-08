@@ -248,7 +248,7 @@ public class RaceModelImpl extends BaseModelImpl {
 
         Bundle bundle = new Bundle();
         bundle.putInt(bundle_key, opType);
-        // get the list of Meeting objects and set in bundle.
+        // get the list of Race objects and set in bundle.
         RaceList raceList = new RaceList(data);
         bundle.putParcelableArrayList(bundle_data_key, raceList.getRaceList());
         // restart loader to pickup changes.
