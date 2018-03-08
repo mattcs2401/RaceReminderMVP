@@ -17,7 +17,7 @@ import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 import mcssoft.com.raceremindermvp.model.database.Meeting;
 import mcssoft.com.raceremindermvp.model.database.Race;
 
-public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
+public class RaceAdapter extends RecyclerView.Adapter {
 
     public RaceAdapter(Context context, Bundle meetingDetails) {
         ButterKnife.bind(this, new View(context));
@@ -25,7 +25,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     }
 
     @Override
-    public RaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         this.viewType = viewType;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -35,7 +35,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
                 return new RaceViewHolder(view, nothingToShow);
             case HEADER_VIEW:
                 view = inflater.inflate(R.layout.row_race_header, parent, false);
-                return new RaceViewHolder(view);
+                return new RaceViewHolderHeader(view);
             case RACE_VIEW:
                 view = inflater.inflate(R.layout.row_race, parent, false);
                 return new RaceViewHolder(view, icListener);
@@ -44,21 +44,23 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RaceViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch(viewType) {
             case HEADER_VIEW:
-                holder.getMeetingCode().setText(meeting.getMeetingCode());
-                holder.getVenueName().setText(meeting.getVenueName());
+                RaceViewHolderHeader rvhHolder = ((RaceViewHolderHeader) holder);
+                rvhHolder.getMeetingCode().setText(meeting.getMeetingCode());
+                rvhHolder.getVenueName().setText(meeting.getVenueName());
                 String track = meeting.getTrackDesc() + " " + meeting.getTrackRating();
-                holder.getTrackRating().setText(track);
-                holder.getWeatherDesc().setText(meeting.getWeatherDesc());
+                rvhHolder.getTrackRating().setText(track);
+                rvhHolder.getWeatherDesc().setText(meeting.getWeatherDesc());
                 break;
             case RACE_VIEW:
+                RaceViewHolder rvHolder = ((RaceViewHolder) holder);
                 Race race = (Race) lRace.get(position);
-                holder.getRaceNum().setText(race.getRaceNumber());
-                holder.getRaceName().setText(race.getRaceName());
-                holder.getRaceTime().setText(race.getRaceTime());
-                holder.getRaceDist().setText(race.getRaceDistance());
+                rvHolder.getRaceNum().setText(race.getRaceNumber());
+                rvHolder.getRaceName().setText(race.getRaceName());
+                rvHolder.getRaceTime().setText(race.getRaceTime());
+                rvHolder.getRaceDist().setText(race.getRaceDistance());
                 break;
         }
     }

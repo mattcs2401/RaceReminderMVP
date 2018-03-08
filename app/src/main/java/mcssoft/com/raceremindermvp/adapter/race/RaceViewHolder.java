@@ -10,19 +10,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Optional;
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.adapter.base.ParentViewHolder;
 import mcssoft.com.raceremindermvp.interfaces.click.IClick;
 
-public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-    // this is essentially the header view.
-    public RaceViewHolder(View view) {
-        super(view);
-        meetingCode = (TextView) view.findViewById(R.id.id_tv_meeting_code);
-        venueName = (TextView) view.findViewById(R.id.id_tv_venue_name);
-        trackRating = (TextView) view.findViewById(R.id.id_tv_track_rating);
-        weatherDesc = (TextView) view.findViewById(R.id.id_tv_weather_desc);
-//        ButterKnife.bind(this, view);
-    }
+public class RaceViewHolder extends ParentViewHolder {
 
     // this is essentially the empty view.
     public RaceViewHolder(View view, String message) {
@@ -63,29 +54,13 @@ public class RaceViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Accessors (header view)">
-    public TextView getMeetingCode() { return meetingCode; }
-
-    public TextView getVenueName() { return venueName; }
-
-    public TextView getTrackRating() { return trackRating; }
-
-    public TextView getWeatherDesc() { return weatherDesc; }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
     private IClick.ItemClick icListener;
 
     // race view components.
-    @Nullable @BindView(R.id.id_tv_race_num) TextView tvRaceNum;
-    @Nullable @BindView(R.id.id_tv_race_name) TextView tvRaceName;
-    @Nullable @BindView(R.id.id_tv_race_time) TextView tvRaceTime;
-    @Nullable @BindView(R.id.id_tv_race_dist) TextView tvRaceDist;
-
-    // header view components.
-    private TextView meetingCode;
-    private TextView venueName;
-    private TextView trackRating;
-    private TextView weatherDesc;
+    @BindView(R.id.id_tv_race_num) TextView tvRaceNum;
+    @BindView(R.id.id_tv_race_name) TextView tvRaceName;
+    @BindView(R.id.id_tv_race_time) TextView tvRaceTime;
+    @BindView(R.id.id_tv_race_dist) TextView tvRaceDist;
     //</editor-fold>
 }
