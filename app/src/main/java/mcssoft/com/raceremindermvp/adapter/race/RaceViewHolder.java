@@ -36,7 +36,7 @@ public class RaceViewHolder extends ParentViewHolder {
         icListener.onItemClick(view, getAdapterPosition());
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Accessors (race view)">
+    //<editor-fold defaultstate="collapsed" desc="Region: Accessors">
     public TextView getRaceNum() {
         return tvRaceNum;
     }

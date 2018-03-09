@@ -15,7 +15,7 @@ public class RaceViewHolderHeader extends ParentViewHolder {
         ButterKnife.bind(this, view);
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Accessors (header view)">
+    //<editor-fold defaultstate="collapsed" desc="Region: Accessors">
     public TextView getMeetingCode() { return meetingCode; }
 
     public TextView getVenueName() { return venueName; }
@@ -25,8 +25,10 @@ public class RaceViewHolderHeader extends ParentViewHolder {
     public TextView getWeatherDesc() { return weatherDesc; }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
     @BindView(R.id.id_tv_meeting_code) TextView meetingCode;
     @BindView(R.id.id_tv_venue_name) TextView venueName;
     @BindView(R.id.id_tv_track_rating) TextView trackRating;
     @BindView(R.id.id_tv_weather_desc) TextView weatherDesc;
+    //</editor-fold>
 }

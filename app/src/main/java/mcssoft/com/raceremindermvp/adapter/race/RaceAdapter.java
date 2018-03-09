@@ -122,7 +122,7 @@ public class RaceAdapter extends RecyclerView.Adapter {
     }
 
     private boolean isHeaderPosition(int position) {
-        return position == 0;
+        return position == HEADER_POS;
     }
 
     private int viewType;                   // the view type; empty, header or row.
@@ -131,9 +131,11 @@ public class RaceAdapter extends RecyclerView.Adapter {
     private boolean isEmptyView;            // flag show empty view.
     private IClick.ItemClick icListener;    // on click listewner for row views.
 
-    private static final int EMPTY_VIEW = 0x00;
-    private static final int HEADER_VIEW = 0x01;
-    private static final int RACE_VIEW = 0x02;
+    private static final int EMPTY_VIEW = 0;
+    private static final int HEADER_VIEW = 1;
+    private static final int RACE_VIEW = 2;
+
+    private static final int HEADER_POS = 0;
 
     @BindString(R.string.nothing_to_show) String nothingToShow;
     @BindString(R.string.bundle_data_key) String bundle_data_key;

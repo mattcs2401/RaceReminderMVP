@@ -108,9 +108,6 @@ public class RaceModelImpl extends BaseModelImpl {
             case DELETE_RACES:
                 onLoadFinishedDeleteRaces();
                 break;
-            case DOWNLOAD_RACES:
-                onLoadFinishedDownloadRaces();
-                break;
             case INSERT_RACES:
                 onLoadFinishedInsertRaces();
                 break;
@@ -163,10 +160,6 @@ public class RaceModelImpl extends BaseModelImpl {
         }
     }
 
-    private void onLoadFinishedDownloadRaces() {
-
-    }
-
     private void onLoadFinishedInsertRaces() {
         if(iPresenterModel.isProgressDialogShowing()) {
             iPresenterModel.showProgressDialog(false, null);
@@ -188,11 +181,7 @@ public class RaceModelImpl extends BaseModelImpl {
         }
     }
 
-    private void onLoadFinishedDeleteRaces() { }
-
-    private void onLoadFinishedSelectMeeting(Object object) {
-        String bp = "";
-    }
+    private void onLoadFinishedDeleteRaces() { /* TBA */ }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Region: doRaceOps methods">
@@ -274,17 +263,17 @@ public class RaceModelImpl extends BaseModelImpl {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Region: Variables">
+    //<editor-fold defaultstate="collapsed" desc="Region: Private vars">
     @OpType.RType int opType;          // current operation type.
     private Bundle meetingInfo;
     private RaceAdapter raceAdapter;   // recyclerview adapter.
 
     // String bindings.
+    @BindString(R.string.xml_extn) String xml_extn;
     @BindString(R.string.bundle_key) String bundle_key;
+    @BindString(R.string.table_races) String table_races;
     @BindString(R.string.bundle_data_key) String bundle_data_key;
     @BindString(R.string.getting_races) String getting_races;
     @BindString(R.string.writing_races) String writing_races;
-    @BindString(R.string.table_races) String table_races;
-    @BindString(R.string.xml_extn) String xml_extn;
     //</editor-fold>
 }
