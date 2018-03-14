@@ -55,6 +55,9 @@
     <string name="base_path">https://tatts.com/pagedata/racing</string>
     <string name="race_day_listing">RaceDay.xml</string>
 
+    <string name="json_base_path">https://api.tatts.com/sales/vmax/web/data/racing</string>
+    <string name="path_basic">basic</string>
+
     <!-- Database. -->
     <string name="table_meetings">MEETINGS</string>
     <string name="table_races">RACES</string>

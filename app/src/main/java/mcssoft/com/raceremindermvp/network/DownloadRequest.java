@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import mcssoft.com.raceremindermvp.R;
+import mcssoft.com.raceremindermvp.utility.JSONParser;
 import mcssoft.com.raceremindermvp.utility.XmlParser;
 
 import static mcssoft.com.raceremindermvp.utility.DbType.TName.MEETINGS;
@@ -42,12 +43,14 @@ public class DownloadRequest<T> extends Request<List> {
     @Override
     protected Response<List> parseNetworkResponse(NetworkResponse response) {
         List theResult = null;         // main list of result objects from parsing the Xml.
-        XmlParser parser = null;
+//        XmlParser parser = null;
+        JSONParser parser = null;
 
         InputStream instream = new ByteArrayInputStream(response.data);
 
         try {
-            parser = new XmlParser(context, instream);
+//            parser = new XmlParser(context, instream);
+            parser = new JSONParser(context, instream);
             // Parse the response into Meeting, Race or Runner objects.
             switch(tableName) {
                 case MEETINGS:

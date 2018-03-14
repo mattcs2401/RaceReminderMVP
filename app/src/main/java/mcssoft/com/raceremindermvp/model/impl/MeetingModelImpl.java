@@ -30,6 +30,7 @@ import mcssoft.com.raceremindermvp.network.DownloadRequestQueue;
 import mcssoft.com.raceremindermvp.utility.MeetingList;
 import mcssoft.com.raceremindermvp.utility.OpType;
 import mcssoft.com.raceremindermvp.utility.Url;
+import mcssoft.com.raceremindermvp.utility.Url2;
 
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.COUNT_MEETINGS;
 import static mcssoft.com.raceremindermvp.utility.OpType.MType.DELETE_MEETING;
@@ -245,8 +246,9 @@ public class MeetingModelImpl extends BaseModelImpl {
      * Download today's Meetings.
      */
     private void doMeetingOpsDownloadMeetings() {
-        Url url = new Url(iPresenterModel.getContext());
-        String uri = url.createRaceDayUrl(null);
+//        Url url = new Url(iPresenterModel.getContext());
+        Url2 url2 = new Url2(iPresenterModel.getContext());
+        String uri = url2.createRaceDayUrl(null);
         iPresenterModel.showProgressDialog(true, getting_meetings);
         DownloadRequest dlReq = new DownloadRequest(Request.Method.GET, uri, iPresenterModel.getContext(), this, this, table_meetings);
         DownloadRequestQueue.getInstance(iPresenterModel.getContext()).addToRequestQueue(dlReq);
